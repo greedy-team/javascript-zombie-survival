@@ -1,0 +1,14 @@
+{
+  "name": "javascript-zombie-survival",
+  "version": "1.0.0",
+  "description": "좀비 아포칼립스: 감염자의 일지",
+  "scripts": {
+    "test": "cypress run --browser chrome"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "cypress": "^15.9.0"
+  }
+}
