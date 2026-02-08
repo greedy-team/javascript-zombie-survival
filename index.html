@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>좀비 아포칼립스: 감염자의 이지선다</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div id="app">
+    <h1>감염자의 이지선다</h1>
+
+    <!-- 게임 화면 -->
+    <div id="game-screen">
+      <section id="stats">
+        <div class="stat">
+          <span class="stat-label">DAY</span>
+          <span class="stat-value" id="day">1</span>
+        </div>
+        <div class="stat stat-hp">
+          <span class="stat-label">체력</span>
+          <span class="stat-value" id="hp">100</span>
+        </div>
+        <div class="stat stat-food">
+          <span class="stat-label">식량</span>
+          <span class="stat-value" id="food">3</span>
+        </div>
+        <div class="stat stat-infection">
+          <span class="stat-label">감염도</span>
+          <span class="stat-value" id="infection">10</span>
+        </div>
+      </section>
+
+      <!-- 카드 뽑기 버튼 (카드 뒷면) -->
+      <section id="draw-area">
+        <button id="btn-draw">
+          <span class="draw-icon">?</span>
+          <span class="draw-text">카드 뽑기</span>
+          <span class="draw-count">남은 카드: <span id="deck-remaining">20</span></span>
+        </button>
+      </section>
+
+      <!-- 뽑은 카드 + 선택지 -->
+      <section id="card-area" class="hidden">
+        <div id="card">
+          <p id="card-name"></p>
+          <p id="card-description"></p>
+        </div>
+        <div id="choices">
+          <button id="btn-choice-a">
+            <span class="choice-label"></span>
+            <span class="choice-desc"></span>
+          </button>
+          <button id="btn-choice-b">
+            <span class="choice-label"></span>
+            <span class="choice-desc"></span>
+          </button>
+        </div>
+      </section>
+
+      <div id="loading" class="hidden">...</div>
+
+      <button id="btn-giveup">포기</button>
+
+      <section id="log"></section>
+    </div>
+
+    <!-- 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <h2>=== 게임 종료 ===</h2>
+      <div id="result-stats">
+        <p>생존 일수: <span id="result-days"></span>일</p>
+        <p>최종 체력: <span id="result-hp"></span></p>
+        <p>최종 식량: <span id="result-food"></span></p>
+        <p>최종 감염도: <span id="result-infection"></span></p>
+      </div>
+      <p id="result-ending-row">엔딩: <span id="result-ending"></span></p>
+      <button id="btn-restart">다시 시작</button>
+    </div>
+  </div>
+
+  <script type="module" src="src/index.js"></script>
+</body>
+</html>

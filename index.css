@@ -1,0 +1,351 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, 'Segoe UI', sans-serif;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px;
+}
+
+#app {
+  max-width: 480px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #c8c8c8;
+  font-weight: 300;
+  letter-spacing: 4px;
+}
+
+/* 스탯 바 */
+#stats {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  flex: 1;
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.stat-hp .stat-value { color: #e74c3c; }
+.stat-food .stat-value { color: #f39c12; }
+.stat-infection .stat-value { color: #9b59b6; }
+
+/* 카드 뽑기 버튼 (카드 뒷면) */
+#draw-area {
+  margin-bottom: 16px;
+}
+
+#btn-draw {
+  width: 100%;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border: 2px dashed #4a6274;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+#btn-draw:hover:not(:disabled) {
+  transform: scale(1.02);
+  border-color: #7f8fa6;
+}
+
+#btn-draw:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+#btn-draw:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.draw-icon {
+  font-size: 2.4rem;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.draw-text {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.draw-count {
+  font-size: 0.8rem;
+  color: #7f8fa6;
+}
+
+/* 뽑은 카드 */
+#card-area {
+  margin-bottom: 16px;
+  animation: cardFlip 0.35s ease-out;
+}
+
+@keyframes cardFlip {
+  from {
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0) scale(1);
+  }
+}
+
+#card {
+  background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+  border: 1px solid #4a6274;
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#card-name {
+  font-size: 1.3rem;
+  color: #e74c3c;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+#card-description {
+  font-size: 0.95rem;
+  color: #bdc3c7;
+  line-height: 1.4;
+}
+
+/* 선택지 버튼 */
+#choices {
+  display: flex;
+  gap: 8px;
+}
+
+#choices button {
+  flex: 1;
+  padding: 14px 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.choice-label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.choice-desc {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+#btn-choice-a {
+  background: #2980b9;
+  color: #fff;
+}
+
+#btn-choice-a:hover:not(:disabled) {
+  background: #3498db;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(41, 128, 185, 0.4);
+}
+
+#btn-choice-b {
+  background: #c0392b;
+  color: #fff;
+}
+
+#btn-choice-b:hover:not(:disabled) {
+  background: #e74c3c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.4);
+}
+
+#choices button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+#choices button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 로딩 */
+#loading {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #7f8fa6;
+  padding: 20px;
+  letter-spacing: 8px;
+  animation: pulse 0.8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* 포기 버튼 */
+#btn-giveup {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: none;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+#btn-giveup:hover {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+/* 로그 */
+#log {
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 12px 0;
+  border-top: 1px solid #2c3e50;
+}
+
+#log p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  padding: 3px 0;
+  color: #7f8fa6;
+}
+
+/* 결과 화면 */
+.hidden {
+  display: none !important;
+}
+
+#result-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+#result-screen h2 {
+  font-size: 1.4rem;
+  color: #e74c3c;
+  margin-bottom: 24px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+#result-stats {
+  background: #16213e;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+#result-stats p {
+  font-size: 1rem;
+  line-height: 2;
+  color: #bdc3c7;
+}
+
+#result-stats span {
+  color: #fff;
+  font-weight: 700;
+}
+
+#result-ending-row {
+  font-size: 1.2rem;
+  color: #e74c3c;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+#result-ending {
+  font-size: 1.4rem;
+}
+
+#btn-restart {
+  padding: 12px 40px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #2980b9;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#btn-restart:hover {
+  background: #3498db;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2c3e50;
+  border-radius: 2px;
+}
