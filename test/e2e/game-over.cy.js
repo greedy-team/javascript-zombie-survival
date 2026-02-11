@@ -33,4 +33,21 @@ describe('게임 종료 테스트', () => {
     cy.get('#btn-giveup').click();
     cy.get('#result-ending').should('not.be.empty');
   });
+
+  it('체력 또는 감염도 조건에 의해 게임이 종료된다', () => {
+    const playTurn = () => {
+      cy.get('body').then(($body) => {
+        if ($body.find('#result-screen:visible').length > 0) return;
+        cy.drawAndChooseA();
+        playTurn();
+      });
+    };
+    playTurn();
+    cy.get('#result-screen').should('be.visible');
+    cy.get('#result-ending')
+      .invoke('text')
+      .then((ending) => {
+        expect(['사망', '좀비화', '생존 성공']).to.include(ending);
+      });
+  });
 });

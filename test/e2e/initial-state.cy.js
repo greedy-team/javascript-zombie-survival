@@ -38,4 +38,8 @@ describe('초기 상태 테스트', () => {
   it('게임 시작 시 로딩 표시가 숨겨져 있다', () => {
     cy.get('#loading').should('not.be.visible');
   });
+
+  it('게임 시작 시 포기 버튼이 표시된다', () => {
+    cy.get('#btn-giveup').should('be.visible').and('not.be.disabled');
+  });
 });
