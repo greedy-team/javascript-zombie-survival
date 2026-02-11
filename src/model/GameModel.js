@@ -55,9 +55,10 @@ class GameModel {
   }
 
   applyDailyEffects() {
+    const isStarving = this.isStarving();
     this.food = Math.max(0, this.food - DAILY_FOOD_CONSUME);
     this.infection += DAILY_INFECTION_INCREASE;
-    if (this.food === 0) this.hp -= STARVATION_DAMAGE;
+    if (isStarving) this.hp -= STARVATION_DAMAGE;
   }
 
   isStarving() {
