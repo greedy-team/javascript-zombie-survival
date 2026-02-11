@@ -19,6 +19,8 @@ describe('유효성 검사 테스트', () => {
     cy.drawAndChooseA();
     cy.drawAndChooseA();
     cy.drawAndChooseA();
+    cy.drawAndChooseA();
+    cy.drawAndChooseA();
     cy.getStat('food')
       .invoke('text')
       .then((text) => {
