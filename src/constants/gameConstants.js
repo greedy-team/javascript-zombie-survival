@@ -46,7 +46,7 @@ const CARDS = [
   },
 ];
 
-const DECK_DISTRIBUTION = [0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5];
+const DECK_DISTRIBUTION = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5];
 
 const DAILY_FOOD_CONSUME = 1;
 const DAILY_INFECTION_INCREASE = 3;

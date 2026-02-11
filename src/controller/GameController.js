@@ -20,7 +20,9 @@ class GameController {
   initializeView() {
     this.view.updateStats(this.model.getState());
     this.view.updateDeckCount(this.model.getDeckCount());
-    this.view.addLog('감염자의 이지선다가 시작되었습니다. 카드를 뽑아 생존하세요!');
+    this.view.addLog(
+      '감염자의 이지선다가 시작되었습니다. 카드를 뽑아 생존하세요!',
+    );
   }
 
   handleDraw() {
@@ -46,8 +48,8 @@ class GameController {
     const label = this.model.applyChoice(choiceKey);
     this.view.addLog(`→ ${label}`);
 
-    this.model.applyDailyEffects();
-    if (this.model.isStarving()) this.view.addLog('식량이 없어 체력이 감소합니다.');
+    const starved = this.model.applyDailyEffects();
+    if (starved) this.view.addLog('식량이 없어 체력이 감소합니다.');
 
     const ending = this.model.checkEnding();
     if (ending) return this.endGame(ending);
@@ -75,7 +77,9 @@ class GameController {
     this.view.reset();
     this.view.updateStats(this.model.getState());
     this.view.updateDeckCount(this.model.getDeckCount());
-    this.view.addLog('감염자의 이지선다가 시작되었습니다. 카드를 뽑아 생존하세요!');
+    this.view.addLog(
+      '감염자의 이지선다가 시작되었습니다. 카드를 뽑아 생존하세요!',
+    );
   }
 }
 
