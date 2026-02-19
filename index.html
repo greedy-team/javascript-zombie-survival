@@ -8,13 +8,18 @@
 </head>
 <body>
   <div id="app">
-    <h1>감염자의 이지선다</h1>
 
-    <!-- 게임 화면 -->
+    <header class="game-header">
+      <div class="header-rule"></div>
+      <h1>감염자의 이지선다</h1>
+      <div class="header-rule"></div>
+    </header>
+
     <div id="game-screen">
+
       <section id="stats">
         <div class="stat">
-          <span class="stat-label">DAY</span>
+          <span class="stat-label">Day</span>
           <span class="stat-value" id="day">1</span>
         </div>
         <div class="stat stat-hp">
@@ -26,32 +31,34 @@
           <span class="stat-value" id="food">3</span>
         </div>
         <div class="stat stat-infection">
-          <span class="stat-label">감염도</span>
+          <span class="stat-label">감염</span>
           <span class="stat-value" id="infection">10</span>
         </div>
       </section>
 
-      <!-- 카드 뽑기 버튼 (카드 뒷면) -->
       <section id="draw-area">
         <button id="btn-draw">
-          <span class="draw-icon">?</span>
+          <span class="draw-symbol">✦</span>
           <span class="draw-text">카드 뽑기</span>
-          <span class="draw-count">남은 카드: <span id="deck-remaining">20</span></span>
+          <span class="draw-count">남은 카드 <span id="deck-remaining">20</span>장</span>
         </button>
       </section>
 
-      <!-- 뽑은 카드 + 선택지 -->
       <section id="card-area" class="hidden">
         <div id="card">
+          <p class="card-eyebrow">✦</p>
           <p id="card-name"></p>
           <p id="card-description"></p>
         </div>
         <div id="choices">
           <button id="btn-choice-a">
+            <span class="choice-key">A</span>
             <span class="choice-label"></span>
             <span class="choice-desc"></span>
           </button>
+          <div class="choice-sep">or</div>
           <button id="btn-choice-b">
+            <span class="choice-key">B</span>
             <span class="choice-label"></span>
             <span class="choice-desc"></span>
           </button>
@@ -63,20 +70,36 @@
       <button id="btn-giveup">포기</button>
 
       <section id="log"></section>
+
     </div>
 
     <!-- 결과 화면 -->
     <div id="result-screen" class="hidden">
-      <h2>=== 게임 종료 ===</h2>
-      <div id="result-stats">
-        <p>생존 일수: <span id="result-days"></span>일</p>
-        <p>최종 체력: <span id="result-hp"></span></p>
-        <p>최종 식량: <span id="result-food"></span></p>
-        <p>최종 감염도: <span id="result-infection"></span></p>
+      <div class="result-ending-section">
+        <p class="ending-label">엔딩</p>
+        <p id="result-ending-row"><span id="result-ending"></span></p>
       </div>
-      <p id="result-ending-row">엔딩: <span id="result-ending"></span></p>
+      <div id="result-stats">
+        <div class="result-row">
+          <span class="result-label">생존 일수</span>
+          <span id="result-days"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">최종 체력</span>
+          <span id="result-hp"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">최종 식량</span>
+          <span id="result-food"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">최종 감염도</span>
+          <span id="result-infection"></span>
+        </div>
+      </div>
       <button id="btn-restart">다시 시작</button>
     </div>
+
   </div>
 
   <script type="module" src="src/index.js"></script>
