@@ -48,7 +48,7 @@ class GameModel {
     const choice = this.currentCard[choiceKey];
     this.hp += choice.hp;
     this.food = Math.max(0, this.food + choice.food);
-    this.infection += choice.infection;
+    this.infection = Math.max(0, this.infection + choice.infection);
     if (choice.isHeal) this.healAttempts += 1;
     if (choice.isRescue) this.rescuePoints += 1;
     return choice.label;

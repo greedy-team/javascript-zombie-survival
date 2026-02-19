@@ -49,4 +49,13 @@ describe('유효성 검사 테스트', () => {
     cy.drawAndChooseA();
     cy.getStat('food').should('have.text', '0');
   });
+
+  it('감염도가 0 미만으로 내려가지 않는다', () => {
+    cy.drawUntilCard('무장한 생존자');
+    cy.chooseB();
+    cy.waitForChoice();
+    cy.getStat('infection').invoke('text').then((text) => {
+      expect(parseInt(text, 10)).to.be.at.least(0);
+    });
+  });
 });
