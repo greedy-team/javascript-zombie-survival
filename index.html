@@ -7,97 +7,161 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <div id="app">
+  <div class="container">
 
-    <header class="game-header">
-      <div class="header-rule"></div>
-      <h1>감염자의 이지선다</h1>
-      <div class="header-rule"></div>
+    <div class="bg-effect">
+      <div class="bg-blob bg-blob-red"></div>
+      <div class="bg-blob bg-blob-green"></div>
+    </div>
+    <div class="scanline"></div>
+
+    <header class="header">
+      <div class="header-line"></div>
+      <h1 class="header-title">⚠ 감염자의 이지선다 ⚠</h1>
+      <div class="header-line"></div>
     </header>
 
     <div id="game-screen">
 
-      <section id="stats">
-        <div class="stat">
-          <span class="stat-label">Day</span>
-          <span class="stat-value" id="day">1</span>
+      <section class="stats">
+        <div class="stat-tape"></div>
+        <div class="stat-item stat-border">
+          <span class="stat-label">일차</span>
+          <span class="stat-value stat-day" id="day">1</span>
         </div>
-        <div class="stat stat-hp">
+        <div class="stat-item stat-border">
           <span class="stat-label">체력</span>
-          <span class="stat-value" id="hp">100</span>
+          <span class="stat-value stat-hp" id="hp">100</span>
         </div>
-        <div class="stat stat-food">
+        <div class="stat-item stat-border">
           <span class="stat-label">식량</span>
-          <span class="stat-value" id="food">3</span>
+          <span class="stat-value stat-food" id="food">3</span>
         </div>
-        <div class="stat stat-infection">
+        <div class="stat-item">
           <span class="stat-label">감염</span>
-          <span class="stat-value" id="infection">10</span>
+          <span class="stat-value stat-infection" id="infection">10</span>
         </div>
       </section>
 
       <section id="draw-area">
-        <button id="btn-draw">
-          <span class="draw-symbol">✦</span>
-          <span class="draw-text">카드 뽑기</span>
-          <span class="draw-count">남은 카드 <span id="deck-remaining">20</span>장</span>
+        <button id="btn-draw" class="draw-button">
+          <div class="blood-spot blood-spot-1"></div>
+          <div class="blood-spot blood-spot-2"></div>
+          <div class="draw-border"></div>
+          <div class="draw-content">
+            <div class="draw-skull">☠</div>
+            <span class="draw-text">카드 뽑기</span>
+            <div class="draw-remaining">
+              <span class="draw-remaining-label">남은 카드</span>
+              <span class="draw-remaining-count" id="deck-remaining">20</span>
+            </div>
+          </div>
+          <div class="draw-glow"></div>
+          <div class="draw-stripe"></div>
         </button>
       </section>
 
       <section id="card-area" class="hidden">
-        <div id="card">
-          <p class="card-eyebrow">✦</p>
-          <p id="card-name"></p>
-          <p id="card-description"></p>
+        <div class="card">
+          <div class="blood-spot blood-spot-1"></div>
+          <div class="blood-spot blood-spot-2"></div>
+          <div class="card-border"></div>
+          <div class="card-warning card-warning-left">⚠</div>
+          <div class="card-warning card-warning-right">⚠</div>
+          <div class="card-content">
+            <p class="card-skull">☠</p>
+            <p id="card-name"></p>
+            <p id="card-description"></p>
+          </div>
+          <div class="card-glow"></div>
+          <div class="card-stripe card-stripe-top"></div>
+          <div class="card-stripe card-stripe-bottom"></div>
         </div>
         <div id="choices">
-          <button id="btn-choice-a">
-            <span class="choice-key">A</span>
+          <button id="btn-choice-a" class="choice-button choice-a">
+            <div class="choice-line"></div>
+            <span class="choice-key">선택지 A</span>
             <span class="choice-label"></span>
             <span class="choice-desc"></span>
+            <div class="choice-glow"></div>
           </button>
-          <div class="choice-sep">or</div>
-          <button id="btn-choice-b">
-            <span class="choice-key">B</span>
+          <div class="choice-sep">
+            <div class="choice-sep-bg"></div>
+            <span class="choice-or">OR</span>
+          </div>
+          <button id="btn-choice-b" class="choice-button choice-b">
+            <div class="choice-line"></div>
+            <span class="choice-key">선택지 B</span>
             <span class="choice-label"></span>
             <span class="choice-desc"></span>
+            <div class="choice-glow"></div>
           </button>
         </div>
       </section>
 
-      <div id="loading" class="hidden">...</div>
+      <div id="loading" class="hidden">
+        <div class="loading-text">처리 중</div>
+        <div class="loading-dots">
+          <span class="loading-dot"></span>
+          <span class="loading-dot"></span>
+          <span class="loading-dot"></span>
+        </div>
+      </div>
 
-      <button id="btn-giveup">포기</button>
+      <button id="btn-giveup" class="give-up-button">
+        <span class="give-up-text">☠ 포기 ☠</span>
+        <div class="give-up-glow"></div>
+      </button>
 
-      <section id="log"></section>
+      <div class="log-wrapper">
+        <div class="log-header">
+          <span class="log-title">상황 기록</span>
+          <span class="log-arrow">▼</span>
+        </div>
+        <div id="log"></div>
+      </div>
 
     </div>
 
     <!-- 결과 화면 -->
     <div id="result-screen" class="hidden">
-      <div class="result-ending-section">
-        <p class="ending-label">엔딩</p>
-        <p id="result-ending-row"><span id="result-ending"></span></p>
+      <div class="result-container">
+        <div class="result-card">
+          <div class="result-tape result-tape-top"></div>
+          <div class="result-tape result-tape-bottom"></div>
+          <div class="blood-spot blood-spot-1"></div>
+          <div class="blood-spot blood-spot-2"></div>
+          <div class="result-content">
+            <p class="result-status">게임 종료</p>
+            <p id="result-ending" class="result-ending"></p>
+          </div>
+        </div>
+        <div class="final-stats">
+          <div class="final-stats-header">
+            <span class="final-stats-title">최종 기록</span>
+          </div>
+          <div class="final-stat-row">
+            <span class="final-stat-label">생존 일수</span>
+            <span class="final-stat-value final-stat-days" id="result-days"></span>
+          </div>
+          <div class="final-stat-row">
+            <span class="final-stat-label">최종 체력</span>
+            <span class="final-stat-value" id="result-hp"></span>
+          </div>
+          <div class="final-stat-row">
+            <span class="final-stat-label">최종 식량</span>
+            <span class="final-stat-value" id="result-food"></span>
+          </div>
+          <div class="final-stat-row">
+            <span class="final-stat-label">최종 감염도</span>
+            <span class="final-stat-value" id="result-infection"></span>
+          </div>
+        </div>
+        <button id="btn-restart" class="restart-button">
+          <span class="restart-text">다시 시작</span>
+          <div class="restart-glow"></div>
+        </button>
       </div>
-      <div id="result-stats">
-        <div class="result-row">
-          <span class="result-label">생존 일수</span>
-          <span id="result-days"></span>
-        </div>
-        <div class="result-row">
-          <span class="result-label">최종 체력</span>
-          <span id="result-hp"></span>
-        </div>
-        <div class="result-row">
-          <span class="result-label">최종 식량</span>
-          <span id="result-food"></span>
-        </div>
-        <div class="result-row">
-          <span class="result-label">최종 감염도</span>
-          <span id="result-infection"></span>
-        </div>
-      </div>
-      <button id="btn-restart">다시 시작</button>
     </div>
 
   </div>
