@@ -46,7 +46,7 @@ class GameModel {
 
   applyChoice(choiceKey) {
     const choice = this.currentCard[choiceKey];
-    this.hp += choice.hp;
+    this.hp = Math.max(0, this.hp + choice.hp);
     this.food = Math.max(0, this.food + choice.food);
     this.infection = Math.max(0, this.infection + choice.infection);
     if (choice.isHeal) this.healAttempts += 1;
@@ -58,7 +58,7 @@ class GameModel {
     const isStarving = this.isStarving();
     this.food = Math.max(0, this.food - DAILY_FOOD_CONSUME);
     this.infection += DAILY_INFECTION_INCREASE;
-    if (isStarving) this.hp -= STARVATION_DAMAGE;
+    if (isStarving) this.hp = Math.max(0, this.hp - STARVATION_DAMAGE);
     return isStarving;
   }
 

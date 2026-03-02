@@ -58,4 +58,18 @@ describe('유효성 검사 테스트', () => {
       expect(parseInt(text, 10)).to.be.at.least(0);
     });
   });
+
+  it('체력이 0 미만으로 내려가지 않는다', () => {
+    const playTurn = () => {
+      cy.get('body').then(($body) => {
+        if ($body.find('#result-screen:visible').length > 0) return;
+        cy.drawAndChooseA();
+        playTurn();
+      });
+    };
+    playTurn();
+    cy.get('#result-hp').invoke('text').then((text) => {
+      expect(parseInt(text, 10)).to.be.at.least(0);
+    });
+  });
 });
