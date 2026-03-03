@@ -1,5 +1,6 @@
 <p align="center">
-  <img width="450" alt="좀비 감염자의 선택" src="https://github.com/user-attachments/assets/42436bbf-afac-41f6-9b1a-86557561396a" />
+  <img width="450" height="1024" alt="image" src="https://github.com/user-attachments/assets/0ba00a06-25ce-4684-874b-dff4fd82825a" />
+
 </p>
 <h1 align="middle">좀비 아포칼립스: 감염자의 이지선다</h1>
 
