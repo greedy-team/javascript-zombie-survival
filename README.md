@@ -80,7 +80,7 @@
 
 ### 💻 실행 결과 예시
 
-(미션 완성 후 실행결과 첨부할 것)
+![Image](https://github.com/user-attachments/assets/3c2321d2-808a-439c-92c1-d33e3a6befc9)
 
 ---
 
