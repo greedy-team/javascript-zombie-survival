@@ -92,7 +92,7 @@ body {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   border: 2px solid #2a2218;
   background-color: #0f0d0b;
   box-shadow:
@@ -140,7 +140,7 @@ body {
 
 .stat-value {
   display: block;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 900;
   font-variant-numeric: tabular-nums;
 }
@@ -164,6 +164,16 @@ body {
   color: #9060c0;
   filter: drop-shadow(0 0 10px currentColor);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.stat-heal {
+  color: #4aaa5a;
+  filter: drop-shadow(0 0 10px rgba(74, 170, 90, 0.5));
+}
+
+.stat-rescue {
+  color: #3a9aba;
+  filter: drop-shadow(0 0 10px rgba(58, 154, 186, 0.5));
 }
 
 #draw-area {

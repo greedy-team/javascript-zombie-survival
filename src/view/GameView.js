@@ -23,6 +23,8 @@ class GameView {
       resultFood: document.getElementById('result-food'),
       resultInfection: document.getElementById('result-infection'),
       resultEnding: document.getElementById('result-ending'),
+      healAttempts: document.getElementById('heal-attempts'),
+      rescuePoints: document.getElementById('rescue-points'),
     };
   }
 
@@ -31,6 +33,8 @@ class GameView {
     this.elements.hp.textContent = state.hp;
     this.elements.food.textContent = state.food;
     this.elements.infection.textContent = state.infection;
+    this.elements.healAttempts.textContent = state.healAttempts;
+    this.elements.rescuePoints.textContent = state.rescuePoints;
   }
 
   updateDeckCount(count) {
