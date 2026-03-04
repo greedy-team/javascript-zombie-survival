@@ -47,7 +47,7 @@ describe('게임 종료 테스트', () => {
     cy.get('#result-ending')
       .invoke('text')
       .then((ending) => {
-        expect(['사망', '좀비화', '생존 성공']).to.include(ending);
+        expect(['사망', '좀비화', '생존 성공', '치료 성공', '구조 성공']).to.include(ending);
       });
   });
 });

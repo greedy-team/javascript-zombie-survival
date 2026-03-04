@@ -6,122 +6,126 @@ describe('카드 선택지 효과 테스트', () => {
     cy.startGame();
   });
 
-  describe('좀비 무리', () => {
-    it('맞서 싸운다: 체력 -15', () => {
-      cy.drawUntilCard('좀비 무리');
-      cy.chooseA();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '85');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '13');
-    });
-
-    it('숨을 죽인다: 체력 -5, 감염 +3', () => {
-      cy.drawUntilCard('좀비 무리');
-      cy.chooseB();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '95');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '16');
-    });
-  });
-
-  describe('약국 잔해', () => {
-    it('안으로 들어간다: 감염 -10, 체력 -5', () => {
-      cy.drawUntilCard('약국 잔해');
-      cy.chooseA();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '95');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '3');
-    });
-
-    it('밖의 식량만 줍는다: 식량 +2', () => {
-      cy.drawUntilCard('약국 잔해');
-      cy.chooseB();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '100');
-      cy.getStat('food').should('have.text', '4');
-      cy.getStat('infection').should('have.text', '13');
-    });
-  });
-
-  describe('빈 아파트', () => {
-    it('문을 잠그고 쉰다: 체력 +15', () => {
-      cy.drawUntilCard('빈 아파트');
-      cy.chooseA();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '115');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '13');
-    });
-
-    it('방마다 뒤진다: 식량 +2, 체력 -5', () => {
-      cy.drawUntilCard('빈 아파트');
-      cy.chooseB();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '95');
-      cy.getStat('food').should('have.text', '4');
-      cy.getStat('infection').should('have.text', '13');
-    });
-  });
-
-  describe('무장한 생존자', () => {
-    it('식량을 건넨다: 체력 +5, 식량 -1', () => {
-      cy.drawUntilCard('무장한 생존자');
-      cy.chooseA();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '105');
-      cy.getStat('food').should('have.text', '1');
-      cy.getStat('infection').should('have.text', '13');
-    });
-
-    it('치료를 부탁한다: 감염 -15, 식량 -1', () => {
-      cy.drawUntilCard('무장한 생존자');
-      cy.chooseB();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '100');
-      cy.getStat('food').should('have.text', '1');
-      cy.getStat('infection').should('have.text', '-2');
-    });
-  });
-
-  describe('감염 발작', () => {
-    it('이를 악물고 견딘다: 감염 +10', () => {
-      cy.drawUntilCard('감염 발작');
+  describe('생존자 시체', () => {
+    it('배낭째로 가져온다: 식량 +3, 감염 +8', () => {
+      cy.drawUntilCard('생존자 시체');
       cy.chooseA();
       cy.waitForChoice();
       cy.getStat('hp').should('have.text', '100');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '23');
+      cy.getStat('food').should('have.text', '5');
+      cy.getStat('infection').should('have.text', '21');
     });
 
-    it('감염 부위를 도려낸다: 체력 -20, 감염 -10', () => {
-      cy.drawUntilCard('감염 발작');
-      cy.chooseB();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '80');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '3');
-    });
-  });
-
-  describe('무전 신호', () => {
-    it('위치를 송신한다: 구조 +1, 체력 -5', () => {
-      cy.drawUntilCard('무전 신호');
-      cy.chooseA();
-      cy.waitForChoice();
-      cy.getStat('hp').should('have.text', '95');
-      cy.getStat('food').should('have.text', '2');
-      cy.getStat('infection').should('have.text', '13');
-    });
-
-    it('덫일 수 있다... 무시: 식량 +1', () => {
-      cy.drawUntilCard('무전 신호');
+    it('겉에 있는 것만 집는다: 식량 +1', () => {
+      cy.drawUntilCard('생존자 시체');
       cy.chooseB();
       cy.waitForChoice();
       cy.getStat('hp').should('have.text', '100');
       cy.getStat('food').should('have.text', '3');
+      cy.getStat('infection').should('have.text', '13');
+    });
+  });
+
+  describe('부상당한 군인', () => {
+    it('식량을 건네고 약을 받는다: 식량 -1, 감염 -20', () => {
+      cy.drawUntilCard('부상당한 군인');
+      cy.chooseA();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '100');
+      cy.getStat('food').should('have.text', '1');
+      cy.getStat('infection').should('have.text', '3');
+      cy.getStat('heal-attempts').should('have.text', '1');
+    });
+
+    it('몸싸움 끝에 식량만 챙기고 떠난다: 체력 -10, 식량 +2', () => {
+      cy.drawUntilCard('부상당한 군인');
+      cy.chooseB();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '90');
+      cy.getStat('food').should('have.text', '4');
+      cy.getStat('infection').should('have.text', '13');
+    });
+  });
+
+  describe('임시 수술', () => {
+    it('감염 부위를 직접 도려낸다: 체력 -25, 감염 -25', () => {
+      cy.drawUntilCard('임시 수술');
+      cy.chooseA();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '75');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '3');
+      cy.getStat('heal-attempts').should('have.text', '1');
+    });
+
+    it('이를 악물고 참는다: 체력 -5, 감염 +10', () => {
+      cy.drawUntilCard('임시 수술');
+      cy.chooseB();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '95');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '23');
+    });
+  });
+
+  describe('군용 차량 행렬', () => {
+    it('뛰어나가 신호를 보낸다: 구조 +1, 감염 +8', () => {
+      cy.drawUntilCard('군용 차량 행렬');
+      cy.chooseA();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '100');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '21');
+      cy.getStat('rescue-points').should('have.text', '1');
+    });
+
+    it('몸을 낮추고 방향만 확인한다: 체력 +5', () => {
+      cy.drawUntilCard('군용 차량 행렬');
+      cy.chooseB();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '105');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '13');
+    });
+  });
+
+  describe('오염된 웅덩이', () => {
+    it('그냥 마신다: 체력 +5, 감염 +15', () => {
+      cy.drawUntilCard('오염된 웅덩이');
+      cy.chooseA();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '105');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '28');
+    });
+
+    it('참는다. 빗물을 기다린다: 체력 -10', () => {
+      cy.drawUntilCard('오염된 웅덩이');
+      cy.chooseB();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '90');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '13');
+    });
+  });
+
+  describe('구조 트럭', () => {
+    it('전력으로 달려간다: 체력 -20, 구조 +1', () => {
+      cy.drawUntilCard('구조 트럭');
+      cy.chooseA();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '80');
+      cy.getStat('food').should('have.text', '2');
+      cy.getStat('infection').should('have.text', '13');
+      cy.getStat('rescue-points').should('have.text', '1');
+    });
+
+    it('체력을 아끼고 쉰다: 체력 +10', () => {
+      cy.drawUntilCard('구조 트럭');
+      cy.chooseB();
+      cy.waitForChoice();
+      cy.getStat('hp').should('have.text', '110');
+      cy.getStat('food').should('have.text', '2');
       cy.getStat('infection').should('have.text', '13');
     });
   });

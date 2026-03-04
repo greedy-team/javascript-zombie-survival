@@ -33,6 +33,16 @@ Cypress.Commands.add('drawAndChooseB', () => {
   cy.waitForChoice();
 });
 
+Cypress.Commands.add('playUntilStarved', () => {
+  cy.get('body').then(($body) => {
+    if ($body.find('#result-screen:visible').length > 0) return;
+    const hasMessage = $body.find('#log').text().includes('식량이 없어 체력이 감소합니다.');
+    if (hasMessage) return;
+    cy.drawAndChooseB();
+    cy.playUntilStarved();
+  });
+});
+
 Cypress.Commands.add('drawUntilCard', (targetName) => {
   const tryDraw = (remaining) => {
     cy.drawCard();

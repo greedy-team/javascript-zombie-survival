@@ -42,4 +42,12 @@ describe('초기 상태 테스트', () => {
   it('게임 시작 시 포기 버튼이 표시된다', () => {
     cy.get('#btn-giveup').should('be.visible').and('not.be.disabled');
   });
+
+  it('게임 시작 시 치료 횟수가 0이다', () => {
+    cy.getStat('heal-attempts').should('have.text', '0');
+  });
+
+  it('게임 시작 시 구조 포인트가 0이다', () => {
+    cy.getStat('rescue-points').should('have.text', '0');
+  });
 });
