@@ -1,6 +1,5 @@
 <p align="center">
-  <img width="450" height="1024" alt="image" src="https://github.com/user-attachments/assets/0ba00a06-25ce-4684-874b-dff4fd82825a" />
-
+  <img width="400" height="1024" alt="image" src="https://github.com/user-attachments/assets/dfbf7cad-f3fc-4644-81fe-d1aaeee66674" />
 </p>
 <h1 align="middle">좀비 아포칼립스: 감염자의 이지선다</h1>
 
