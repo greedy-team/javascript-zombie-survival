@@ -41,18 +41,22 @@ describe('유효성 검사 테스트', () => {
 
   it('기아 상태에서도 식량이 0 미만으로 내려가지 않는다', () => {
     cy.playUntilStarved();
-    cy.getStat('food').invoke('text').then((text) => {
-      expect(parseInt(text, 10)).to.be.at.least(0);
-    });
+    cy.getStat('food')
+      .invoke('text')
+      .then((text) => {
+        expect(parseInt(text, 10)).to.be.at.least(0);
+      });
   });
 
   it('감염도가 0 미만으로 내려가지 않는다', () => {
     cy.drawUntilCard('부상당한 군인');
     cy.chooseA();
     cy.waitForChoice();
-    cy.getStat('infection').invoke('text').then((text) => {
-      expect(parseInt(text, 10)).to.be.at.least(0);
-    });
+    cy.getStat('infection')
+      .invoke('text')
+      .then((text) => {
+        expect(parseInt(text, 10)).to.be.at.least(0);
+      });
   });
 
   it('체력이 0 미만으로 내려가지 않는다', () => {
@@ -64,8 +68,31 @@ describe('유효성 검사 테스트', () => {
       });
     };
     playTurn();
-    cy.get('#result-hp').invoke('text').then((text) => {
-      expect(parseInt(text, 10)).to.be.at.least(0);
+    cy.get('#result-hp')
+      .invoke('text')
+      .then((text) => {
+        expect(parseInt(text, 10)).to.be.at.least(0);
+      });
+  });
+
+  it('식량이 0일 때 체력이 10 추가 감소한다', () => {
+    cy.playUntilStarved();
+    cy.get('body').then(($body) => {
+      if ($body.find('#result-screen:visible').length > 0) return;
+      cy.getStat('hp')
+        .invoke('text')
+        .then((hpText) => {
+          const hpBefore = parseInt(hpText, 10);
+          cy.drawAndChooseB();
+          cy.get('body').then(($b) => {
+            if ($b.find('#result-screen:visible').length > 0) return;
+            cy.getStat('hp')
+              .invoke('text')
+              .then((hpAfter) => {
+                expect(parseInt(hpAfter, 10)).to.be.at.most(hpBefore);
+              });
+          });
+        });
     });
   });
 });

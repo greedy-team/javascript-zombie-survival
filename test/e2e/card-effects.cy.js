@@ -1,7 +1,4 @@
 describe('카드 선택지 효과 테스트', () => {
-  // 초기: hp=100, food=3, infection=10
-  // 일일: food-1, infection+3
-
   beforeEach(() => {
     cy.startGame();
   });

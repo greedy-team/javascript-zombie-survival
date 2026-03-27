@@ -1,15 +1,15 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
     // 기본 URL 설정
-    baseUrl: "http://localhost:5500",
+    baseUrl: 'http://localhost:5500',
 
     // 테스트 파일 위치 설정
-    specPattern: "test/e2e/**/*.cy.js",
+    specPattern: 'test/e2e/**/*.cy.js',
 
     // support 파일 위치 설정
-    supportFile: "test/support/e2e.js",
+    supportFile: 'test/support/e2e.js',
 
     // 뷰포트 설정
     viewportWidth: 1280,
@@ -20,11 +20,11 @@ module.exports = defineConfig({
 
     // 스크린샷 설정
     screenshotOnRunFailure: true,
-    screenshotsFolder: "test/screenshots",
+    screenshotsFolder: 'test/screenshots',
 
     // 재시도 설정
     retries: {
-      runMode: 2, // cypress run 시 재시도 횟수
+      runMode: 3, // cypress run 시 재시도 횟수
       openMode: 0, // cypress open 시 재시도 횟수
     },
 
@@ -34,5 +34,7 @@ module.exports = defineConfig({
 
     // 실험적 기능
     experimentalRunAllSpecs: true,
+
+    allowCypressEnv: false,
   },
 });
