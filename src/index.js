@@ -1,3 +1,3 @@
-import ZombieContorller from './ZombieContorller.js';
+import ZombieController from './ZombieContorller.js';
 
 new ZombieController();
