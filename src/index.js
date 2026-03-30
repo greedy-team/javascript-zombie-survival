@@ -6,7 +6,14 @@ const cardData = { //모각코 후 수정
         choiceA: "배낭째로 가져온다",
         resultA: "식량 +3, 감염도 +8",
         choiceB: "겉에 있는 것만 집는다",
-        resultB: "식량 +1"
+        resultB: "식량 +1",
+        A: {
+            food: +3,
+            infection: +8
+        },
+        B: {
+            food: +1
+        }
     },
     1: {
         name: "부상당한 군인",
@@ -14,7 +21,16 @@ const cardData = { //모각코 후 수정
         choiceA: "식량을 건네고 약을 받는다",
         resultA: "식량 -1, 감염도 -20",
         choiceB: "몸싸움 끝에 식량만 챙기고 떠난다",
-        resultB: "체력 -10, 식량 +2"
+        resultB: "체력 -10, 식량 +2",
+        A: {
+            food: -1,
+            infection: -20,
+            heal: +1
+        },
+        B: {
+            hp: -10,
+            food: +2
+        }
     },
     2: {
         name: "임시 수술",
@@ -22,7 +38,16 @@ const cardData = { //모각코 후 수정
         choiceA: "감염 부위를 직접 도려낸다",
         resultA: "체력 -25, 감염도 -25",
         choiceB: "이를 악물고 참는다",
-        resultB: "체력 -5, 감염도 +1"
+        resultB: "체력 -5, 감염도 +1",
+        A: {
+            hp: -25,
+            infection: -25,
+            heal: +1
+        },
+        B: {
+            hp: -5,
+            infection: +1
+        }
     },
     3: {
         name: "군용 차량 행렬",
@@ -30,7 +55,14 @@ const cardData = { //모각코 후 수정
         choiceA: "뛰어나가 신호를 보낸다",
         resultA: "구조 포인트 +1, 감염도 +8",
         choiceB: "몸을 낮추고 방향만 확인한다",
-        resultB: "체력 +5"
+        resultB: "체력 +5",
+        A: {
+            rescuePoint: +1,
+            infection: +8
+        },
+        B: {
+            hp: +5,
+        }
     },
     4: {
         name: "오염된 웅덩이",
@@ -38,7 +70,14 @@ const cardData = { //모각코 후 수정
         choiceA: "그냥 마신다. 탈수보다 낫다",
         resultA: "체력 +5, 감염도 +15",
         choiceB: "참는다. 빗물을 기다린다",
-        resultB: "체력 -10"
+        resultB: "체력 -10",
+        A: {
+            hp: +5,
+            infection: +15
+        },
+        B: {
+            hp: -10,
+        }
     },
     5: {
         name: "구조 트럭",
@@ -46,26 +85,42 @@ const cardData = { //모각코 후 수정
         choiceA: "전력으로 달려간다",
         resultA: "체력 -20, 구조 포인트 +1",
         choiceB: "체력을 아끼고 쉰다",
-        resultB: "체력 +10"
+        resultB: "체력 +10",
+        A: {
+            hp: -20,
+            rescuePoint: +1
+        },
+        B: {
+            hp: +10,
+        }
     }
 };
+let player={
+    date: 1,
+    hp:100,
+    food:3,
+    infection:10,
+    heal:0,
+    rescuePoint:0
+}
 let cards = []
 for (let i = 0; i < 20; i++) {
     cards[i] = i;
 }
+let cardNum;
 
 function drawCard() {// view
-    const drawArea=document.querySelector('#draw-area');
+    const drawArea = document.querySelector('#draw-area');
     const cardArea = document.querySelector('#card-area');
-    const giveUpBtn=document.querySelector('#btn-giveup');
-    const logWrapper=document.querySelector('.log-wrapper');
+    const giveUpBtn = document.querySelector('#btn-giveup');
+    const logWrapper = document.querySelector('.log-wrapper');
     giveUpBtn.classList.add("hidden");
     logWrapper.classList.add("hidden");
     drawArea.classList.add("hidden");
     cardArea.classList.remove("hidden");
-    let card = pickShuffleCard(cards);
-    let cardContent = whatIsCardContent(card);
-    showCardContent(cardContent); 
+    cardNum = pickShuffleCard(cards);
+    let cardContent = whatIsCardContent(cardNum);
+    showCardContent(cardContent);
 }
 function showCardContent(cardContent) {
     const cardName = document.getElementById("card-name");
@@ -86,7 +141,7 @@ function showCardContent(cardContent) {
 
 }
 function whatIsCardContent(card) {
-    return cardData[card];
+    return cardData[card]
 }
 // function whatIsCardContent(card) { //모각코 통해 개선
 //     let cardContent = [];
@@ -138,7 +193,7 @@ function whatIsCardContent(card) {
 function pickShuffleCard(cards) { //model
     let index;
     index = Math.floor(Math.random() * cards.length);
-    let card = cards[index];
+    let card = cards.splice(index,1)[0];
     console.log(card);
     if (card < 4) { //생존자 시체
         return 0;
@@ -155,15 +210,52 @@ function pickShuffleCard(cards) { //model
     }
     return 0;
 }
+function clickChoiceBtn(choice){
+    setTimeout(()=>showResult(choice))
+}
+function afterChoice(choice){
+    setTimeout(function(){
+        updateStates(choice);
+    },2000)
 
+}
+function updateStates(choice){
+    console.log(cardNum);
+    const card=whatIsCardContent(cardNum);
+    const effect=card[choice];
+    for (let key in effect){
+        player[key]+=effect[key];
+        console.log(effect[key]);
+    }
+    showStates()
+}
+function showStates(){
+    // document.querySelector('#day').innerHTML=`${player[++date]}`;
+    document.querySelector('#hp').innerHTML=`${player.hp}`;
+    document.querySelector('#food').innerHTML=`${player.food}`;
+    document.querySelector('#infection').innerHTML=`${player.infection}`;
+    document.querySelector('#heal-attempts').innerHTML=`${player.heal}`;
+    document.querySelector('#rescue-points').innerHTML=`${player.rescuePoint}`;
+}
+function checkStates(){
+    if(player[hp]<=0){
 
+    }else if(player[infection]>=100){
+
+    }else if(player[heal]>=5){
+
+    }else if(player[rescuePoint]>=3&&player[date]>10){
+
+    }
+}
 
 const drawBtn = document.querySelector('#btn-draw');
 drawBtn.onclick = drawCard;
 
-const choiceBtnA= document.querySelector('#btn-choice-a');
-const choiceBtnB= document.querySelector('#btn-choice-b');
+const choiceBtnA = document.querySelector('#btn-choice-a');
+const choiceBtnB = document.querySelector('#btn-choice-b');
 
-
+choiceBtnA.onclick = ()=> afterChoice("A");
+choiceBtnB.onclick = ()=> afterChoice("B");
 
 
