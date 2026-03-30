@@ -63,19 +63,72 @@ export default class GameView {
     });
   }
 
+  render() {
+    if (this.vm.state === 'draw') {
+      this.renderDraw();
+    } else if (this.vm.state === 'choosing') {
+      this.renderChoosing();
+    } else if (this.vm.state === 'loading') {
+      this.renderLoading();
+    } else if (this.vm.state === 'result') {
+      this.renderResult();
+    }
+  }
+
+  // 5. 일차 진행
+  // - 선택 완료 후 Day 1 증가
+  // - 스탯 실시간 업데이트 (치료 횟수, 구조 포인트 포함)
+  // - 카드 뽑기 버튼 재표시, 선택지 영역 숨김
+  renderDraw() {
+    this.loading.classList.add('hidden');
+    this.cardArea.classList.add('hidden');
+    this.btnChoiceA.disabled = false;
+    this.btnChoiceB.disabled = false;
+    this.showDrawButton();
+    this.updateStats();
+    this.deckRemaining.textContent = this.vm.deckRemaining;
+  }
+
+  // 3. 카드 뽑기
   // - 카드 뽑기 버튼 클릭 시 덱에서 1장 뽑기
   // - 남은 카드 수 업데이트
   // - 카드 이름, 설명, 선택지 A/B 표시
   // - 카드 뽑기 버튼 숨김, 선택지 영역 표시
+  renderChoosing() {
+    this.hideDrawButton();
+    this.updateCard(this.vm.currentCard);
+    this.cardArea.classList.remove('hidden');
+    this.deckRemaining.textContent = this.vm.deckRemaining;
+  }
 
-  render() {
-    const card = this.vm.currentCard;
-    if (card) {
-      this.updateCard(card);
-      this.hideDrawButton();
-      this.deckRemaining.textContent = this.vm.deckRemaining;
-      this.cardArea.classList.remove('hidden');
-    }
+  // 4. 선택지 선택 및 효과 적용
+  // - 선택지 클릭 시 버튼 비활성화, 로딩 표시
+  // - 2초(2000ms) 후 결과 적용
+  renderLoading() {
+    this.btnChoiceA.disabled = true;
+    this.btnChoiceB.disabled = true;
+    this.cardArea.classList.add('hidden');
+    this.loading.classList.remove('hidden');
+  }
+
+  // 7. 게임 종료 및 결과 화면
+  // - 결과: 생존 일수, 최종 체력, 최종 식량, 최종 감염도, 엔딩 표시
+  renderResult() {
+    this.gameScreen.classList.add('hidden');
+    this.resultScreen.classList.remove('hidden');
+    this.resultDays.textContent = this.vm.model.day;
+    this.resultHp.textContent = this.vm.model.hp;
+    this.resultFood.textContent = this.vm.model.food;
+    this.resultInfection.textContent = this.vm.model.infection;
+  }
+
+  updateStats() {
+    this.day.textContent = this.vm.model.day;
+    this.hp.textContent = this.vm.model.hp;
+    this.food.textContent = this.vm.model.food;
+    this.infection.textContent = this.vm.model.infection;
+    this.healAttempts.textContent = this.vm.model.healAttempts;
+    this.rescuePoints.textContent = this.vm.model.rescuePoints;
   }
 
   updateCard(viewData) {

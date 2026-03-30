@@ -35,11 +35,15 @@ export default class GameViewModel {
       choice === 'A'
         ? this.currentCard.choiceA.effect
         : this.currentCard.choiceB.effect;
-    // 선택 효과 적용 후 결과 화면으로 이동
     this.state = 'loading';
     this.notify();
+    this.applyEffectAfterChoice(effect, choice);
+  }
+
+  applyEffectAfterChoice(effect, choice) {
     setTimeout(() => {
       this.model.applyChoiceEffect(effect);
+      this.model.addHealAttempt(this.currentCard, choice);
       this.model.applyDailyCost();
       this.state = 'draw';
       this.notify();

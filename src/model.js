@@ -65,5 +65,20 @@ export default class GameModel {
     if (this.food < MIN_STAT) {
       this.hp -= STARVATION_HP_PENALTY;
     }
+    this.clampStats();
+    this.day += 1;
+  }
+
+  // 치료 선택 누적 횟수 증가 (치료 카드 선택 시)
+  addHealAttempt(card, choice) {
+    if (card.isChoiceCure && choice === 'A') {
+      this.healAttempts += 1;
+    }
+  }
+
+  clampStats() {
+    this.hp = Math.max(this.hp, MIN_STAT);
+    this.food = Math.max(this.food, MIN_STAT);
+    this.infection = Math.max(this.infection, MIN_STAT);
   }
 }
