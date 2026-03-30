@@ -6,6 +6,10 @@ import {
   INITIAL_HEAL_ATTEMPTS,
   INITIAL_RESCUE_POINTS,
   CARD_DATA,
+  DAILY_FOOD_COST,
+  DAILY_INFECTION_INCREASE,
+  STARVATION_HP_PENALTY,
+  MIN_STAT,
 } from "./constants.js";
 
 export class GameModel {
@@ -46,5 +50,20 @@ export class GameModel {
       this.deck = this.generateDeck();
     }
     return this.deck.pop();
+  }
+
+  applyChoiceEffect(effect) {
+    this.hp += effect.hp || 0;
+    this.food += effect.food || 0;
+    this.infection += effect.infection || 0;
+    this.rescuePoints += effect.rescue || 0;
+  }
+
+  applyDailyCost() {
+    this.food -= DAILY_FOOD_COST;
+    this.infection += DAILY_INFECTION_INCREASE;
+    if (this.food < MIN_STAT) {
+      this.hp -= STARVATION_HP_PENALTY;
+    }
   }
 }

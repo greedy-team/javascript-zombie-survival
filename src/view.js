@@ -55,6 +55,12 @@ export class GameView {
     this.btnDraw.addEventListener("click", () => {
       this.vm.handleDrawCard();
     });
+    this.btnChoiceA.addEventListener("click", () => {
+      this.vm.handleChoice("A");
+    });
+    this.btnChoiceB.addEventListener("click", () => {
+      this.vm.handleChoice("B");
+    });
   }
 
   // - 카드 뽑기 버튼 클릭 시 덱에서 1장 뽑기
