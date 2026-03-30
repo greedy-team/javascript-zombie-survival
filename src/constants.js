@@ -28,10 +28,20 @@ export const TOTAL_DECK_SIZE = 20;
 // 타이머
 export const RESULT_DELAY_MS = 2000;
 
+// 효과 한글 매핑
+export const EFFECT_LABEL = {
+  hp: "체력",
+  food: "식량",
+  infection: "감염도",
+  rescue: "구조 포인트",
+};
+
 // 카드 데이터
 export const CARD_DATA = [
   {
     name: "생존자 시체",
+    description:
+      "누군가의 마지막이 배낭 속 통조림으로 남았다. 손등의 물린 자국이 말해준다 — 이것은 유산이 아니라 저주일 수도 있다.",
     count: 4,
     isChoiceCure: false,
     choiceA: {
@@ -45,6 +55,8 @@ export const CARD_DATA = [
   },
   {
     name: "부상당한 군인",
+    description:
+      "피 묻은 군복 사이로 약병이 보인다. 떨리는 손이 무언가를 내밀고 있다. 이 세상에 공짜 자비란 없다.",
     count: 4,
     isChoiceCure: true,
     choiceA: {
@@ -58,6 +70,8 @@ export const CARD_DATA = [
   },
   {
     name: "임시 수술",
+    description:
+      "깨진 거울에 비친 팔은 이미 내 것이 아닌 색이다. 칼날 위에 올린 손이 떨린다 — 망설이면 사람이길 포기하는 것이다.",
     count: 3,
     isChoiceCure: true,
     choiceA: {
@@ -71,6 +85,8 @@ export const CARD_DATA = [
   },
   {
     name: "군용 차량 행렬",
+    description:
+      "지평선 위로 먼지 기둥이 피어오른다. 엔진 소리가 심장보다 빠르게 멀어지고 있다. 이 순간이 지나면 다시는 오지 않는다.",
     count: 3,
     isChoiceCure: false,
     choiceA: {
@@ -84,6 +100,8 @@ export const CARD_DATA = [
   },
   {
     name: "오염된 웅덩이",
+    description:
+      "웅덩이 표면에 기름 같은 무지개가 번진다. 갈라진 입술이 먼저 답을 알고 있다 — 이성은 갈증 앞에서 늘 진다.",
     count: 3,
     isChoiceCure: false,
     choiceA: {
@@ -97,6 +115,8 @@ export const CARD_DATA = [
   },
   {
     name: "구조 트럭",
+    description:
+      "적십자 깃발이 석양 아래 펄럭인다. 희망은 저 트럭 위에 있는데, 다리는 이미 절망을 택한 듯 움직이지 않는다.",
     count: 3,
     isChoiceCure: false,
     choiceA: {
