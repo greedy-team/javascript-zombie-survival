@@ -1,4 +1,4 @@
-const drawBtn = document.getElementById("btn-draw");
+
 const cardData = { //모각코 후 수정
     0: {
         name: "생존자 시체",
@@ -55,12 +55,17 @@ for (let i = 0; i < 20; i++) {
 }
 
 function drawCard() {// view
-    const cardArea = document.getElementById("card-area");
+    const drawArea=document.querySelector('#draw-area');
+    const cardArea = document.querySelector('#card-area');
+    const giveUpBtn=document.querySelector('#btn-giveup');
+    const logWrapper=document.querySelector('.log-wrapper');
+    giveUpBtn.classList.add("hidden");
+    logWrapper.classList.add("hidden");
+    drawArea.classList.add("hidden");
     cardArea.classList.remove("hidden");
     let card = pickShuffleCard(cards);
     let cardContent = whatIsCardContent(card);
-    showCardContent(cardContent);
-
+    showCardContent(cardContent); 
 }
 function showCardContent(cardContent) {
     const cardName = document.getElementById("card-name");
@@ -153,7 +158,12 @@ function pickShuffleCard(cards) { //model
 
 
 
-
-//pickShuffleCard();
-
+const drawBtn = document.querySelector('#btn-draw');
 drawBtn.onclick = drawCard;
+
+const choiceBtnA= document.querySelector('#btn-choice-a');
+const choiceBtnB= document.querySelector('#btn-choice-b');
+
+
+
+
