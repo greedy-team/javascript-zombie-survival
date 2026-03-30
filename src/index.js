@@ -95,20 +95,24 @@ const cardData = { //모각코 후 수정
         }
     }
 };
-let player={
+let player = {
     date: 1,
-    hp:100,
-    food:3,
-    infection:10,
-    heal:0,
-    rescuePoint:0
+    hp: 100,
+    food: 3,
+    infection: 10,
+    heal: 0,
+    rescuePoint: 0
 }
 let cards = []
-for (let i = 0; i < 20; i++) {
-    cards[i] = i;
-}
 let cardNum;
+function shuffleCard() {
+    let tmpCards = [];
+    for (let i = 0; i < 20; i++) {
+        tmpCards.push(i);
+    }
+    return tmpCards
 
+}
 function drawCard() {// view
     const drawArea = document.querySelector('#draw-area');
     const cardArea = document.querySelector('#card-area');
@@ -118,6 +122,8 @@ function drawCard() {// view
     logWrapper.classList.add("hidden");
     drawArea.classList.add("hidden");
     cardArea.classList.remove("hidden");
+
+
     cardNum = pickShuffleCard(cards);
     let cardContent = whatIsCardContent(cardNum);
     showCardContent(cardContent);
@@ -138,7 +144,6 @@ function showCardContent(cardContent) {
 
     labelB.innerHTML = cardContent.choiceB;
     descB.innerHTML = cardContent.resultB;
-
 }
 function whatIsCardContent(card) {
     return cardData[card]
@@ -193,7 +198,7 @@ function whatIsCardContent(card) {
 function pickShuffleCard(cards) { //model
     let index;
     index = Math.floor(Math.random() * cards.length);
-    let card = cards.splice(index,1)[0];
+    let card = cards.splice(index, 1)[0];
     console.log(card);
     if (card < 4) { //생존자 시체
         return 0;
@@ -210,52 +215,125 @@ function pickShuffleCard(cards) { //model
     }
     return 0;
 }
-function clickChoiceBtn(choice){
-    setTimeout(()=>showResult(choice))
+function clickChoiceBtn(choice) {
+    setTimeout(() => showResult(choice))
 }
-function afterChoice(choice){
-    setTimeout(function(){
+function afterChoice(choice) {
+    setTimeout(function () {
         updateStates(choice);
-    },2000)
+    },)
 
 }
-function updateStates(choice){
-    console.log(cardNum);
-    const card=whatIsCardContent(cardNum);
-    const effect=card[choice];
-    for (let key in effect){
-        player[key]+=effect[key];
-        console.log(effect[key]);
+function updateStates(choice) {
+    const card = whatIsCardContent(cardNum);
+    const effect = card[choice];
+    for (let key in effect) {
+        player[key] += effect[key];
     }
-    showStates()
+    checkStates();
+    checkEnding();
+    afterDay();
+    showStates();
+    continueGame();
 }
-function showStates(){
-    // document.querySelector('#day').innerHTML=`${player[++date]}`;
-    document.querySelector('#hp').innerHTML=`${player.hp}`;
-    document.querySelector('#food').innerHTML=`${player.food}`;
-    document.querySelector('#infection').innerHTML=`${player.infection}`;
-    document.querySelector('#heal-attempts').innerHTML=`${player.heal}`;
-    document.querySelector('#rescue-points').innerHTML=`${player.rescuePoint}`;
-}
-function checkStates(){
-    if(player[hp]<=0){
-
-    }else if(player[infection]>=100){
-
-    }else if(player[heal]>=5){
-
-    }else if(player[rescuePoint]>=3&&player[date]>10){
-
+function afterDay() {
+    player.date++;
+    if (player.food === 0) {
+        player.hp -= 10;
+    } else {
+        player.food -= 1;
     }
+    player.infection += 3;
 }
+function continueGame() {
+    const drawArea = document.querySelector('#draw-area');
+    const cardArea = document.querySelector('#card-area');
+    const giveUpBtn = document.querySelector('#btn-giveup');
+    const logWrapper = document.querySelector('.log-wrapper');
+    giveUpBtn.classList.remove("hidden");
+    logWrapper.classList.remove("hidden");
+    drawArea.classList.remove("hidden");
+    cardArea.classList.add("hidden");
+
+}
+function showStates() {
+    document.querySelector('#day').innerHTML = `${player.date}`;
+    document.querySelector('#hp').innerHTML = `${player.hp}`;
+    document.querySelector('#food').innerHTML = `${player.food}`;
+    document.querySelector('#infection').innerHTML = `${player.infection}`;
+    document.querySelector('#heal-attempts').innerHTML = `${player.heal}`;
+    document.querySelector('#rescue-points').innerHTML = `${player.rescuePoint}`;
+    if (!cards.length) {
+        cards = shuffleCard();
+    }
+    document.querySelector('#deck-remaining').innerHTML = cards.length;
+}
+function checkStates() {
+    if (player.food < 0) {
+        player.food = 0;
+    }
+    if (player.hp < 0) {
+        player.hp = 0;
+    }
+    if (player.infection < 0) {
+        player.infection = 0;
+    }
+
+}
+function checkEnding() {
+    let ending;
+    if (player.hp <= 0) {
+        ending = "사망";
+    } else if (player.infection >= 100) {
+        ending = "좀비화";
+    } else if (player.heal >= 5) {
+        ending = "치료 성공";
+    } else if (player.rescuePoint >= 3 && player.date > 10) {
+        ending = "구조 성공";
+    } else if (player.date > 15) {
+        ending = "생존 성공";
+    } else {
+        return 0;
+    }
+    showEnding(ending);
+}
+function showEnding(ending) {
+    document.querySelector('#game-screen').classList.add("hidden");
+    document.querySelector("#result-screen").classList.remove("hidden");
+    document.querySelector("#result-days").innerHTML = player.date;
+    document.querySelector("#result-hp").innerHTML = player.hp;
+    document.querySelector("#result-food").innerHTML = player.food;
+    document.querySelector("#result-infection").innerHTML = player.infection;
+    document.querySelector("#result-ending").innerHTML = ending;
+}
+
+function restartGame() {
+    cards = shuffleCard();
+    document.querySelector('#game-screen').classList.remove("hidden");
+    document.querySelector("#result-screen").classList.add("hidden");
+    player = {
+        date: 1,
+        hp: 100,
+        food: 3,
+        infection: 10,
+        heal: 0,
+        rescuePoint: 0
+    }
+    showStates();
+}
+
+cards = shuffleCard();
 
 const drawBtn = document.querySelector('#btn-draw');
 drawBtn.onclick = drawCard;
 
 const choiceBtnA = document.querySelector('#btn-choice-a');
 const choiceBtnB = document.querySelector('#btn-choice-b');
+const giveUpBtn = document.querySelector('#btn-giveup');
+const restartBtn = document.querySelector('#btn-restart');
 
-choiceBtnA.onclick = ()=> afterChoice("A");
-choiceBtnB.onclick = ()=> afterChoice("B");
-
+choiceBtnA.onclick = () => afterChoice("A");
+choiceBtnB.onclick = () => afterChoice("B");
+giveUpBtn.onclick = () => showEnding("포기");
+restartBtn.onclick = restartGame;
 
