@@ -6,8 +6,6 @@ export default class Status {
         this.infection = infection;
         this.heal = heal;
         this.rescue = rescue;
-
-        this.initStat();
     }
 
     // 게임 시작 시 초기 스탯 설정
