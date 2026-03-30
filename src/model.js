@@ -10,9 +10,9 @@ import {
   DAILY_INFECTION_INCREASE,
   STARVATION_HP_PENALTY,
   MIN_STAT,
-} from "./constants.js";
+} from './constants.js';
 
-export class GameModel {
+export default class GameModel {
   constructor() {
     this.hp = INITIAL_HP;
     this.food = INITIAL_FOOD;

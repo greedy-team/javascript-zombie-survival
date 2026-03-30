@@ -1,6 +1,6 @@
-import { EFFECT_LABEL } from "./constants.js";
+import { EFFECT_LABEL } from './constants.js';
 
-export class GameView {
+export default class GameView {
   constructor(viewModel) {
     this.vm = viewModel;
     this.initElements();
@@ -10,56 +10,56 @@ export class GameView {
 
   initElements() {
     // 화면 요소들을 초기화하는 부분
-    this.gameScreen = document.querySelector("#game-screen");
-    this.resultScreen = document.querySelector("#result-screen");
+    this.gameScreen = document.querySelector('#game-screen');
+    this.resultScreen = document.querySelector('#result-screen');
 
     // 상태 표시 요소들
-    this.day = document.querySelector("#day");
-    this.hp = document.querySelector("#hp");
-    this.food = document.querySelector("#food");
-    this.infection = document.querySelector("#infection");
-    this.healAttempts = document.querySelector("#heal-attempts");
-    this.rescuePoints = document.querySelector("#rescue-points");
+    this.day = document.querySelector('#day');
+    this.hp = document.querySelector('#hp');
+    this.food = document.querySelector('#food');
+    this.infection = document.querySelector('#infection');
+    this.healAttempts = document.querySelector('#heal-attempts');
+    this.rescuePoints = document.querySelector('#rescue-points');
 
     // 카드 관련 요소들
-    this.drawArea = document.querySelector("#draw-area");
-    this.btnDraw = document.querySelector("#btn-draw");
-    this.deckRemaining = document.querySelector("#deck-remaining");
+    this.drawArea = document.querySelector('#draw-area');
+    this.btnDraw = document.querySelector('#btn-draw');
+    this.deckRemaining = document.querySelector('#deck-remaining');
 
     // 카드 선택 요소들
-    this.cardArea = document.querySelector("#card-area");
-    this.cardName = document.querySelector("#card-name");
-    this.cardDescription = document.querySelector("#card-description");
-    this.btnChoiceA = document.querySelector("#btn-choice-a");
-    this.btnChoiceB = document.querySelector("#btn-choice-b");
-    this.choiceLabelA = this.btnChoiceA.querySelector(".choice-label");
-    this.choiceDescA = this.btnChoiceA.querySelector(".choice-desc");
-    this.choiceLabelB = this.btnChoiceB.querySelector(".choice-label");
-    this.choiceDescB = this.btnChoiceB.querySelector(".choice-desc");
+    this.cardArea = document.querySelector('#card-area');
+    this.cardName = document.querySelector('#card-name');
+    this.cardDescription = document.querySelector('#card-description');
+    this.btnChoiceA = document.querySelector('#btn-choice-a');
+    this.btnChoiceB = document.querySelector('#btn-choice-b');
+    this.choiceLabelA = this.btnChoiceA.querySelector('.choice-label');
+    this.choiceDescA = this.btnChoiceA.querySelector('.choice-desc');
+    this.choiceLabelB = this.btnChoiceB.querySelector('.choice-label');
+    this.choiceDescB = this.btnChoiceB.querySelector('.choice-desc');
 
     // 로딩 및 포기 버튼
-    this.loading = document.querySelector("#loading");
-    this.btnGiveup = document.querySelector("#btn-giveup");
-    this.log = document.querySelector("#log");
+    this.loading = document.querySelector('#loading');
+    this.btnGiveup = document.querySelector('#btn-giveup');
+    this.log = document.querySelector('#log');
 
     // 결과 화면 요소들
-    this.resultEnding = document.querySelector("#result-ending");
-    this.resultDays = document.querySelector("#result-days");
-    this.resultHp = document.querySelector("#result-hp");
-    this.resultFood = document.querySelector("#result-food");
-    this.resultInfection = document.querySelector("#result-infection");
-    this.btnRestart = document.querySelector("#btn-restart");
+    this.resultEnding = document.querySelector('#result-ending');
+    this.resultDays = document.querySelector('#result-days');
+    this.resultHp = document.querySelector('#result-hp');
+    this.resultFood = document.querySelector('#result-food');
+    this.resultInfection = document.querySelector('#result-infection');
+    this.btnRestart = document.querySelector('#btn-restart');
   }
 
   bindEvents() {
-    this.btnDraw.addEventListener("click", () => {
+    this.btnDraw.addEventListener('click', () => {
       this.vm.handleDrawCard();
     });
-    this.btnChoiceA.addEventListener("click", () => {
-      this.vm.handleChoice("A");
+    this.btnChoiceA.addEventListener('click', () => {
+      this.vm.handleChoice('A');
     });
-    this.btnChoiceB.addEventListener("click", () => {
-      this.vm.handleChoice("B");
+    this.btnChoiceB.addEventListener('click', () => {
+      this.vm.handleChoice('B');
     });
   }
 
@@ -74,7 +74,7 @@ export class GameView {
       this.updateCard(card);
       this.hideDrawButton();
       this.deckRemaining.textContent = this.vm.deckRemaining;
-      this.cardArea.classList.remove("hidden");
+      this.cardArea.classList.remove('hidden');
     }
   }
 
@@ -93,27 +93,27 @@ export class GameView {
   formatEffect(effect) {
     const parts = [];
     if (effect.hp)
-      parts.push(`${EFFECT_LABEL.hp} ${effect.hp > 0 ? "+" : ""}${effect.hp}`);
+      parts.push(`${EFFECT_LABEL.hp} ${effect.hp > 0 ? '+' : ''}${effect.hp}`);
     if (effect.food)
       parts.push(
-        `${EFFECT_LABEL.food} ${effect.food > 0 ? "+" : ""}${effect.food}`,
+        `${EFFECT_LABEL.food} ${effect.food > 0 ? '+' : ''}${effect.food}`,
       );
     if (effect.infection)
       parts.push(
-        `${EFFECT_LABEL.infection} ${effect.infection > 0 ? "+" : ""}${effect.infection}`,
+        `${EFFECT_LABEL.infection} ${effect.infection > 0 ? '+' : ''}${effect.infection}`,
       );
     if (effect.rescue)
       parts.push(
-        `${EFFECT_LABEL.rescue} ${effect.rescue > 0 ? "+" : ""}${effect.rescue}`,
+        `${EFFECT_LABEL.rescue} ${effect.rescue > 0 ? '+' : ''}${effect.rescue}`,
       );
-    return parts.join(", ");
+    return parts.join(', ');
   }
 
   hideDrawButton() {
-    this.btnDraw.style.display = "none";
+    this.btnDraw.style.display = 'none';
   }
 
   showDrawButton() {
-    this.btnDraw.style.display = "block";
+    this.btnDraw.style.display = 'block';
   }
 }

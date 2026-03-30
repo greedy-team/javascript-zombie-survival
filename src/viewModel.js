@@ -1,8 +1,11 @@
-export class GameViewModel {
+import { RESULT_DELAY_MS } from './constants.js';
+
+export default class GameViewModel {
   constructor(model) {
     this.model = model;
     this.currentCard = null;
     this.listeners = [];
+    this.state = 'draw'; // "draw", "choosing", "loading", "result"
   }
 
   // View가 구독
@@ -22,16 +25,24 @@ export class GameViewModel {
 
   handleDrawCard() {
     this.currentCard = this.model.drawCard();
+    // 카드 뽑은 후 선택 단계로 이동
+    this.state = 'choosing';
     this.notify();
   }
 
   handleChoice(choice) {
     const effect =
-      choice === "A"
+      choice === 'A'
         ? this.currentCard.choiceA.effect
         : this.currentCard.choiceB.effect;
-    this.model.applyChoiceEffect(effect);
-    this.model.applyDailyCost();
+    // 선택 효과 적용 후 결과 화면으로 이동
+    this.state = 'loading';
     this.notify();
+    setTimeout(() => {
+      this.model.applyChoiceEffect(effect);
+      this.model.applyDailyCost();
+      this.state = 'draw';
+      this.notify();
+    }, RESULT_DELAY_MS);
   }
 }
