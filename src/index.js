@@ -1,4 +1,3 @@
-
 const cardData = { //모각코 후 수정
     0: {
         name: "생존자 시체",
@@ -190,15 +189,16 @@ function updateStates(choice) {
     for (let key in effect) {
         player[key] += effect[key];
     }
+    updateLogs(card[`choice${choice}`]);
     checkStates();
     checkEnding();
     afterDay();
     showStates();
     continueGame();
-    updateLogs();
 }
-function updateLogs() {
-
+function updateLogs(result) {
+    document.querySelector("#log").innerHTML+=`<p>${result}</p>`;
+    return 0;
 }
 function afterDay() {
     player.date++;
