@@ -53,6 +53,12 @@ export default class OutputCard {
         setTimeout(() => {
             this.choiceKeyA.parentElement.disabled = false;
             this.choiceKeyB.parentElement.disabled = false;
+
+            this.drawArea.classList.remove('hidden');
+            this.cardArea.classList.add('hidden');
+
+            this.giveUpBtn.classList.remove('hidden');
+            this.logWrapper.classList.remove('hidden'); 
         }, 2000);
     }
 }
