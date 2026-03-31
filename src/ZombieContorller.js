@@ -14,7 +14,7 @@ export default class ZombieController {
         this.OutputStat = new OutputStat();
         this.Status = new Status();
 
-        this.inputView = new InputCard();
+        this.inputCard = new InputCard();
         this.OutputCard = new OutputCard();
         this.Cards = new Cards();
 
@@ -33,7 +33,9 @@ export default class ZombieController {
         this.Cards.initCard();
         this.renderCardLeft();
 
-        this.inputView.bindDrawCard(this.drawCard.bind(this));
+        this.inputCard.bindDrawCard(this.drawCard.bind(this));
+        this.inputCard.bindDrawChoiceA(this.chooseChoice.bind(this, 'A'));
+        this.inputCard.bindDrawChoiceB(this.chooseChoice.bind(this, 'B'));
     }
 
     /**
@@ -90,5 +92,24 @@ export default class ZombieController {
         if(this.Cards.remainCard <= 1) {
             this.Cards.remainCard += 20;
         }
+    }
+
+    //TODO: 이렇게 반복 되는걸 좀 줄일 수 없을까..?
+    chooseChoice(choice) {
+        if (choice === 'A') {
+            this.Status.hp += this.ZombieGame.statA[0];
+            this.Status.food += this.ZombieGame.statA[1];
+            this.Status.infection += this.ZombieGame.statA[2];
+            this.Status.heal += this.ZombieGame.statA[3];
+            this.Status.rescue += this.ZombieGame.statA[4];
+        } else if (choice === 'B') {
+            this.Status.hp += this.ZombieGame.statB[0];
+            this.Status.food += this.ZombieGame.statB[1];
+            this.Status.infection += this.ZombieGame.statB[2];
+            this.Status.heal += this.ZombieGame.statB[3];
+            this.Status.rescue += this.ZombieGame.statB[4];
+        }
+
+        this.renderStat();
     }
 }
