@@ -120,6 +120,8 @@ export default class ZombieController {
     }
 
     checkStat() {
+        this.Status.day += 1;
+        
         if (this.Status.hp <= 0) {
             alert('체력이 0이하로 떨어졌습니다. 게임 오버!');
             this.init();
