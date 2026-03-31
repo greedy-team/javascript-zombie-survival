@@ -48,6 +48,7 @@ const App={
         rescuePoints:0,
         deck:[],
         currentCard:null,
+        isGameOver: false,
     },
 
     init(){
@@ -63,6 +64,10 @@ const App={
         this.el.$buttons.btnDraw.onclick = () => this.handleDraw();
         this.el.$buttons.btnChoiceA.onclick = () => this.handleChoice('A');
         this.el.$buttons.btnChoiceB.onclick = () => this.handleChoice('B');
+
+        this.el.$buttons.btnGiveup.onclick=()=> this.finishGame("포기: 당신은 스스로 생존을 포기하고 어둠 속으로 사라졌습니다.");
+
+        this.el.$buttons.btnRestart.onclick=()=>this.restartGame();
     },
 
     handleDraw(){
@@ -110,6 +115,8 @@ const App={
         this.el.$buttons.btnChoiceB.disabled=true;
 
         setTimeout(()=>{
+            if(this.state.isGameOver)return;
+
             this.calculateStats(type);
             this.updateStats();
 
@@ -259,6 +266,8 @@ const App={
     },
 
     finishGame(text){
+        this.state.isGameOver = true;
+
         this.el.$displays.resultEnding.textContent=text;
         this.el.$displays.resultDays.textContent = this.state.day;
         this.el.$displays.resultHp.textContent = this.state.hp;
@@ -266,6 +275,24 @@ const App={
         this.el.$displays.resultInfection.textContent = this.state.infection;
 
         this.changeScreen('result');
+    },
+
+    restartGame(){
+        this.state={
+            hp: 100,
+            food: 3,
+            infection: 10,
+            day:1,
+            healAttempts:0,
+            rescuePoints:0,
+            deck:[],
+            currentCard:null,
+        };
+        this.el.$displays.log.innerHTML = "";
+        this.el.$buttons.btnChoiceA.disabled = false;
+        this.el.$buttons.btnChoiceB.disabled = false;
+
+        this.init();
     }
 };
 
