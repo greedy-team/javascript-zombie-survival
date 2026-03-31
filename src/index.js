@@ -51,6 +51,7 @@ const App={
     },
 
     init(){
+        this.addLog("좀비 사태가 발생했습니다. 생존을 시작합니다.");
         this.createDeck();
         this.shuffleDeck();
         this.updateStats();
@@ -74,6 +75,9 @@ const App={
 
         this.el.$displays.cardName.textContent=card.name;
         this.el.$displays.cardDescription.textContent="생존을 위한 선택을 내리십시오.";
+
+        this.el.$buttons.btnChoiceA.querySelector('.choice-desc').textContent = card.textA;
+        this.el.$buttons.btnChoiceB.querySelector('.choice-desc').textContent = card.textB;
 
         this.changeScreen('card');
         this.updateStats();
@@ -111,16 +115,20 @@ const App={
     calculateStats(type){
         const card=this.state.currentCard;
         let effect;
+        let choiceText;
 
-        if(this.state.food<=0){
+        if(this.state.food<=0) {
             this.state.hp-=10;
+            this.addLog("배고픔 때문에 체력이 추가로 깎였습니다. (-10)");
         }
-
-        if(type==='A'){
+        if(type==='A') {
             effect=card.actionA;
-        }else if(type==='B'){
+            choiceText=card.textA;}
+        else if(type==='B') {
             effect=card.actionB;
-        }
+            choiceText=card.textB;}
+
+        this.addLog(`${choiceText}`);
 
         this.state.hp+=(effect.hp||0);
         this.state.food+=(effect.food||0);
@@ -135,12 +143,47 @@ const App={
     createDeck(){
         this.state.deck=[];
         const cardTemplates=[
-            { name: '🧟 생존자 시체', count: 4, actionA: { food: 3, infection: 8 }, actionB: { food: 1 } },
-            { name: '💊 부상당한 군인', count: 4, actionA: { food: -1, infection: -20 }, actionB: { hp: -10, food: 2 } },
-            { name: '🔪 임시 수술', count: 3, actionA: { hp: -25, infection: -25 }, actionB: { hp: -5, infection: 10 } },
-            { name: '🚗 군용 차량 행렬', count: 3, actionA: { rescuePoints: 1, infection: 8 }, actionB: { hp: 5 } },
-            { name: '💧 오염된 웅덩이', count: 3, actionA: { hp: 5, infection: 15 }, actionB: { hp: -10 } },
-            { name: '🚛 구조 트럭', count: 3, actionA: { hp: -20, rescuePoints: 1 }, actionB: { hp: 10 } },
+            { 
+                name: '🧟 생존자 시체', count: 4, 
+                textA: '배낭째로 가져온다 (식량 +3, 감염도 +8)',
+                textB: '겉에 있는 것만 집는다 (식량 +1)',
+                actionA: { food: 3, infection: 8 }, 
+                actionB: { food: 1 } },
+            { 
+            name: '💊 부상당한 군인', count: 4, 
+            textA: '식량을 건네고 약을 받는다 (식량 -1, 감염도 -20)',
+            textB: '몸싸움 끝에 식량만 챙기고 떠난다 (체력 -10, 식량 +2)',
+            actionA: { food: -1, infection: -20 }, 
+            actionB: { hp: -10, food: 2 } 
+            },
+            { 
+            name: '🔪 임시 수술', count: 3, 
+            textA: '감염 부위를 직접 도려낸다 (체력 -25, 감염도 -25)',
+            textB: '이를 악물고 참는다 (체력 -5, 감염도 +10)',
+            actionA: { hp: -25, infection: -25 }, 
+            actionB: { hp: -5, infection: 10 } 
+            },
+            { 
+            name: '🚗 군용 차량 행렬', count: 3, 
+            textA: '뛰어나가 신호를 보낸다 (구조 포인트 +1, 감염도 +8)',
+            textB: '몸을 낮추고 방향만 확인한다 (체력 +5)',
+            actionA: { rescuePoints: 1, infection: 8 }, 
+            actionB: { hp: 5 } 
+            },
+            { 
+            name: '💧 오염된 웅덩이', count: 3, 
+            textA: '그냥 마신다. 탈수보다 낫다 (체력 +5, 감염도 +15)',
+            textB: '참는다. 빗물을 기다린다 (체력 -10)',
+            actionA: { hp: 5, infection: 15 }, 
+            actionB: { hp: -10 } 
+            },
+            { 
+            name: '🚛 구조 트럭', count: 3, 
+            textA: '전력으로 달려간다 (체력 -20, 구조 포인트 +1)',
+            textB: '체력을 아끼고 쉰다 (체력 +10)',
+            actionA: { hp: -20, rescuePoints: 1 }, 
+            actionB: { hp: 10 } 
+            },
         ];
 
         for (let i = 0; i < cardTemplates.length; i++) {
@@ -149,6 +192,8 @@ const App={
             for (let j = 0; j < template.count; j++) {
                 this.state.deck.push({
                     name: template.name,
+                    textA: template.textA,
+                    textB: template.textB,
                     actionA: template.actionA,
                     actionB: template.actionB
                 });
@@ -178,7 +223,13 @@ const App={
         this.createDeck();
         this.shuffleDeck();
         this.updateStats();
-    }
+    },
+
+    addLog(text){
+        const logText = `<div>Day${this.state.day}: ${text}</div><br>`
+
+        this.el.$displays.log.innerHTML = logText + this.el.$displays.log.innerHTML;
+    },
 };
 
 App.init();
