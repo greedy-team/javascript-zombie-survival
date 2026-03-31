@@ -65,6 +65,10 @@ const App={
     },
 
     handleDraw(){
+        if(this.state.deck.length===0){
+            this.reshuffleDeck();
+        }
+
         const card=this.state.deck.pop();
         this.state.currentCard=card;
 
@@ -121,9 +125,11 @@ const App={
 
         this.state.day+=1;
         this.state.food-=1;
+        this.state.infection+=3;
     },
 
     createDeck(){
+        this.state.deck=[];
         const cardTemplates=[
             { name: '🧟 생존자 시체', count: 4, actionA: { food: 3, infection: 8 }, actionB: { food: 1 } },
             { name: '💊 부상당한 군인', count: 4, actionA: { food: -1, infection: -20 }, actionB: { hp: -10, food: 2 } },
@@ -162,6 +168,12 @@ const App={
         this.el.$stats.healAttempts.textContent = this.state.healAttempts;
         this.el.$stats.rescuePoints.textContent = this.state.rescuePoints;
         this.el.$stats.deckRemaining.textContent=this.state.deck.length;
+    },
+
+    reshuffleDeck(){
+        this.createDeck();
+        this.shuffleDeck();
+        this.updateStats();
     }
 };
 
