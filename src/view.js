@@ -81,6 +81,12 @@ export default class GameView {
     }
   }
 
+  renderLog() {
+    this.log.innerHTML = this.vm.log
+      .map((message) => `<p>${message}</p>`)
+      .join('');
+  }
+
   // 5. 일차 진행
   // - 선택 완료 후 Day 1 증가
   // - 스탯 실시간 업데이트 (치료 횟수, 구조 포인트 포함)
@@ -95,6 +101,7 @@ export default class GameView {
     this.showDrawButton();
     this.updateStats();
     this.deckRemaining.textContent = this.vm.deckRemaining;
+    this.renderLog();
   }
 
   // 3. 카드 뽑기

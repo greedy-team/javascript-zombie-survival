@@ -7,6 +7,7 @@ export default class GameViewModel {
     this.listeners = [];
     this.state = 'draw'; // "draw", "choosing", "loading", "result"
     this.ending = null;
+    this.log = [];
   }
 
   // View가 구독
@@ -32,20 +33,24 @@ export default class GameViewModel {
   }
 
   handleChoice(choice) {
-    const effect =
-      choice === 'A'
-        ? this.currentCard.choiceA.effect
-        : this.currentCard.choiceB.effect;
+    const selected =
+      choice === 'A' ? this.currentCard.choiceA : this.currentCard.choiceB;
     this.state = 'loading';
     this.notify();
-    this.applyEffectAfterChoice(effect, choice);
+    this.applyEffectAfterChoice(selected.effect, selected.label, choice);
   }
 
-  applyEffectAfterChoice(effect, choice) {
+  applyEffectAfterChoice(effect, label, choice) {
     setTimeout(() => {
       this.model.applyChoiceEffect(effect);
       this.model.addHealAttempt(this.currentCard, choice);
+      const isStarving = this.model.food <= 0;
       this.model.applyDailyCost();
+      this.addLog(`[Day ${this.model.day - 1}] ${this.currentCard.name}`);
+      this.addLog(`선택: ${label}`);
+      if (isStarving) {
+        this.addLog('식량이 없어 체력이 감소합니다.');
+      }
       const ending = this.model.getEndingType();
       if (ending) {
         this.ending = ending;
@@ -67,7 +72,12 @@ export default class GameViewModel {
     this.model.reset();
     this.currentCard = null;
     this.ending = null;
+    this.log = [];
     this.state = 'draw';
     this.notify();
+  }
+
+  addLog(message) {
+    this.log.push(message);
   }
 }
