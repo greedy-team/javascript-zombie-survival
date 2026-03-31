@@ -112,6 +112,10 @@ const App={
         const card=this.state.currentCard;
         let effect;
 
+        if(this.state.food<=0){
+            this.state.hp-=10;
+        }
+
         if(type==='A'){
             effect=card.actionA;
         }else if(type==='B'){
