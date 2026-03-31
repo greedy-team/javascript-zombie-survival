@@ -111,7 +111,8 @@ export default class ZombieController {
             this.Status.rescue += this.ZombieGame.statB[4];
         }
 
-        checkStat();
+        this.checkStat();
+        this.OutputCard.invaildButton();
 
         setTimeout(() => {
             this.renderStat();
