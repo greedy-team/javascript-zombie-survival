@@ -177,7 +177,7 @@ function clickChoiceBtn(choice) {
     document.querySelector('#loading').classList.remove("hidden");
     setTimeout(function () {
         updateStates(choice);
-    }, 2000)
+    },2000)
 
 }
 function updateStates(choice) {
@@ -190,11 +190,15 @@ function updateStates(choice) {
         player[key] += effect[key];
     }
     updateLogs(card[`choice${choice}`]);
+    for(let key in effect){
+        updateLogs(`${key}: ${effect[key]}`);
+    }
     checkStates();
     checkEnding();
     afterDay();
     showStates();
     continueGame();
+    checkEnding();
 }
 function updateLogs(result) {
     document.querySelector("#log").innerHTML+=`<p>${result}</p>`;
@@ -205,6 +209,7 @@ function afterDay() {
     if (player.food <= 0) {
         player.hp -= 10;
         player.food = 0;
+        updateLogs("식량이 없어 체력이 감소합니다.");
     } else {
         player.food -= 1;
     }
@@ -255,7 +260,6 @@ function checkEnding() {
     showEnding(ending);
 }
 function showEnding(ending) {
-    document.querySelector('#game-screen').classList.add("hidden");
     document.querySelector("#result-screen").classList.remove("hidden");
     document.querySelector("#result-days").innerHTML = player.date;
     document.querySelector("#result-hp").innerHTML = player.hp;
@@ -271,6 +275,7 @@ function restartGame() {
     document.querySelector('#draw-area').classList.remove("hidden");
     document.querySelector('#card-area').classList.add("hidden");
     document.querySelector("#btn-draw").classList.remove("hidden");
+    document.querySelector("#log").innerHTML=`<p></p>`
     player = {
         date: 1,
         hp: 100,
