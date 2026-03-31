@@ -23,6 +23,17 @@ export default class OutputCard {
         this.logWrapper = document.getElementsByClassName('log-wrapper')[0];
 
         this.resultScreen = document.getElementById('result-screen');
+        this.resultHp = document.getElementById('result-hp');
+        this.resultFood = document.getElementById('result-food');
+        this.resultInfection = document.getElementById('result-infection');
+    }
+
+    init() {
+        this.drawArea.classList.remove('hidden');
+        this.cardArea.classList.add('hidden');
+
+        this.giveUpBtn.classList.remove('hidden');
+        this.logWrapper.classList.remove('hidden'); 
     }
 
     showCardLeft(remainCard) {
@@ -70,12 +81,16 @@ export default class OutputCard {
         }, 2000);
     }
 
-    endGame(result) {
+    endGame(result, status) {
         this.isGameOver = true;
 
         this.resultScreen.classList.remove('hidden');
         this.resultScreen.querySelector('p').textContent = `${result}`;
-        
+        this.resultHp.textContent = status.hp;
+        this.resultFood.textContent = status.food;
+        this.resultInfection.textContent = status.infection;
+
+
         this.drawArea.classList.add('hidden');
         this.cardArea.classList.add('hidden');
         this.giveUpBtn.classList.add('hidden');

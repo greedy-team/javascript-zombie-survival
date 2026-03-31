@@ -9,6 +9,7 @@ export default class InputCard {
         this.choiceButtonA = document.getElementById('btn-choice-a');
         this.choiceButtonB = document.getElementById('btn-choice-b');
         this.restartButton = document.getElementById('btn-restart');
+        this.giveUpButton = document.getElementById('btn-giveup');
     }
 
     bindDrawCard(handler) {
@@ -38,4 +39,12 @@ export default class InputCard {
             handler();
         }
     );}
+
+    bindGiveUp(handler) {
+        this.giveUpButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            handler();
+        }
+    );}
+    
 }

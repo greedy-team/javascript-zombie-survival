@@ -8,12 +8,11 @@ export default class InputCard {
         this.log = document.getElementById('log');
     }
 
-    initLog() {
+    clearLogs() {
         this.log.innerHTML = '';
     }
 
     addLog(message) {
         this.log.innerHTML += `<p>${message}</p>`;
-        this.log.scrollTop = this.log.scrollHeight;
     }
 }

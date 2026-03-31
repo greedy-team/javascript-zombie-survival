@@ -38,6 +38,8 @@ export default class ZombieController {
         this.renderCardLeft();
 
         this.inputCard.bindDrawCard(this.drawCard.bind(this));
+        this.inputCard.bindRestart(this.restart.bind(this));
+        this.inputCard.bindGiveUp(this.giveUp.bind(this));
         this.inputCard.bindDrawChoiceA(this.chooseChoice.bind(this, 'A'));
         this.inputCard.bindDrawChoiceB(this.chooseChoice.bind(this, 'B'));
     }
@@ -146,15 +148,15 @@ export default class ZombieController {
 
         if (this.Status.hp <= 0) {
             this.Status.hp = 0;
-            this.OutputCard.endGame("사망");
+            this.OutputCard.endGame("사망", this.Status);
         } else if (this.Status.infection >= 100) {
-            this.OutputCard.endGame("좀비화");
+            this.OutputCard.endGame("좀비화", this.Status);
         } else if (this.Status.healSelected >= 5) {
-            this.OutputCard.endGame("치료 성공");
+            this.OutputCard.endGame("치료 성공", this.Status);
         } else if (this.Status.rescue >= 3 && this.Status.day >= 10) {
-            this.OutputCard.endGame("구조 성공");
+            this.OutputCard.endGame("구조 성공", this.Status);
         } else if (this.Status.day >= 15) {
-            this.OutputCard.endGame("구조대 도착");
+            this.OutputCard.endGame("구조대 도착", this.Status);
         }
 
         if (this.Status.hp < 0) {
@@ -170,4 +172,18 @@ export default class ZombieController {
         }
     }
 
+    restart() {
+        this.Status.initStat();
+        this.Cards.initCard();
+        this.renderStat();
+        this.renderCardLeft();
+
+        this.OutputLogs.clearLogs();
+        this.OutputCard.init();
+        this.OutputCard.resultScreen.classList.add('hidden');
+    }
+
+    giveUp() {
+        this.OutputCard.endGame("포기", this.Status);
+    }
 }
