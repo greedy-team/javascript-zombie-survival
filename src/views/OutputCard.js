@@ -20,6 +20,8 @@ export default class OutputCard {
 
         this.giveUpBtn = document.getElementById('btn-giveup');
         this.logWrapper = document.getElementsByClassName('log-wrapper')[0];
+
+        this.resultScreen = document.getElementById('result-screen');
     }
 
     showCardLeft(remainCard) {
@@ -60,5 +62,15 @@ export default class OutputCard {
             this.giveUpBtn.classList.remove('hidden');
             this.logWrapper.classList.remove('hidden'); 
         }, 2000);
+    }
+
+    endGame(result) {
+        this.resultScreen.classList.remove('hidden');
+        this.resultScreen.querySelector('p').textContent = `${result}`;
+        
+        this.drawArea.classList.add('hidden');
+        this.cardArea.classList.add('hidden');
+        this.giveUpBtn.classList.add('hidden');
+        this.logWrapper.classList.add('hidden');
     }
 }

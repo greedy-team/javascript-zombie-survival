@@ -8,6 +8,7 @@ export default class InputCard {
         this.drawButton = document.getElementById('btn-draw');
         this.choiceButtonA = document.getElementById('btn-choice-a');
         this.choiceButtonB = document.getElementById('btn-choice-b');
+        this.restartButton = document.getElementById('btn-restart');
     }
 
     bindDrawCard(handler) {
@@ -26,6 +27,13 @@ export default class InputCard {
     
     bindDrawChoiceB(handler) {
         this.choiceButtonB.addEventListener('click', (event) => {
+            event.preventDefault();
+            handler();
+        }
+    );}
+
+    bindRestart(handler) {
+        this.restartButton.addEventListener('click', (event) => {
             event.preventDefault();
             handler();
         }

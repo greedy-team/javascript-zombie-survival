@@ -108,12 +108,22 @@ export default class ZombieController {
             this.Status.food += this.ZombieGame.statA[1];
             this.Status.infection += this.ZombieGame.statA[2];
             this.Status.heal += this.ZombieGame.statA[3];
+
+            if (this.ZombieGame.statA[3] > 0) {
+                this.Status.healSelected += 1;
+            }
+
             this.Status.rescue += this.ZombieGame.statA[4];
         } else if (choice === 'B') {
             this.Status.hp += this.ZombieGame.statB[0];
             this.Status.food += this.ZombieGame.statB[1];
             this.Status.infection += this.ZombieGame.statB[2];
             this.Status.heal += this.ZombieGame.statB[3];
+
+            if (this.ZombieGame.statB[3] > 0) {
+                this.Status.healSelected += 1;
+            }
+
             this.Status.rescue += this.ZombieGame.statB[4];
         }
 
@@ -135,11 +145,16 @@ export default class ZombieController {
         }
 
         if (this.Status.hp <= 0) {
-            alert('체력이 0이하로 떨어졌습니다. 게임 오버!');
-            this.init();
+            this.Status.hp = 0;
+            this.OutputCard.endGame("사망");
         } else if (this.Status.infection >= 100) {
-            alert('감염도가 100이상으로 올라갔습니다. 게임 오버!');
-            this.init();
+            this.OutputCard.endGame("좀비화");
+        } else if (this.Status.healSelected >= 5) {
+            this.OutputCard.endGame("치료 성공");
+        } else if (this.Status.rescue >= 3 && this.Status.day >= 10) {
+            this.OutputCard.endGame("구조 성공");
+        } else if (this.Status.day >= 15) {
+            this.OutputCard.endGame("구조대 도착");
         }
 
         if (this.Status.hp < 0) {

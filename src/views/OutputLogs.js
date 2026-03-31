@@ -14,5 +14,6 @@ export default class InputCard {
 
     addLog(message) {
         this.log.innerHTML += `<p>${message}</p>`;
+        this.log.scrollTop = this.log.scrollHeight;
     }
 }
