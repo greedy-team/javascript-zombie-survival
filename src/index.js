@@ -260,6 +260,7 @@ function checkEnding() {
     showEnding(ending);
 }
 function showEnding(ending) {
+    //document.querySelector('#game-screen').classList.add("hidden");
     document.querySelector("#result-screen").classList.remove("hidden");
     document.querySelector("#result-days").innerHTML = player.date;
     document.querySelector("#result-hp").innerHTML = player.hp;
