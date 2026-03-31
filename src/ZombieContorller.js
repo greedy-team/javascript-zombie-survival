@@ -63,13 +63,33 @@ export default class ZombieController {
     drawCard() {
         try {
             // 카드 드로우 시 Cards의 남은 카드 수 감소
-            countCards();
+            this.countCards();
 
             // 카드 드로우 시 ZombieGame의 drawCard 메서드 호출
-            this.ZombieGame.drawCard();            
+            this.ZombieGame.drawCard();   
+            
+            this.OutputCard.showChoice(
+                this.ZombieGame.selectedCard,
+                this.ZombieGame.choiceA,
+                this.ZombieGame.choiceB,
+                this.ZombieGame.beneiftA,
+                this.ZombieGame.benefitB
+            );
         } catch (error) {
             console.error(error);
         }
+    }
+
+    renderChoice() {
+        const card = this.ZombieGame.selectedCard;
+        this.OutputCard.showSelectedCard(card);
+
+        const choiceA = this.ZombieGame.choiceA;
+        const choiceB = this.ZombieGame.choiceB;
+        const benefitA = this.ZombieGame.beneiftA;
+        const benefitB = this.ZombieGame.benefitB;
+
+        this.OutputCard.showChoice(choiceA, choiceB);
     }
 
     /**
