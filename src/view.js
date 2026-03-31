@@ -137,13 +137,17 @@ export default class GameView {
     this.cardDescription.textContent = viewData.description;
     this.choiceLabelA.textContent = viewData.choiceA.label;
     // 카드의 선택 정보
-    this.choiceDescA.textContent = this.formatEffect(viewData.choiceA.effect);
+    this.choiceDescA.textContent = GameView.formatEffect(
+      viewData.choiceA.effect,
+    );
     this.choiceLabelB.textContent = viewData.choiceB.label;
-    this.choiceDescB.textContent = this.formatEffect(viewData.choiceB.effect);
+    this.choiceDescB.textContent = GameView.formatEffect(
+      viewData.choiceB.effect,
+    );
   }
 
   // 음수는 문자 그대로, 양수는 앞에 + 붙이기
-  formatEffect(effect) {
+  static formatEffect(effect) {
     const parts = [];
     if (effect.hp)
       parts.push(`${EFFECT_LABEL.hp} ${effect.hp > 0 ? '+' : ''}${effect.hp}`);
