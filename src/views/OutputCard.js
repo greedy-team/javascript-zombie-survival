@@ -1,5 +1,6 @@
 export default class OutputCard {
     constructor() {
+        this.isGameOver = false;
         this.initializeStatElements();
     }
 
@@ -29,6 +30,7 @@ export default class OutputCard {
     }
 
     showChoice(selectedCard, choiceA, choiceB, benefitA, benefitB) {
+        this.isGameOver = false;
         this.displayCardArea();
     
         this.cardName.textContent = selectedCard;
@@ -49,6 +51,10 @@ export default class OutputCard {
     }
 
     invaildButton() {
+        if (this.isGameOver) {
+            return;
+        }
+
         this.choiceKeyA.parentElement.disabled = true;
         this.choiceKeyB.parentElement.disabled = true;
         
@@ -65,6 +71,8 @@ export default class OutputCard {
     }
 
     endGame(result) {
+        this.isGameOver = true;
+
         this.resultScreen.classList.remove('hidden');
         this.resultScreen.querySelector('p').textContent = `${result}`;
         
