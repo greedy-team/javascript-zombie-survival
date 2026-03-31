@@ -89,10 +89,17 @@ const App={
     },
 
     handleChoice(type){
+
+        this.el.$buttons.btnChoiceA.disabled=true;
+        this.el.$buttons.btnChoiceB.disabled=true;
+
         setTimeout(()=>{
             this.calculateStats(type);
             this.updateStats();
             this.changeScreen('draw');
+
+            this.el.$buttons.btnChoiceA.disabled=false;
+            this.el.$buttons.btnChoiceB.disabled=false;
 
         },2000);
     },
