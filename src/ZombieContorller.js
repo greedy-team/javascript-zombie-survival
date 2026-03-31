@@ -7,6 +7,8 @@ import InputCard from './views/InputCard.js';
 import OutputCard from './views/OutputCard.js';
 import Cards from './ZombieGame/Cards.js';
 
+import OutputLogs from './views/OutputLogs.js';
+
 export default class ZombieController {
     constructor() {
         this.ZombieGame = new ZombieGame();
@@ -17,6 +19,8 @@ export default class ZombieController {
         this.inputCard = new InputCard();
         this.OutputCard = new OutputCard();
         this.Cards = new Cards();
+
+        this.OutputLogs = new OutputLogs();
 
         this.init();
     }
@@ -77,6 +81,8 @@ export default class ZombieController {
                 this.ZombieGame.benefitA,
                 this.ZombieGame.benefitB
             );
+
+            this.OutputLogs.addLog(`Day ${this.Status.day}: ${this.ZombieGame.selectedCard} 카드를 뽑았습니다.`);
         } catch (error) {
             console.error(error);
         }
@@ -121,7 +127,13 @@ export default class ZombieController {
 
     checkStat() {
         this.Status.day += 1;
-        
+        this.Status.food -= 1;
+        this.Status.infection += 3;
+
+        if(this.Status.food == 0) {
+            this.Status.hp -= 10;
+        }
+
         if (this.Status.hp <= 0) {
             alert('체력이 0이하로 떨어졌습니다. 게임 오버!');
             this.init();
