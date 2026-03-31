@@ -65,7 +65,7 @@ const App={
         this.el.$buttons.btnChoiceA.onclick = () => this.handleChoice('A');
         this.el.$buttons.btnChoiceB.onclick = () => this.handleChoice('B');
 
-        this.el.$buttons.btnGiveup.onclick=()=> this.finishGame("포기: 당신은 스스로 생존을 포기하고 어둠 속으로 사라졌습니다.");
+        this.el.$buttons.btnGiveup.onclick=()=> this.finishGame("포기");
 
         this.el.$buttons.btnRestart.onclick=()=>this.restartGame();
     },
@@ -89,23 +89,26 @@ const App={
     },
 
     changeScreen(type){
-        const { gameScreen, drawArea, cardArea, resultScreen } = this.el.$screens;
-
-        gameScreen.classList.add('hidden');
-        drawArea.classList.add('hidden');
-        cardArea.classList.add('hidden');
-        resultScreen.classList.add('hidden');
+        const { gameScreen, drawArea, cardArea, resultScreen, loading } = this.el.$screens;
 
         if (type === 'result') {
+            gameScreen.classList.add('hidden');
             resultScreen.classList.remove('hidden');
-        }else {
-            gameScreen.classList.remove('hidden');
-            
-            if (type === 'draw') {
-                drawArea.classList.remove('hidden');
-            } else if (type === 'card'){
-                cardArea.classList.remove('hidden');
-            }
+            return;
+        }
+
+        gameScreen.classList.remove('hidden');
+        resultScreen.classList.add('hidden');
+        drawArea.classList.add('hidden');
+        cardArea.classList.add('hidden');
+        loading.classList.add('hidden');
+
+        if (type === 'draw') {
+            drawArea.classList.remove('hidden');
+        } else if (type === 'card') {
+            cardArea.classList.remove('hidden');
+        } else if (type === 'loading') {
+            loading.classList.remove('hidden');
         }
     },
 
@@ -113,6 +116,8 @@ const App={
 
         this.el.$buttons.btnChoiceA.disabled=true;
         this.el.$buttons.btnChoiceB.disabled=true;
+
+        this.changeScreen('loading');
 
         setTimeout(()=>{
             if(this.state.isGameOver)return;
@@ -287,6 +292,7 @@ const App={
             rescuePoints:0,
             deck:[],
             currentCard:null,
+            isGameOver:false,
         };
         this.el.$displays.log.innerHTML = "";
         this.el.$buttons.btnChoiceA.disabled = false;
