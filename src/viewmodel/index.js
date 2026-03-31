@@ -32,7 +32,7 @@ function clickChoiceBtn(choice) {
     document.querySelector('#loading').classList.remove("hidden");
     setTimeout(function () {
         updateStates(choice);
-    },)
+    },2000)
 
 }
 function updateStates(choice) {
