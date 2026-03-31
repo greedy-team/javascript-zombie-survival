@@ -27,12 +27,8 @@ export default class OutputCard {
     }
 
     showChoice(selectedCard, choiceA, choiceB, benefitA, benefitB) {
-        this.drawArea.classList.add('hidden');
-        this.cardArea.classList.remove('hidden');
-
-        this.giveUpBtn.classList.add('hidden');
-        this.logWrapper.classList.add('hidden');
-
+        displayCardArea();
+    
         this.cardName.textContent = selectedCard;
 
         this.choiceKeyA.textContent = choiceA;
@@ -40,5 +36,13 @@ export default class OutputCard {
 
         this.glowAreaA.textContent = benefitA;
         this.glowAreaB.textContent = benefitB;
+    }
+
+    displayCardArea() {
+        this.drawArea.classList.add('hidden');
+        this.cardArea.classList.remove('hidden');
+
+        this.giveUpBtn.classList.add('hidden');
+        this.logWrapper.classList.add('hidden');
     }
 }

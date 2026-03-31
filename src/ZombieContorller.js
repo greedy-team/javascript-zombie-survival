@@ -96,6 +96,7 @@ export default class ZombieController {
 
     //TODO: 이렇게 반복 되는걸 좀 줄일 수 없을까..?
     chooseChoice(choice) {
+        
         if (choice === 'A') {
             this.Status.hp += this.ZombieGame.statA[0];
             this.Status.food += this.ZombieGame.statA[1];
@@ -110,6 +111,33 @@ export default class ZombieController {
             this.Status.rescue += this.ZombieGame.statB[4];
         }
 
-        this.renderStat();
+        checkStat();
+
+        setTimeout(() => {
+            this.renderStat();
+        }, 2000);
     }
+
+    checkStat() {
+        if (this.Status.hp <= 0) {
+            alert('체력이 0이하로 떨어졌습니다. 게임 오버!');
+            this.init();
+        } else if (this.Status.infection >= 100) {
+            alert('감염도가 100이상으로 올라갔습니다. 게임 오버!');
+            this.init();
+        }
+
+        if (this.Status.hp < 0) {
+            this.Status.hp = 0;
+        }
+
+        if (this.Status.food < 0) {
+            this.Status.food = 0;
+        }
+
+        if (this.Status.infection < 0) {
+            this.Status.infection = 0;
+        }
+    }
+
 }
