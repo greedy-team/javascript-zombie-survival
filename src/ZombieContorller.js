@@ -21,7 +21,9 @@ export default class ZombieController {
         this.init();
     }
     
-    // 게임 초기화
+    /**
+     * 게임 초기화
+     */
     init() {
         // 스탯 초기화
         this.Status.initStat();
@@ -34,7 +36,9 @@ export default class ZombieController {
         this.inputView.bindDrawCard(this.drawCard.bind(this));
     }
 
-    // Status의 스택 정보를 OutputStat에 전달하여 화면에 표시
+    /**
+     * Status의 스택 정보를 OutputStat에 전달하여 화면에 표시
+     */
     renderStat() {
         this.OutputStat.showStat(
             this.Status.day,
@@ -46,21 +50,37 @@ export default class ZombieController {
         );
     }
 
-    // Cards의 스택 정보를 OutputCard에 전달하여 화면에 표시
+    /**
+     * Cards의 스택 정보를 OutputCard에 전달하여 화면에 표시
+     */
     renderCardLeft() {
         this.OutputCard.showCardLeft(this.Cards.remainCard);
     }
 
+    /**
+     * 카드 드로우
+     */
     drawCard() {
         try {
             // 카드 드로우 시 Cards의 남은 카드 수 감소
-            this.Cards.remainCard -= 1;
-            this.renderCardLeft();
+            countCards();
 
             // 카드 드로우 시 ZombieGame의 drawCard 메서드 호출
             this.ZombieGame.drawCard();            
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    /**
+     * 카드 드로우 시 Cards의 남은 카드 수 감소
+     */
+    countCards() {
+        this.Cards.remainCard -= 1;
+        this.renderCardLeft();
+
+        if(this.Cards.remainCard <= 1) {
+            this.Cards.remainCard += 20;
         }
     }
 }
