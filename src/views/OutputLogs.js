@@ -8,6 +8,10 @@ export default class InputCard {
         this.log = document.getElementById('log');
     }
 
+    initLog() {
+        this.log.innerHTML = '';
+    }
+
     addLog(message) {
         this.log.innerHTML += `<p>${message}</p>`;
     }
