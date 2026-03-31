@@ -47,12 +47,73 @@ const App={
         healAttempts:0,
         rescuePoints:0,
         deck:[],
+        currentCard:null,
     },
 
     init(){
         this.createDeck();
         this.shuffleDeck();
         this.updateStats();
+        this.bindEvents();
+        this.changeScreen('draw')
+    },
+
+    bindEvents(){
+        this.el.$buttons.btnDraw.onclick = () => this.handleDraw();
+        this.el.$buttons.btnChoiceA.onclick = () => this.handleChoice('A');
+        this.el.$buttons.btnChoiceB.onclick = () => this.handleChoice('B');
+    },
+
+    handleDraw(){
+        const card=this.state.deck.pop();
+        this.state.currentCard=card;
+
+        this.el.$displays.cardName.textContent=card.name;
+        this.el.$displays.cardDescription.textContent="생존을 위한 선택을 내리십시오.";
+
+        this.changeScreen('card');
+        this.updateStats();
+    },
+
+    changeScreen(type){
+        const drawArea=this.el.$screens.drawArea;
+        const cardArea=this.el.$screens.cardArea;
+
+        if(type==='draw'){
+            drawArea.classList.remove('hidden');
+            cardArea.classList.add('hidden');
+        }else if(type==='card'){
+            drawArea.classList.add('hidden');
+            cardArea.classList.remove('hidden');
+        }
+    },
+
+    handleChoice(type){
+        setTimeout(()=>{
+            this.calculateStats(type);
+            this.updateStats();
+            this.changeScreen('draw');
+
+        },2000);
+    },
+
+    calculateStats(type){
+        const card=this.state.currentCard;
+        let effect;
+
+        if(type==='A'){
+            effect=card.actionA;
+        }else if(type==='B'){
+            effect=card.actionB;
+        }
+
+        this.state.hp+=(effect.hp||0);
+        this.state.food+=(effect.food||0);
+        this.state.infection+=(effect.infection||0);
+        this.state.rescuePoints+=(effect.rescuePoints||0);
+
+        this.state.day+=1;
+        this.state.food-=1;
     },
 
     createDeck(){
@@ -63,19 +124,19 @@ const App={
             { name: '🚗 군용 차량 행렬', count: 3, actionA: { rescuePoints: 1, infection: 8 }, actionB: { hp: 5 } },
             { name: '💧 오염된 웅덩이', count: 3, actionA: { hp: 5, infection: 15 }, actionB: { hp: -10 } },
             { name: '🚛 구조 트럭', count: 3, actionA: { hp: -20, rescuePoints: 1 }, actionB: { hp: 10 } },
-        ]
+        ];
 
         for (let i = 0; i < cardTemplates.length; i++) {
-        const template = cardTemplates[i];
+            const template = cardTemplates[i];
 
-        for (let j = 0; j < template.count; j++) {
-            this.state.deck.push({
-                name: template.name,
-                actionA: template.actionA,
-                actionB: template.actionB
-            });
+            for (let j = 0; j < template.count; j++) {
+                this.state.deck.push({
+                    name: template.name,
+                    actionA: template.actionA,
+                    actionB: template.actionB
+                });
+            }
         }
-    }
     },
 
     shuffleDeck(){
