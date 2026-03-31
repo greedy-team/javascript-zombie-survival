@@ -53,6 +53,11 @@ export default class ZombieController {
 
     drawCard() {
         try {
+            // 카드 드로우 시 Cards의 남은 카드 수 감소
+            this.Cards.remainCard -= 1;
+            this.renderCardLeft();
+
+            // 카드 드로우 시 ZombieGame의 drawCard 메서드 호출
             this.ZombieGame.drawCard();            
         } catch (error) {
             console.error(error);
