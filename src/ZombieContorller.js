@@ -72,24 +72,12 @@ export default class ZombieController {
                 this.ZombieGame.selectedCard,
                 this.ZombieGame.choiceA,
                 this.ZombieGame.choiceB,
-                this.ZombieGame.beneiftA,
+                this.ZombieGame.benefitA,
                 this.ZombieGame.benefitB
             );
         } catch (error) {
             console.error(error);
         }
-    }
-
-    renderChoice() {
-        const card = this.ZombieGame.selectedCard;
-        this.OutputCard.showSelectedCard(card);
-
-        const choiceA = this.ZombieGame.choiceA;
-        const choiceB = this.ZombieGame.choiceB;
-        const benefitA = this.ZombieGame.beneiftA;
-        const benefitB = this.ZombieGame.benefitB;
-
-        this.OutputCard.showChoice(choiceA, choiceB);
     }
 
     /**

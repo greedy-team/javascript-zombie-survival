@@ -10,6 +10,8 @@ export default class OutputCard {
         this.cardArea = document.getElementById('card-area');
         this.drawArea = document.getElementById('draw-area');
 
+        this.cardName = document.getElementById('card-name');
+
         this.choiceKeyA = document.querySelector('#btn-choice-a .choice-label');
         this.choiceKeyB = document.querySelector('#btn-choice-b .choice-label');
 
@@ -30,6 +32,8 @@ export default class OutputCard {
 
         this.giveUpBtn.classList.add('hidden');
         this.logWrapper.classList.add('hidden');
+
+        this.cardName.textContent = selectedCard;
 
         this.choiceKeyA.textContent = choiceA;
         this.choiceKeyB.textContent = choiceB;
