@@ -27,7 +27,7 @@ export default class OutputCard {
     }
 
     showChoice(selectedCard, choiceA, choiceB, benefitA, benefitB) {
-        displayCardArea();
+        this.displayCardArea();
     
         this.cardName.textContent = selectedCard;
 
@@ -44,5 +44,15 @@ export default class OutputCard {
 
         this.giveUpBtn.classList.add('hidden');
         this.logWrapper.classList.add('hidden');
+    }
+
+    invaildButton() {
+        this.choiceKeyA.parentElement.disabled = true;
+        this.choiceKeyB.parentElement.disabled = true;
+        
+        setTimeout(() => {
+            this.choiceKeyA.parentElement.disabled = false;
+            this.choiceKeyB.parentElement.disabled = false;
+        }, 2000);
     }
 }
