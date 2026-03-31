@@ -84,15 +84,23 @@ const App={
     },
 
     changeScreen(type){
-        const drawArea=this.el.$screens.drawArea;
-        const cardArea=this.el.$screens.cardArea;
+        const { gameScreen, drawArea, cardArea, resultScreen } = this.el.$screens;
 
-        if(type==='draw'){
-            drawArea.classList.remove('hidden');
-            cardArea.classList.add('hidden');
-        }else if(type==='card'){
-            drawArea.classList.add('hidden');
-            cardArea.classList.remove('hidden');
+        gameScreen.classList.add('hidden');
+        drawArea.classList.add('hidden');
+        cardArea.classList.add('hidden');
+        resultScreen.classList.add('hidden');
+
+        if (type === 'result') {
+            resultScreen.classList.remove('hidden');
+        }else {
+            gameScreen.classList.remove('hidden');
+            
+            if (type === 'draw') {
+                drawArea.classList.remove('hidden');
+            } else if (type === 'card'){
+                cardArea.classList.remove('hidden');
+            }
         }
     },
 
@@ -104,11 +112,17 @@ const App={
         setTimeout(()=>{
             this.calculateStats(type);
             this.updateStats();
-            this.changeScreen('draw');
 
-            this.el.$buttons.btnChoiceA.disabled=false;
-            this.el.$buttons.btnChoiceB.disabled=false;
+            const endingText=this.checkGameOver();
 
+            if(endingText){
+                this.finishGame(endingText);
+            }else{
+                this.changeScreen('draw');
+
+                this.el.$buttons.btnChoiceA.disabled=false;
+                this.el.$buttons.btnChoiceB.disabled=false;
+            }
         },2000);
     },
 
@@ -230,6 +244,29 @@ const App={
 
         this.el.$displays.log.innerHTML = logText + this.el.$displays.log.innerHTML;
     },
+
+    checkGameOver(){
+        const{hp, infection, healAttempts,rescuePoints,day}=this.state;
+
+        if (hp <= 0) return "사망: 결국 체력이 다해 쓰러졌습니다.";
+        if (infection >= 100) return "좀비화: 몸이 차갑게 식어갑니다. 당신은 더 이상 사람이 아닙니다.";
+        if (healAttempts >= 5) return "치료 성공: 끈질긴 노력 끝에 바이러스 억제에 성공했습니다!";
+        if (rescuePoints >= 3 && day > 10) return "구조 성공: 저 멀리 구조 헬기의 소리가 들립니다!";
+        if (day >= 15) return "생존 성공: 15일간의 지옥 같은 시간을 견뎌냈습니다!";
+    
+        return null;
+
+    },
+
+    finishGame(text){
+        this.el.$displays.resultEnding.textContent=text;
+        this.el.$displays.resultDays.textContent = this.state.day;
+        this.el.$displays.resultHp.textContent = this.state.hp;
+        this.el.$displays.resultFood.textContent = this.state.food;
+        this.el.$displays.resultInfection.textContent = this.state.infection;
+
+        this.changeScreen('result');
+    }
 };
 
 App.init();
