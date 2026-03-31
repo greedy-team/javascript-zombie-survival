@@ -52,6 +52,7 @@ const App={
     },
 
     init(){
+        this.el.$displays.log.innerHTML = "";
         this.addLog("좀비 사태가 발생했습니다. 생존을 시작합니다.");
         this.createDeck();
         this.shuffleDeck();
@@ -61,16 +62,16 @@ const App={
     },
 
     bindEvents(){
-        this.el.$buttons.btnDraw.onclick = () => this.handleDraw();
-        this.el.$buttons.btnChoiceA.onclick = () => this.handleChoice('A');
-        this.el.$buttons.btnChoiceB.onclick = () => this.handleChoice('B');
+        this.el.$buttons.btnDraw.onclick = () => this.drawCard();
+        this.el.$buttons.btnChoiceA.onclick = () => this.selectAction('A');
+        this.el.$buttons.btnChoiceB.onclick = () => this.selectAction('B');
 
         this.el.$buttons.btnGiveup.onclick=()=> this.finishGame("포기");
 
         this.el.$buttons.btnRestart.onclick=()=>this.restartGame();
     },
 
-    handleDraw(){
+    drawCard(){
         if(this.state.deck.length===0){
             this.reshuffleDeck();
         }
@@ -112,7 +113,7 @@ const App={
         }
     },
 
-    handleChoice(type){
+    selectAction(type){
 
         this.el.$buttons.btnChoiceA.disabled=true;
         this.el.$buttons.btnChoiceB.disabled=true;
@@ -144,7 +145,7 @@ const App={
         let choiceText;
 
         if(this.state.food<=0) {
-            this.state.hp-=10;
+            this.state.hp = Math.max(0, this.state.hp - 10);
             this.addLog("배고픔 때문에 체력이 추가로 깎였습니다. (-10)");}
         
         if(type==='A') {
@@ -154,11 +155,12 @@ const App={
             effect=card.actionB;
             choiceText=card.textB;}
 
-        this.addLog(`${choiceText}`);
+        this.addLog(choiceText);
 
         this.state.hp=Math.max(0, this.state.hp+(effect.hp||0));
         this.state.food=Math.max(0, this.state.food+(effect.food||0)-1);
-        this.state.infection=Math.max(0, this.state.infection+(effect.infection||0)+3);
+        const passInfection=Math.max(0, this.state.infection+(effect.infection||0));
+        this.state.infection = passInfection + 3;
         this.state.rescuePoints+=(effect.rescuePoints||0);
 
         if (effect.infection < 0) this.state.healAttempts++;
@@ -252,19 +254,21 @@ const App={
     },
 
     addLog(text){
-        const logText = `<div>Day${this.state.day}: ${text}</div><br>`
+        const p = document.createElement('p'); 
+        p.textContent=`Day${this.state.day}: ${text}`;
 
-        this.el.$displays.log.innerHTML = logText + this.el.$displays.log.innerHTML;
+        this.el.$displays.log.appendChild(p);
+
     },
 
     checkGameOver(){
         const{hp, infection, healAttempts,rescuePoints,day}=this.state;
 
-        if (hp <= 0) return "사망: 결국 체력이 다해 쓰러졌습니다.";
-        if (infection >= 100) return "좀비화: 몸이 차갑게 식어갑니다. 당신은 더 이상 사람이 아닙니다.";
-        if (healAttempts >= 5) return "치료 성공: 끈질긴 노력 끝에 바이러스 억제에 성공했습니다!";
-        if (rescuePoints >= 3 && day > 10) return "구조 성공: 저 멀리 구조 헬기의 소리가 들립니다!";
-        if (day >= 15) return "생존 성공: 15일간의 지옥 같은 시간을 견뎌냈습니다!";
+        if (hp <= 0) return "사망";
+        if (infection >= 100) return "좀비화";
+        if (healAttempts >= 5) return "치료 성공";
+        if (rescuePoints >= 3 && day > 10) return "구조 성공";
+        if (day > 15) return "생존 성공";
     
         return null;
 
