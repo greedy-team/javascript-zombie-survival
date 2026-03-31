@@ -140,8 +140,8 @@ const App={
 
         if(this.state.food<=0) {
             this.state.hp-=10;
-            this.addLog("배고픔 때문에 체력이 추가로 깎였습니다. (-10)");
-        }
+            this.addLog("배고픔 때문에 체력이 추가로 깎였습니다. (-10)");}
+        
         if(type==='A') {
             effect=card.actionA;
             choiceText=card.textA;}
@@ -151,14 +151,14 @@ const App={
 
         this.addLog(`${choiceText}`);
 
-        this.state.hp+=(effect.hp||0);
-        this.state.food+=(effect.food||0);
-        this.state.infection+=(effect.infection||0);
+        this.state.hp=Math.max(0, this.state.hp+(effect.hp||0));
+        this.state.food=Math.max(0, this.state.food+(effect.food||0)-1);
+        this.state.infection=Math.max(0, this.state.infection+(effect.infection||0)+3);
         this.state.rescuePoints+=(effect.rescuePoints||0);
 
-        this.state.day+=1;
-        this.state.food-=1;
-        this.state.infection+=3;
+        if (effect.infection < 0) this.state.healAttempts++;
+
+        this.state.day++;
     },
 
     createDeck(){
