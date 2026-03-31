@@ -64,6 +64,9 @@ export default class GameView {
     this.btnGiveup.addEventListener('click', () => {
       this.vm.handleGiveUp();
     });
+    this.btnRestart.addEventListener('click', () => {
+      this.vm.handleRestart();
+    });
   }
 
   render() {
@@ -83,6 +86,8 @@ export default class GameView {
   // - 스탯 실시간 업데이트 (치료 횟수, 구조 포인트 포함)
   // - 카드 뽑기 버튼 재표시, 선택지 영역 숨김
   renderDraw() {
+    this.gameScreen.classList.remove('hidden');
+    this.resultScreen.classList.add('hidden');
     this.loading.classList.add('hidden');
     this.cardArea.classList.add('hidden');
     this.btnChoiceA.disabled = false;

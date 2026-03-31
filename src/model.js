@@ -20,6 +20,10 @@ import {
 
 export default class GameModel {
   constructor() {
+    this.reset();
+  }
+
+  reset() {
     this.hp = INITIAL_HP;
     this.food = INITIAL_FOOD;
     this.infection = INITIAL_INFECTION;

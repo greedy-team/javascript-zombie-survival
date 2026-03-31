@@ -62,4 +62,12 @@ export default class GameViewModel {
     this.state = 'result';
     this.notify();
   }
+
+  handleRestart() {
+    this.model.reset();
+    this.currentCard = null;
+    this.ending = null;
+    this.state = 'draw';
+    this.notify();
+  }
 }
