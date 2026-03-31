@@ -49,7 +49,7 @@ function updateStates(choice) {
         updateLogs(`${key}: ${effect[key]}`);
     }
     checkStates();
-    // if(checkEnding()){return;}
+    // if(checkEnding()){return;} 리턴을 안하면 가끔 테스트 통과가 됩니다..
     checkEnding();
     afterDay();
     showStates(player);
