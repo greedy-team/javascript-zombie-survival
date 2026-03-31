@@ -8,4 +8,6 @@ export default class Cards {
     initCard() {
         this.remainCard = 20;
     }
+
+    
 }

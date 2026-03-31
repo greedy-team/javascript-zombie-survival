@@ -3,6 +3,7 @@ import ZombieGame from './ZombieGame.js';
 import OutputStat from './views/OutputStat.js';
 import Status from './ZombieGame/status.js';
 
+import InputCard from './views/InputCard.js';
 import OutputCard from './views/OutputCard.js';
 import Cards from './ZombieGame/Cards.js';
 
@@ -13,8 +14,9 @@ export default class ZombieController {
         this.OutputStat = new OutputStat();
         this.Status = new Status();
 
-        this.Cards = new Cards();
+        this.inputView = new InputCard();
         this.OutputCard = new OutputCard();
+        this.Cards = new Cards();
 
         this.init();
     }
@@ -28,6 +30,8 @@ export default class ZombieController {
         // 카드 갯수 초기화
         this.Cards.initCard();
         this.renderCardLeft();
+
+        this.inputView.bindDrawCard(this.drawCard.bind(this));
     }
 
     // Status의 스택 정보를 OutputStat에 전달하여 화면에 표시
@@ -45,5 +49,13 @@ export default class ZombieController {
     // Cards의 스택 정보를 OutputCard에 전달하여 화면에 표시
     renderCardLeft() {
         this.OutputCard.showCardLeft(this.Cards.remainCard);
+    }
+
+    drawCard() {
+        try {
+            this.ZombieGame.drawCard();            
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
