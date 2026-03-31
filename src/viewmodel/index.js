@@ -49,11 +49,13 @@ function updateStates(choice) {
         updateLogs(`${key}: ${effect[key]}`);
     }
     checkStates();
-    if(checkEnding()){return;}
+    // if(checkEnding()){return;}
+    checkEnding();
     afterDay();
     showStates(player);
     continueGame();
-    if(checkEnding()){return;}
+    //if(checkEnding()){return;}
+    checkEnding();
 }
 function updateLogs(result) {
     document.querySelector("#log").innerHTML+=`<p>${result}</p>`;
