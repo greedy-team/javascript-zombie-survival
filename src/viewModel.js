@@ -6,6 +6,7 @@ export default class GameViewModel {
     this.currentCard = null;
     this.listeners = [];
     this.state = 'draw'; // "draw", "choosing", "loading", "result"
+    this.ending = null;
   }
 
   // View가 구독
@@ -45,8 +46,20 @@ export default class GameViewModel {
       this.model.applyChoiceEffect(effect);
       this.model.addHealAttempt(this.currentCard, choice);
       this.model.applyDailyCost();
-      this.state = 'draw';
+      const ending = this.model.getEndingType();
+      if (ending) {
+        this.ending = ending;
+        this.state = 'result';
+      } else {
+        this.state = 'draw';
+      }
       this.notify();
     }, RESULT_DELAY_MS);
+  }
+
+  handleGiveUp() {
+    this.ending = '포기';
+    this.state = 'result';
+    this.notify();
   }
 }

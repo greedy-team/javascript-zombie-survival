@@ -10,6 +10,12 @@ import {
   DAILY_INFECTION_INCREASE,
   STARVATION_HP_PENALTY,
   MIN_STAT,
+  DEATH_HP_THRESHOLD,
+  ZOMBIE_INFECTION_THRESHOLD,
+  CURE_HEAL_REQUIRED,
+  RESCUE_POINTS_REQUIRED,
+  RESCUE_DAY_REQUIRED,
+  SURVIVAL_DAY_REQUIRED,
 } from './constants.js';
 
 export default class GameModel {
@@ -80,5 +86,20 @@ export default class GameModel {
     this.hp = Math.max(this.hp, MIN_STAT);
     this.food = Math.max(this.food, MIN_STAT);
     this.infection = Math.max(this.infection, MIN_STAT);
+  }
+
+  getEndingType() {
+    // 실패 엔딩 (성공보다 우선)
+    if (this.hp <= DEATH_HP_THRESHOLD) return '사망';
+    if (this.infection >= ZOMBIE_INFECTION_THRESHOLD) return '좀비화';
+    // 성공 엔딩
+    if (this.healAttempts >= CURE_HEAL_REQUIRED) return '치료 성공';
+    if (
+      this.rescuePoints >= RESCUE_POINTS_REQUIRED &&
+      this.day > RESCUE_DAY_REQUIRED
+    )
+      return '구조 성공';
+    if (this.day > SURVIVAL_DAY_REQUIRED) return '생존 성공';
+    return null;
   }
 }

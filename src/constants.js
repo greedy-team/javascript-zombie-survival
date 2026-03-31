@@ -18,7 +18,7 @@ export const MIN_STAT = 0;
 export const DEATH_HP_THRESHOLD = 0; // 체력 <= 0 사망
 export const ZOMBIE_INFECTION_THRESHOLD = 100; // 감염도 >= 100 좀비화
 export const CURE_HEAL_REQUIRED = 5; // 치료 선택 5회 누적 시 치료 성공
-export const RESCUE_POINTS_REQUIRED = 3; // 구조 포인트 >= 3 + Day > 10 시 구조 성공
+export const RESCUE_POINTS_REQUIRED = 3; // 구조 포인트 >= 3 and Day > 10 시 구조 성공
 export const RESCUE_DAY_REQUIRED = 10; // 구조 성공 조건: Day > 10
 export const SURVIVAL_DAY_REQUIRED = 15; // Day > 15 시 생존 성공
 

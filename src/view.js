@@ -61,6 +61,9 @@ export default class GameView {
     this.btnChoiceB.addEventListener('click', () => {
       this.vm.handleChoice('B');
     });
+    this.btnGiveup.addEventListener('click', () => {
+      this.vm.handleGiveUp();
+    });
   }
 
   render() {
@@ -116,6 +119,7 @@ export default class GameView {
   renderResult() {
     this.gameScreen.classList.add('hidden');
     this.resultScreen.classList.remove('hidden');
+    this.resultEnding.textContent = this.vm.ending;
     this.resultDays.textContent = this.vm.model.day;
     this.resultHp.textContent = this.vm.model.hp;
     this.resultFood.textContent = this.vm.model.food;
