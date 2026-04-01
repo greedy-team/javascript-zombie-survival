@@ -132,19 +132,19 @@ export default class GameView {
     this.gameScreen.classList.add('hidden');
     this.resultScreen.classList.remove('hidden');
     this.resultEnding.textContent = this.vm.ending;
-    this.resultDays.textContent = this.vm.model.day;
-    this.resultHp.textContent = this.vm.model.hp;
-    this.resultFood.textContent = this.vm.model.food;
-    this.resultInfection.textContent = this.vm.model.infection;
+    this.resultDays.textContent = this.vm.stats.day;
+    this.resultHp.textContent = this.vm.stats.hp;
+    this.resultFood.textContent = this.vm.stats.food;
+    this.resultInfection.textContent = this.vm.stats.infection;
   }
 
   updateStats() {
-    this.day.textContent = this.vm.model.day;
-    this.hp.textContent = this.vm.model.hp;
-    this.food.textContent = this.vm.model.food;
-    this.infection.textContent = this.vm.model.infection;
-    this.healAttempts.textContent = this.vm.model.healAttempts;
-    this.rescuePoints.textContent = this.vm.model.rescuePoints;
+    this.day.textContent = this.vm.stats.day;
+    this.hp.textContent = this.vm.stats.hp;
+    this.food.textContent = this.vm.stats.food;
+    this.infection.textContent = this.vm.stats.infection;
+    this.healAttempts.textContent = this.vm.stats.healAttempts;
+    this.rescuePoints.textContent = this.vm.stats.rescuePoints;
   }
 
   updateCard(viewData) {

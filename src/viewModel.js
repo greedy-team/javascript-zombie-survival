@@ -20,7 +20,17 @@ export default class GameViewModel {
     this.listeners.forEach((callback) => callback());
   }
 
-  // get — 값을 읽을 때 실행. 프로퍼티처럼 접근 가능
+  get stats() {
+    return {
+      day: this.model.day,
+      hp: this.model.hp,
+      food: this.model.food,
+      infection: this.model.infection,
+      healAttempts: this.model.healAttempts,
+      rescuePoints: this.model.rescuePoints,
+    };
+  }
+
   get deckRemaining() {
     return this.model.deck.length;
   }
