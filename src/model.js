@@ -72,11 +72,13 @@ export default class GameModel {
   applyDailyCost() {
     this.food -= DAILY_FOOD_COST;
     this.infection += DAILY_INFECTION_INCREASE;
-    if (this.food < MIN_STAT) {
+    const isStarving = this.food < MIN_STAT;
+    if (isStarving) {
       this.hp -= STARVATION_HP_PENALTY;
     }
     this.clampStats();
     this.day += 1;
+    return isStarving;
   }
 
   // 치료 선택 누적 횟수 증가 (치료 카드 선택 시)

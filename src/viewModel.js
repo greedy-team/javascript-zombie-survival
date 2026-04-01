@@ -44,8 +44,7 @@ export default class GameViewModel {
     setTimeout(() => {
       this.model.applyChoiceEffect(effect);
       this.model.addHealAttempt(this.currentCard, choice);
-      const isStarving = this.model.food <= 0;
-      this.model.applyDailyCost();
+      const isStarving = this.model.applyDailyCost();
       this.addLog(`[Day ${this.model.day - 1}] ${this.currentCard.name}`);
       this.addLog(`선택: ${label}`);
       if (isStarving) {
