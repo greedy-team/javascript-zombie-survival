@@ -1,4 +1,4 @@
-import { EFFECT_LABEL } from './constants.js';
+import { EFFECT_LABEL, GAME_STATE } from './constants.js';
 
 export default class GameView {
   constructor(viewModel) {
@@ -70,13 +70,13 @@ export default class GameView {
   }
 
   render() {
-    if (this.vm.state === 'draw') {
+    if (this.vm.state === GAME_STATE.DRAW) {
       this.renderDraw();
-    } else if (this.vm.state === 'choosing') {
+    } else if (this.vm.state === GAME_STATE.CHOOSING) {
       this.renderChoosing();
-    } else if (this.vm.state === 'loading') {
+    } else if (this.vm.state === GAME_STATE.LOADING) {
       this.renderLoading();
-    } else if (this.vm.state === 'result') {
+    } else if (this.vm.state === GAME_STATE.RESULT) {
       this.renderResult();
     }
   }

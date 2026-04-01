@@ -1,11 +1,11 @@
-import { RESULT_DELAY_MS } from './constants.js';
+import { RESULT_DELAY_MS, GAME_STATE } from './constants.js';
 
 export default class GameViewModel {
   constructor(model) {
     this.model = model;
     this.currentCard = null;
     this.listeners = [];
-    this.state = 'draw'; // "draw", "choosing", "loading", "result"
+    this.state = GAME_STATE.DRAW;
     this.ending = null;
     this.log = [];
   }
@@ -28,14 +28,14 @@ export default class GameViewModel {
   handleDrawCard() {
     this.currentCard = this.model.drawCard();
     // 카드 뽑은 후 선택 단계로 이동
-    this.state = 'choosing';
+    this.state = GAME_STATE.CHOOSING;
     this.notify();
   }
 
   handleChoice(choice) {
     const selected =
       choice === 'A' ? this.currentCard.choiceA : this.currentCard.choiceB;
-    this.state = 'loading';
+    this.state = GAME_STATE.LOADING;
     this.notify();
     this.applyEffectAfterChoice(selected.effect, selected.label, choice);
   }
@@ -54,9 +54,9 @@ export default class GameViewModel {
       const ending = this.model.getEndingType();
       if (ending) {
         this.ending = ending;
-        this.state = 'result';
+        this.state = GAME_STATE.RESULT;
       } else {
-        this.state = 'draw';
+        this.state = GAME_STATE.DRAW;
       }
       this.notify();
     }, RESULT_DELAY_MS);
@@ -64,7 +64,7 @@ export default class GameViewModel {
 
   handleGiveUp() {
     this.ending = '포기';
-    this.state = 'result';
+    this.state = GAME_STATE.RESULT;
     this.notify();
   }
 
@@ -73,7 +73,7 @@ export default class GameViewModel {
     this.currentCard = null;
     this.ending = null;
     this.log = [];
-    this.state = 'draw';
+    this.state = GAME_STATE.DRAW;
     this.notify();
   }
 
