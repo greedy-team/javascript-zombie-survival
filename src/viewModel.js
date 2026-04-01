@@ -62,12 +62,14 @@ export default class GameViewModel {
   }
 
   handleGiveUp() {
+    if (this.state === GAME_STATE.LOADING) return;
     this.ending = '포기';
     this.state = GAME_STATE.RESULT;
     this.notify();
   }
 
   handleRestart() {
+    if (this.state === GAME_STATE.LOADING) return;
     this.model.reset();
     this.currentCard = null;
     this.ending = null;
