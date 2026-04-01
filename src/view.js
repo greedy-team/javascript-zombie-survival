@@ -183,10 +183,10 @@ export default class GameView {
   }
 
   hideDrawButton() {
-    this.btnDraw.style.display = 'none';
+    this.btnDraw.classList.add('hidden');
   }
 
   showDrawButton() {
-    this.btnDraw.style.display = 'block';
+    this.btnDraw.classList.remove('hidden');
   }
 }
