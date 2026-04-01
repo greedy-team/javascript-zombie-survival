@@ -6,6 +6,7 @@ export default class GameView {
     this.initElements();
     this.bindEvents();
     this.vm.subscribe(() => this.render());
+    this.render();
   }
 
   initElements() {
