@@ -1,4 +1,4 @@
-export const state = {
+const state = {
     hp: 100,
     food: 3,
     infection: 10,
@@ -144,5 +144,22 @@ export const model={
         state.deck = [];
         state.currentCard = null;
         state.isGameOver = false;
+    },
+
+    drawCardDeck(){
+        if(state.deck.length===0){
+            this.createDeck();
+            this.shuffleDeck();
+        }
+        state.currentCard=state.deck.pop();
+        return state.currentCard;
+    },
+
+    getState(){
+        return {...state};
+    },
+
+    setGameOver(status) {
+        state.isGameOver = status;
     },
 }

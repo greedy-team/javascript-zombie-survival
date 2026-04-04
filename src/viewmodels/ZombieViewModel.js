@@ -1,4 +1,4 @@
-import { model,state } from '../models/ZombieModel.js';
+import { model } from '../models/ZombieModel.js';
 
 export const viewModel = {
     
@@ -8,24 +8,21 @@ export const viewModel = {
     onGameOver: null,
 
     init() {
-        if (this.onLogAdd) this.onLogAdd(state.day, "좀비 사태 발생! 생존하십시오.");
+        const currentState=model.getState();
+        if (this.onLogAdd) this.onLogAdd(currentState.day, "좀비 사태 발생! 생존하십시오.");
         model.createDeck();
         model.shuffleDeck();
-        if (this.onStatsChange) this.onStatsChange(state);
+        if (this.onStatsChange) this.onStatsChange(currentState);
         if (this.onScreenChange) this.onScreenChange('draw');
     }, 
 
     drawCard(){
-        if(state.deck.length===0){
-            model.createDeck();
-            model.shuffleDeck();
-        }
 
-        const card=state.deck.pop();
-        state.currentCard=card;
+        const card=model.drawCardDeck();
+        const currentState=model.getState();
 
-        if (this.onScreenChange) this.onScreenChange('card', state.currentCard);
-        if (this.onStatsChange) this.onStatsChange(state);
+        if (this.onScreenChange) this.onScreenChange('card', card);
+        if (this.onStatsChange) this.onStatsChange(currentState);
 
     },
 
@@ -34,18 +31,21 @@ export const viewModel = {
         if (this.onScreenChange) this.onScreenChange('loading');
 
         setTimeout(()=>{
-            if(state.isGameOver)return;
-            const results = model.calculateStats(type);
+            const currentState=model.getState();
+            if(currentState.isGameOver)return;
 
-            if (results.hungryLog && this.onLogAdd) this.onLogAdd(state.day - 1, results.hungryLog);
-            if (this.onLogAdd) this.onLogAdd(state.day - 1, results.choiceText);
-            if (this.onStatsChange) this.onStatsChange(state);
+            const results = model.calculateStats(type);
+            const updatedState=model.getState();
+
+            if (results.hungryLog && this.onLogAdd) this.onLogAdd(updatedState.day - 1, results.hungryLog);
+            if (this.onLogAdd) this.onLogAdd(updatedState.day - 1, results.choiceText);
+            if (this.onStatsChange) this.onStatsChange(currentState);
 
             const endingText=model.checkGameOver();
 
             if(endingText){
-                state.isGameOver = true;
-                if (this.onGameOver) this.onGameOver(state, endingText);
+                updatedState.isGameOver = true;
+                if (this.onGameOver) this.onGameOver(currentState, endingText);
             }else{
                 if (this.onScreenChange) this.onScreenChange('draw');
             }
@@ -53,8 +53,9 @@ export const viewModel = {
     },
 
     surrender() {
-        state.isGameOver = true;
-        if (this.onGameOver) this.onGameOver(state, "중도 포기하셨습니다.");
+        model.setGameOver(true);
+        const currentState=model.getState();
+        if (this.onGameOver) this.onGameOver(currentState, "중도 포기하셨습니다.");
     },
 
     restartGame(){
