@@ -27,29 +27,43 @@ export const viewModel = {
     },
 
     selectAction(type){
-
-        if (this.onScreenChange) this.onScreenChange('loading');
+        
+        this.startTurn();
 
         setTimeout(()=>{
-            const currentState=model.getState();
-            if(currentState.isGameOver)return;
+            const state=model.getState();
+            if(state.isGameOver)return;
 
-            const results = model.calculateStats(type);
-            const updatedState=model.getState();
+            const updateState = this.processTurnResult(type);
+            this.finalizeTurn(updateState);
 
-            if (results.hungryLog && this.onLogAdd) this.onLogAdd(updatedState.day - 1, results.hungryLog);
-            if (this.onLogAdd) this.onLogAdd(updatedState.day - 1, results.choiceText);
-            if (this.onStatsChange) this.onStatsChange(currentState);
-
-            const endingText=model.checkGameOver();
-
-            if(endingText){
-                updatedState.isGameOver = true;
-                if (this.onGameOver) this.onGameOver(currentState, endingText);
-            }else{
-                if (this.onScreenChange) this.onScreenChange('draw');
-            }
         },2000);
+    },
+
+    startTurn(){
+        if (this.onScreenChange) this.onScreenChange('loading');
+    },
+    
+    processTurnResult(type){
+        const results = model.calculateStats(type);
+        const state = model.getState();
+
+        if (results.hungryLog && this.onLogAdd) this.onLogAdd(state.day - 1, results.hungryLog);
+        if (this.onLogAdd) this.onLogAdd(state.day - 1, results.choiceText);
+        if (this.onStatsChange) this.onStatsChange(state);
+
+        return state;
+    },
+
+    finalizeTurn(state){
+        const endingText=model.checkGameOver();
+
+        if(endingText){
+            model.setGameOver(true);
+            if (this.onGameOver) this.onGameOver(model.getState(), endingText);
+        }else{
+            if (this.onScreenChange) this.onScreenChange('draw');
+        }
     },
 
     surrender() {
