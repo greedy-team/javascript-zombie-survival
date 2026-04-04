@@ -133,4 +133,16 @@ export const model={
 
         return null;
     },
+
+    resetState() {
+        state.hp = 100;
+        state.food = 3;
+        state.infection = 10;
+        state.day = 1;
+        state.healAttempts = 0;
+        state.rescuePoints = 0;
+        state.deck = [];
+        state.currentCard = null;
+        state.isGameOver = false;
+    },
 }

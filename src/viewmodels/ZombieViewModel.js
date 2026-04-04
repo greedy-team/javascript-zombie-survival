@@ -55,5 +55,10 @@ export const viewModel = {
     surrender() {
         state.isGameOver = true;
         if (this.onGameOver) this.onGameOver(state, "중도 포기하셨습니다.");
-    }
-}
+    },
+
+    restartGame(){
+        model.resetState();
+        this.init();
+    },
+};

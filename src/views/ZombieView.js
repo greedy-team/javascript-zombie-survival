@@ -97,6 +97,10 @@ export const renderEnding=(state,text)=> {
     changeScreen('result');
 }
 
+const clearLog=()=>{
+    el.$displays.log.innerHTML='';
+}
+
 viewModel.onStatsChange = updateStats;
 viewModel.onLogAdd = addLog;
 viewModel.onScreenChange = changeScreen;
@@ -105,5 +109,8 @@ viewModel.onGameOver = renderEnding;
 el.$buttons.btnDraw.onclick = () => viewModel.drawCard();
 el.$buttons.btnChoiceA.onclick = () => viewModel.selectAction('A');
 el.$buttons.btnChoiceB.onclick = () => viewModel.selectAction('B');
-el.$buttons.btnRestart.onclick = () => window.location.reload();
 el.$buttons.btnGiveup.onclick = () => viewModel.surrender();
+el.$buttons.btnRestart.onclick = () => {
+    clearLog();
+    viewModel.restartGame();
+};
