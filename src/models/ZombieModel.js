@@ -73,16 +73,31 @@ export const model={
         }
     },
 
+    updateHungerPenalty(){
+        if(state.food<=0) {
+            state.hp = Math.max(0, state.hp - 10);
+            return "배고픔 때문에 체력이 추가로 깎였습니다. (-10)";}
+        return "";
+    },
+
+    updateSurvivalStats(effect){
+        state.hp=Math.max(0, state.hp+(effect.hp||0));
+        state.food=Math.max(0, state.food+(effect.food||0)-1);
+        const passInfection=Math.max(0, state.infection+(effect.infection||0));
+        state.infection = passInfection + 3;
+    },
+    
+    updateGoalProgress(effect){
+        state.rescuePoints+=(effect.rescuePoints||0);
+
+        if (effect.infection < 0) state.healAttempts++;
+    },
+
     calculateStats(type){
         const card=state.currentCard;
         let effect;
         let choiceText;
-        let hungryLog = "";
 
-        if(state.food<=0) {
-            state.hp = Math.max(0, state.hp - 10);
-            hungryLog="배고픔 때문에 체력이 추가로 깎였습니다. (-10)";}
-        
         if(type==='A') {
             effect=card.actionA;
             choiceText=card.textA;}
@@ -90,13 +105,10 @@ export const model={
             effect=card.actionB;
             choiceText=card.textB;}
 
-        state.hp=Math.max(0, state.hp+(effect.hp||0));
-        state.food=Math.max(0, state.food+(effect.food||0)-1);
-        const passInfection=Math.max(0, state.infection+(effect.infection||0));
-        state.infection = passInfection + 3;
-        state.rescuePoints+=(effect.rescuePoints||0);
+        const hungryLog =this.updateHungerPenalty();
+        this.updateSurvivalStats(effect);
+        this.updateGoalProgress(effect);
 
-        if (effect.infection < 0) state.healAttempts++;
         state.day++;
 
         return {choiceText,hungryLog};
