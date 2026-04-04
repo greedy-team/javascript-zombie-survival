@@ -105,7 +105,5 @@ viewModel.onGameOver = renderEnding;
 el.$buttons.btnDraw.onclick = () => viewModel.drawCard();
 el.$buttons.btnChoiceA.onclick = () => viewModel.selectAction('A');
 el.$buttons.btnChoiceB.onclick = () => viewModel.selectAction('B');
-
 el.$buttons.btnRestart.onclick = () => window.location.reload();
-
-viewModel.init();
+el.$buttons.btnGiveup.onclick = () => viewModel.surrender();

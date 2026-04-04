@@ -51,4 +51,9 @@ export const viewModel = {
             }
         },2000);
     },
+
+    surrender() {
+        state.isGameOver = true;
+        if (this.onGameOver) this.onGameOver(state, "중도 포기하셨습니다.");
+    }
 }
