@@ -1,7 +1,7 @@
 import ZombieGame from './ZombieGame.js';
 
 import OutputStat from './views/OutputStat.js';
-import Status from './ZombieGame/status.js';
+import Status from './ZombieGame/Status.js';
 
 import InputCard from './views/InputCard.js';
 import OutputCard from './views/OutputCard.js';
