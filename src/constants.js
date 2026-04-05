@@ -41,6 +41,26 @@ export const EFFECT_LABEL = {
   rescue: '구조 포인트',
 };
 
+// 효과 포맷팅 (음수는 그대로, 양수는 +붙이기)
+export function formatEffect(effect) {
+  const parts = [];
+  if (effect.hp)
+    parts.push(`${EFFECT_LABEL.hp} ${effect.hp > 0 ? '+' : ''}${effect.hp}`);
+  if (effect.food)
+    parts.push(
+      `${EFFECT_LABEL.food} ${effect.food > 0 ? '+' : ''}${effect.food}`,
+    );
+  if (effect.infection)
+    parts.push(
+      `${EFFECT_LABEL.infection} ${effect.infection > 0 ? '+' : ''}${effect.infection}`,
+    );
+  if (effect.rescue)
+    parts.push(
+      `${EFFECT_LABEL.rescue} ${effect.rescue > 0 ? '+' : ''}${effect.rescue}`,
+    );
+  return parts.join(', ');
+}
+
 // 카드 데이터
 export const CARD_DATA = [
   {

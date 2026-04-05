@@ -1,4 +1,4 @@
-import { RESULT_DELAY_MS, GAME_STATE } from './constants.js';
+import { RESULT_DELAY_MS, GAME_STATE, formatEffect } from './constants.js';
 
 export default class GameViewModel {
   constructor(model) {
@@ -7,7 +7,7 @@ export default class GameViewModel {
     this.listeners = [];
     this.state = GAME_STATE.DRAW;
     this.ending = null;
-    this.log = [];
+    this.log = ['게임이 시작되었습니다.'];
   }
 
   // View가 구독
@@ -51,12 +51,14 @@ export default class GameViewModel {
   }
 
   applyEffectAfterChoice(effect, label, choice) {
-    setTimeout(() => {
+    this.pendingTimer = setTimeout(() => {
+      this.pendingTimer = null;
       this.model.applyChoiceEffect(effect);
       this.model.addHealAttempt(this.currentCard, choice);
       const isStarving = this.model.applyDailyCost();
       this.addLog(`[Day ${this.model.day - 1}] ${this.currentCard.name}`);
       this.addLog(`선택: ${label}`);
+      this.addLog(`효과: ${formatEffect(effect)}`);
       if (isStarving) {
         this.addLog('식량이 없어 체력이 감소합니다.');
       }
@@ -71,19 +73,26 @@ export default class GameViewModel {
     }, RESULT_DELAY_MS);
   }
 
+  clearPendingTimer() {
+    if (this.pendingTimer) {
+      clearTimeout(this.pendingTimer);
+      this.pendingTimer = null;
+    }
+  }
+
   handleGiveUp() {
-    if (this.state === GAME_STATE.LOADING) return;
+    this.clearPendingTimer();
     this.ending = '포기';
     this.state = GAME_STATE.RESULT;
     this.notify();
   }
 
   handleRestart() {
-    if (this.state === GAME_STATE.LOADING) return;
+    this.clearPendingTimer();
     this.model.reset();
     this.currentCard = null;
     this.ending = null;
-    this.log = [];
+    this.log = ['게임이 시작되었습니다.'];
     this.state = GAME_STATE.DRAW;
     this.notify();
   }

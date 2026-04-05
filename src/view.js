@@ -1,4 +1,4 @@
-import { EFFECT_LABEL, GAME_STATE } from './constants.js';
+import { GAME_STATE, formatEffect } from './constants.js';
 
 export default class GameView {
   constructor(viewModel) {
@@ -99,7 +99,7 @@ export default class GameView {
     this.cardArea.classList.add('hidden');
     this.btnChoiceA.disabled = false;
     this.btnChoiceB.disabled = false;
-    this.showDrawButton();
+    this.btnDraw.classList.remove('hidden');
     this.updateStats();
     this.deckRemaining.textContent = this.vm.deckRemaining;
     this.renderLog();
@@ -111,7 +111,7 @@ export default class GameView {
   // - 카드 이름, 설명, 선택지 A/B 표시
   // - 카드 뽑기 버튼 숨김, 선택지 영역 표시
   renderChoosing() {
-    this.hideDrawButton();
+    this.btnDraw.classList.add('hidden');
     this.updateCard(this.vm.currentCard);
     this.cardArea.classList.remove('hidden');
     this.deckRemaining.textContent = this.vm.deckRemaining;
@@ -154,40 +154,8 @@ export default class GameView {
     this.cardDescription.textContent = viewData.description;
     this.choiceLabelA.textContent = viewData.choiceA.label;
     // 카드의 선택 정보
-    this.choiceDescA.textContent = GameView.formatEffect(
-      viewData.choiceA.effect,
-    );
+    this.choiceDescA.textContent = formatEffect(viewData.choiceA.effect);
     this.choiceLabelB.textContent = viewData.choiceB.label;
-    this.choiceDescB.textContent = GameView.formatEffect(
-      viewData.choiceB.effect,
-    );
-  }
-
-  // 음수는 문자 그대로, 양수는 앞에 + 붙이기
-  static formatEffect(effect) {
-    const parts = [];
-    if (effect.hp)
-      parts.push(`${EFFECT_LABEL.hp} ${effect.hp > 0 ? '+' : ''}${effect.hp}`);
-    if (effect.food)
-      parts.push(
-        `${EFFECT_LABEL.food} ${effect.food > 0 ? '+' : ''}${effect.food}`,
-      );
-    if (effect.infection)
-      parts.push(
-        `${EFFECT_LABEL.infection} ${effect.infection > 0 ? '+' : ''}${effect.infection}`,
-      );
-    if (effect.rescue)
-      parts.push(
-        `${EFFECT_LABEL.rescue} ${effect.rescue > 0 ? '+' : ''}${effect.rescue}`,
-      );
-    return parts.join(', ');
-  }
-
-  hideDrawButton() {
-    this.btnDraw.classList.add('hidden');
-  }
-
-  showDrawButton() {
-    this.btnDraw.classList.remove('hidden');
+    this.choiceDescB.textContent = formatEffect(viewData.choiceB.effect);
   }
 }
