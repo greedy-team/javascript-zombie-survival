@@ -12,15 +12,19 @@ export default class Cards {
     }
 
     drawNewCard() {
-        if(this.remainCard === 0) {
+        if (this.deck.length === 0) {
             this.initCard();  // 덱 리셋
         }
-        
-        const randomIndex = Math.floor(Math.random() * this.deck.length);
-        const drawnCard = this.deck[randomIndex];
-        this.deck.splice(randomIndex, 1);  // 뽑은 카드 제거
+
+        // Math.random() 경계값(1)에 대한 방어 처리
+        const randomIndex = Math.min(
+            Math.floor(Math.random() * this.deck.length),
+            this.deck.length - 1,
+        );
+
+        const [drawnCard] = this.deck.splice(randomIndex, 1);  // Remove and return in one step
         this.remainCard = this.deck.length;
-        
+
         return drawnCard;
     }
 }

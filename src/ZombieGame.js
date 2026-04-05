@@ -7,6 +7,10 @@
  */
 export default class ZombieGame {
     constructor() {
+        this.resetCardState();
+    }
+
+    resetCardState() {
         this.selectedCard = null;
         this.choiceA = null;
         this.benefitA = null;
@@ -22,6 +26,8 @@ export default class ZombieGame {
      * 배열 인덱스: [체력, 식량, 감염도, 치료, 구조 포인트]
      */
     drawCard(cardNumber) {
+        this.resetCardState();
+
         switch (cardNumber) {
             // 1~4가 나왔을 경우
             case 1:
@@ -105,8 +111,7 @@ export default class ZombieGame {
 
             // 난수 에러에 대한 예방조치
             default:
-                console.log("error: 잘못된 카드 번호");
-                console.log(cardNumber);
+                throw new Error(`error: 잘못된 카드 번호 (${cardNumber})`);
         }
     }
 }
