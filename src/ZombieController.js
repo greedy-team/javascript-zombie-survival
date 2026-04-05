@@ -179,10 +179,6 @@ export default class ZombieController {
      * Status의 체력, 식량, 감염도 값이 음수로 내려가지 않도록 보정
      */
     normalizeStatus() {
-        if (this.Status.getHp() < 0) {
-            this.Status.setHp(0);
-        }
-
         if (this.Status.getFood() < 0) {
             this.Status.setFood(0);
         }
