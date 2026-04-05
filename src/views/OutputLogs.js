@@ -28,6 +28,8 @@ export default class OutputLogs {
      * @param {*} message 추가될 로그 메시지
      */
     addLog(message) {
-        this.log.innerHTML += `<p>${message}</p>`;
+        const p = document.createElement('p');
+        p.textContent = message;
+        this.log.appendChild(p);
     }
 }
