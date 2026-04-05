@@ -9,6 +9,13 @@ import Cards from './ZombieGame/Cards.js';
 
 import OutputLogs from './views/OutputLogs.js';
 
+/**
+ * @breif 게임 컨트롤러 클래스
+ * 
+ * 게임의 전반적인 흐름과 상태 관리를 담당
+ * 사용자의 입력을 받아 게임 상태를 업데이트하고, 그 결과를 화면에 표시하는 역할을 수행
+ * 게임 초기화, 카드 드로우, 선택 처리, 게임 종료 등의 주요 기능을 포함
+ */
 export default class ZombieController {
     constructor() {
         this.ZombieGame = new ZombieGame();
@@ -37,6 +44,7 @@ export default class ZombieController {
         this.Cards.initCard();
         this.renderCardLeft();
 
+        // 버튼에 이벤트 핸들러 바인딩
         this.inputCard.bindDrawCard(this.drawCard.bind(this));
         this.inputCard.bindRestart(this.restart.bind(this));
         this.inputCard.bindGiveUp(this.giveUp.bind(this));
@@ -73,9 +81,10 @@ export default class ZombieController {
             // 카드 드로우 시 Cards의 남은 카드 수 감소
             this.countCards();
 
-            // 카드 드로우 시 ZombieGame의 drawCard 메서드 호출
+            // 카드 정보 업데이트
             this.ZombieGame.drawCard();   
             
+            // 카드 정보 출력
             this.OutputCard.showChoice(
                 this.ZombieGame.selectedCard,
                 this.ZombieGame.choiceA,
@@ -84,7 +93,9 @@ export default class ZombieController {
                 this.ZombieGame.benefitB
             );
 
-            this.OutputLogs.addLog(`Day ${this.Status.day}: ${this.ZombieGame.selectedCard} 카드를 뽑았습니다.`);
+            // 로그 출력
+            const logMessage = `Day ${this.Status.day}: ${this.ZombieGame.selectedCard} 카드를 뽑았습니다.`;
+            this.OutputLogs.addLog(logMessage);
         } catch (error) {
             console.error(error);
         }
@@ -97,46 +108,56 @@ export default class ZombieController {
         this.Cards.remainCard -= 1;
         this.renderCardLeft();
 
+        // 카드가 모두 소진되면 초기화
         if(this.Cards.remainCard === 0) {
             this.Cards.remainCard = 20;
         }
     }
 
-    //TODO: 이렇게 반복 되는걸 좀 줄일 수 없을까..?
+    /**
+     * 사용자의 선택에 따라 Status 업데이트
+     * 
+     * @param {*} choice 사용자의 선택 (A 또는 B)
+     */
     chooseChoice(choice) {
-        
         if (choice === 'A') {
+            // Status 업데이트
             this.Status.hp += this.ZombieGame.statA[0];
             this.Status.food += this.ZombieGame.statA[1];
             this.Status.infection += this.ZombieGame.statA[2];
             this.Status.heal += this.ZombieGame.statA[3];
+            this.Status.rescue += this.ZombieGame.statA[4];
 
+            // 치료 선택 시 치료 횟수 증가
             if (this.ZombieGame.statA[3] > 0) {
                 this.Status.healSelected += 1;
             }
-
-            this.Status.rescue += this.ZombieGame.statA[4];
         } else if (choice === 'B') {
+            // Status 업데이트
             this.Status.hp += this.ZombieGame.statB[0];
             this.Status.food += this.ZombieGame.statB[1];
             this.Status.infection += this.ZombieGame.statB[2];
             this.Status.heal += this.ZombieGame.statB[3];
+            this.Status.rescue += this.ZombieGame.statB[4];
 
+            // 치료 선택 시 치료 횟수 증가
             if (this.ZombieGame.statB[3] > 0) {
                 this.Status.healSelected += 1;
             }
-
-            this.Status.rescue += this.ZombieGame.statB[4];
         }
 
         this.checkStat();
         this.OutputCard.invaildButton();
 
+        // 선택 결과 출력
         setTimeout(() => {
             this.renderStat();
         }, 2000);
     }
 
+    /**
+     * 게임 종료 조건 체크
+     */
     checkStat() {
         this.Status.day += 1;
         this.Status.food -= 1;
@@ -172,6 +193,9 @@ export default class ZombieController {
         }
     }
 
+    /**
+     * 게임 재시작
+     */
     restart() {
         this.Status.initStat();
         this.Cards.initCard();
@@ -183,6 +207,9 @@ export default class ZombieController {
         this.OutputCard.resultScreen.classList.add('hidden');
     }
 
+    /**
+     * 게임 포기
+     */
     giveUp() {
         this.OutputCard.endGame("포기", this.Status);
     }

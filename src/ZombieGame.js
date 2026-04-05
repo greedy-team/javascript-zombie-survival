@@ -1,6 +1,13 @@
 import RandomNumber from './utils/RandomNumber.js';
 import Card from './ZombieGame/Cards.js';
 
+/**
+ * @breif 게임 클래스
+ * 
+ * 카드 드로우와 선택에 따른 결과 계산을 담당
+ * 카드 번호에 따라 선택지와 그에 따른 효과를 설정하는 역할을 수행
+ * 게임의 핵심 로직이 담긴 클래스이며, ZombieController에서 사용됨
+ */
 export default class ZombieGame {
     constructor() {
         this.Card = new Card();
@@ -13,6 +20,11 @@ export default class ZombieGame {
         this.statB = null;
     }
 
+    /**
+     * 카드 드로우 및 선택지 설정
+     * 
+     * 배열 인덱스: [체력, 식량, 감염도, 치료, 구조 포인트]
+     */
     drawCard() {
         const cardNumber = RandomNumber();
 
