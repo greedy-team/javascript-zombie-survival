@@ -94,7 +94,7 @@ export default class OutputCard {
     /**
      * 선택지 버튼 비활성화 및 카드 영역 초기화
      */
-    invaildButton() {
+    invalidButton() {
         // 게임이 종료된 경우 버튼 비활성화 및 카드 영역 초기화 방지
         if (this.isGameOver) {
             return;

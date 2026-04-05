@@ -120,34 +120,16 @@ export default class ZombieController {
      * @param {*} choice 사용자의 선택 (A 또는 B)
      */
     chooseChoice(choice) {
-        if (choice === 'A') {
-            // Status 업데이트
-            this.Status.hp += this.ZombieGame.statA[0];
-            this.Status.food += this.ZombieGame.statA[1];
-            this.Status.infection += this.ZombieGame.statA[2];
-            this.Status.heal += this.ZombieGame.statA[3];
-            this.Status.rescue += this.ZombieGame.statA[4];
+        const stat = choice === 'A' ? this.ZombieGame.statA : this.ZombieGame.statB;
 
-            // 치료 선택 시 치료 횟수 증가
-            if (this.ZombieGame.statA[3] > 0) {
-                this.Status.healSelected += 1;
-            }
-        } else if (choice === 'B') {
-            // Status 업데이트
-            this.Status.hp += this.ZombieGame.statB[0];
-            this.Status.food += this.ZombieGame.statB[1];
-            this.Status.infection += this.ZombieGame.statB[2];
-            this.Status.heal += this.ZombieGame.statB[3];
-            this.Status.rescue += this.ZombieGame.statB[4];
-
-            // 치료 선택 시 치료 횟수 증가
-            if (this.ZombieGame.statB[3] > 0) {
-                this.Status.healSelected += 1;
-            }
-        }
+        this.Status.hp += stat[0];
+        this.Status.food += stat[1];
+        this.Status.infection += stat[2];
+        this.Status.heal += stat[3];
+        this.Status.rescue += stat[4];
 
         this.checkStat();
-        this.OutputCard.invaildButton();
+        this.OutputCard.invalidButton();
 
         // 선택 결과 출력
         setTimeout(() => {
