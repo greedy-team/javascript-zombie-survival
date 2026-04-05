@@ -38,7 +38,7 @@ export default class ZombieController {
     initGame() {
         // 스탯 초기화
         this.Status.initStat();
-        this.renderStat();
+        this.renderStatus();
         
         // 카드 갯수 초기화
         this.Cards.initCard();
@@ -53,17 +53,10 @@ export default class ZombieController {
     }
 
     /**
-     * Status의 상태 정보를 OutputStat에 전달하여 화면에 표시
+     * Status의 정보를 OutputStat에 전달하여 화면에 표시
      */
-    renderStat() {
-        this.OutputStat.showStat(
-            this.Status.day,
-            this.Status.hp,
-            this.Status.food,
-            this.Status.infection,
-            this.Status.heal,
-            this.Status.rescue
-        );
+    renderStatus() {
+        this.OutputStat.showStatus(this.Status);
     }
 
     /**
@@ -133,7 +126,7 @@ export default class ZombieController {
 
         // 선택 결과 출력
         setTimeout(() => {
-            this.renderStat();
+            this.renderStatus();
         }, 2000);
     }
 
@@ -181,7 +174,7 @@ export default class ZombieController {
     restart() {
         this.Status.initStat();
         this.Cards.initCard();
-        this.renderStat();
+        this.renderStatus();
         this.renderCardLeft();
 
         this.OutputLogs.clearLogs();

@@ -16,20 +16,13 @@ export default class OutputStat {
 
     /**
      * 상태 정보를 받아 화면에 표시
-     * 
-     * @param {*} day 현재 날짜
-     * @param {*} hp HP 값
-     * @param {*} food 음식 값
-     * @param {*} infection 감염 상태
-     * @param {*} heal 치료 시도 횟수
-     * @param {*} rescue 구조 점수
      */
-    showStat(day, hp, food, infection, heal, rescue) {
-        this.statDay.textContent = day;
-        this.statHp.textContent = hp;
-        this.statFood.textContent = food;
-        this.statInfection.textContent = infection;
-        this.statHeal.textContent = heal;
-        this.statRescue.textContent = rescue;
+    showStatus(status) {
+        this.statDay.textContent = status.day;
+        this.statHp.textContent = status.hp;
+        this.statFood.textContent = status.food;
+        this.statInfection.textContent = status.infection;
+        this.statHeal.textContent = status.heal;
+        this.statRescue.textContent = status.rescue;
     }
 }
