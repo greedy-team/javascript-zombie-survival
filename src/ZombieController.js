@@ -118,30 +118,67 @@ export default class ZombieController {
     }
 
     /**
-     * 게임 종료 조건 체크
+     * 게임 상태 업데이트 및 게임 종료 조건 체크
      */
     checkStat() {
+        this.applyDailyChanges();
+        this.applyStarvationPenalty();
+        this.checkGameOverConditions();
+        this.normalizeStatus();
+    }
+
+    /**
+     * 하루가 지날 때마다 체력, 식량, 감염도에 적용되는 변화 처리
+     */
+    applyDailyChanges() {
         this.Status.setDay(this.Status.getDay() + 1);
         this.Status.setFood(this.Status.getFood() - 1);
         this.Status.setInfection(this.Status.getInfection() + 3);
+    }
 
-        if(this.Status.getFood() == 0) {
+    /**
+     * 식량이 0이 되었을 때 체력에 적용되는 기아 패널티 처리
+     */
+    applyStarvationPenalty() {
+        if (this.Status.getFood() == 0) {
             this.Status.setHp(this.Status.getHp() - 10);
         }
+    }
 
+    /**
+     * 게임 종료 조건 체크
+     */
+    checkGameOverConditions() {
         if (this.Status.getHp() <= 0) {
             this.Status.setHp(0);
-            this.OutputCard.endGame("사망", this.Status);
-        } else if (this.Status.getInfection() >= 100) {
-            this.OutputCard.endGame("좀비화", this.Status);
-        } else if (this.Status.getHealSelected() >= 5) {
-            this.OutputCard.endGame("치료 성공", this.Status);
-        } else if (this.Status.getRescue() >= 3 && this.Status.getDay() >= 10) {
-            this.OutputCard.endGame("구조 성공", this.Status);
-        } else if (this.Status.getDay() >= 15) {
-            this.OutputCard.endGame("구조대 도착", this.Status);
+            this.endGame("사망");
+            return;
         }
 
+        if (this.Status.getInfection() >= 100) {
+            this.endGame("좀비화");
+            return;
+        }
+
+        if (this.Status.getHealSelected() >= 5) {
+            this.endGame("치료 성공");
+            return;
+        }
+
+        if (this.Status.getRescue() >= 3 && this.Status.getDay() >= 10) {
+            this.endGame("구조 성공");
+            return;
+        }
+
+        if (this.Status.getDay() >= 15) {
+            this.endGame("구조대 도착");
+        }
+    }
+
+    /**
+     * Status의 체력, 식량, 감염도 값이 음수로 내려가지 않도록 보정
+     */
+    normalizeStatus() {
         if (this.Status.getHp() < 0) {
             this.Status.setHp(0);
         }
@@ -153,6 +190,15 @@ export default class ZombieController {
         if (this.Status.getInfection() < 0) {
             this.Status.setInfection(0);
         }
+    }
+
+    /**
+     * 게임 종료 처리
+     * 
+     * @param {*} result 종료 결과
+     */
+    endGame(result) {
+        this.OutputCard.endGame(result, this.Status);
     }
 
     /**
