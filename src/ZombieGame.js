@@ -1,5 +1,3 @@
-import Card from './ZombieGame/Cards.js';
-
 /**
  * @breif 게임 클래스
  * 
@@ -9,7 +7,6 @@ import Card from './ZombieGame/Cards.js';
  */
 export default class ZombieGame {
     constructor() {
-        this.Card = new Card();
         this.selectedCard = null;
         this.choiceA = null;
         this.benefitA = null;
