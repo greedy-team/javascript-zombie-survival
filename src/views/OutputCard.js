@@ -125,9 +125,9 @@ export default class OutputCard {
         this.resultScreen.querySelector('p').textContent = `${result}`;
 
         // 상태 정보 업데이트
-        this.resultHp.textContent = status.hp;
-        this.resultFood.textContent = status.food;
-        this.resultInfection.textContent = status.infection;
+        this.resultHp.textContent = status.getHp();
+        this.resultFood.textContent = status.getFood();
+        this.resultInfection.textContent = status.getInfection();
 
         // 선택지 버튼 비활성화
         this.drawArea.classList.add('hidden');

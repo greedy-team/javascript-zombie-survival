@@ -87,7 +87,7 @@ export default class ZombieController {
             );
 
             // 로그 출력
-            const logMessage = `Day ${this.Status.day}: ${this.ZombieGame.selectedCard} 카드를 뽑았습니다.`;
+            const logMessage = `Day ${this.Status.getDay()}: ${this.ZombieGame.selectedCard} 카드를 뽑았습니다.`;
             this.OutputLogs.addLog(logMessage);
         } catch (error) {
             console.error(error);
@@ -115,11 +115,11 @@ export default class ZombieController {
     chooseChoice(choice) {
         const stat = choice === 'A' ? this.ZombieGame.statA : this.ZombieGame.statB;
 
-        this.Status.hp += stat[0];
-        this.Status.food += stat[1];
-        this.Status.infection += stat[2];
-        this.Status.heal += stat[3];
-        this.Status.rescue += stat[4];
+        this.Status.setHp(this.Status.getHp() + stat[0]);
+        this.Status.setFood(this.Status.getFood() + stat[1]);
+        this.Status.setInfection(this.Status.getInfection() + stat[2]);
+        this.Status.setHeal(this.Status.getHeal() + stat[3]);
+        this.Status.setRescue(this.Status.getRescue() + stat[4]);
 
         this.checkStat();
         this.OutputCard.invalidButton();
@@ -134,37 +134,37 @@ export default class ZombieController {
      * 게임 종료 조건 체크
      */
     checkStat() {
-        this.Status.day += 1;
-        this.Status.food -= 1;
-        this.Status.infection += 3;
+        this.Status.setDay(this.Status.getDay() + 1);
+        this.Status.setFood(this.Status.getFood() - 1);
+        this.Status.setInfection(this.Status.getInfection() + 3);
 
-        if(this.Status.food == 0) {
-            this.Status.hp -= 10;
+        if(this.Status.getFood() == 0) {
+            this.Status.setHp(this.Status.getHp() - 10);
         }
 
-        if (this.Status.hp <= 0) {
-            this.Status.hp = 0;
+        if (this.Status.getHp() <= 0) {
+            this.Status.setHp(0);
             this.OutputCard.endGame("사망", this.Status);
-        } else if (this.Status.infection >= 100) {
+        } else if (this.Status.getInfection() >= 100) {
             this.OutputCard.endGame("좀비화", this.Status);
-        } else if (this.Status.healSelected >= 5) {
+        } else if (this.Status.getHealSelected() >= 5) {
             this.OutputCard.endGame("치료 성공", this.Status);
-        } else if (this.Status.rescue >= 3 && this.Status.day >= 10) {
+        } else if (this.Status.getRescue() >= 3 && this.Status.getDay() >= 10) {
             this.OutputCard.endGame("구조 성공", this.Status);
-        } else if (this.Status.day >= 15) {
+        } else if (this.Status.getDay() >= 15) {
             this.OutputCard.endGame("구조대 도착", this.Status);
         }
 
-        if (this.Status.hp < 0) {
-            this.Status.hp = 0;
+        if (this.Status.getHp() < 0) {
+            this.Status.setHp(0);
         }
 
-        if (this.Status.food < 0) {
-            this.Status.food = 0;
+        if (this.Status.getFood() < 0) {
+            this.Status.setFood(0);
         }
 
-        if (this.Status.infection < 0) {
-            this.Status.infection = 0;
+        if (this.Status.getInfection() < 0) {
+            this.Status.setInfection(0);
         }
     }
 

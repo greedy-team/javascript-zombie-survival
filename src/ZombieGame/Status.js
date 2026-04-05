@@ -12,4 +12,53 @@ export default class Status {
         this.rescue = 0;
         this.healSelected = 0;
     }
+
+    getDay() {
+        return this.day;
+    }
+    setDay(value) {
+        this.day = value;
+    }
+
+    getHp() {
+        return this.hp;
+    }
+    setHp(value) {
+        this.hp = value;
+    }
+
+    getFood() {
+        return this.food;
+    }
+    setFood(value) {
+        this.food = value;
+    }
+
+    getInfection() {
+        return this.infection;
+    }
+    setInfection(value) {
+        this.infection = value;
+    }
+
+    getHeal() {
+        return this.heal;
+    }
+    setHeal(value) {
+        this.heal = value;
+    }
+
+    getRescue() {
+        return this.rescue;
+    }
+    setRescue(value) {
+        this.rescue = value;
+    }
+
+    getHealSelected() {
+        return this.healSelected;
+    }
+    setHealSelected(value) {
+        this.healSelected = value;
+    }
 }

@@ -18,11 +18,11 @@ export default class OutputStat {
      * 상태 정보를 받아 화면에 표시
      */
     showStatus(status) {
-        this.statDay.textContent = status.day;
-        this.statHp.textContent = status.hp;
-        this.statFood.textContent = status.food;
-        this.statInfection.textContent = status.infection;
-        this.statHeal.textContent = status.heal;
-        this.statRescue.textContent = status.rescue;
+        this.statDay.textContent = status.getDay();
+        this.statHp.textContent = status.getHp();
+        this.statFood.textContent = status.getFood();
+        this.statInfection.textContent = status.getInfection();
+        this.statHeal.textContent = status.getHeal();
+        this.statRescue.textContent = status.getRescue();
     }
 }
