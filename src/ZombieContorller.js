@@ -53,7 +53,7 @@ export default class ZombieController {
     }
 
     /**
-     * Status의 스택 정보를 OutputStat에 전달하여 화면에 표시
+     * Status의 상태 정보를 OutputStat에 전달하여 화면에 표시
      */
     renderStat() {
         this.OutputStat.showStat(
