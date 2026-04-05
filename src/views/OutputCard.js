@@ -7,14 +7,8 @@
 export default class OutputCard {
     constructor() {
         this.isGameOver = false;
-        this.initializeStatElements();
-    }
 
-    /**
-     * HTML 요소 초기화
-     */
-    initializeStatElements() {
-        // 카드 영역 요소
+        // 카드 영역 요소 
         this.cardContainer = document.getElementById('deck-remaining');
         this.drawArea = document.getElementById('draw-area');
         this.cardArea = document.getElementById('card-area');

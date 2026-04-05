@@ -7,12 +7,7 @@
 export default class OutputStat {
     constructor() {
         this.initializeStatElements();
-    }
 
-    /**
-     * HTML 요소 초기화
-     */
-    initializeStatElements() {
         this.statDay = document.getElementById('day');
         this.statHp = document.getElementById('hp');
         this.statFood = document.getElementById('food');

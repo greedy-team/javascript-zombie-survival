@@ -6,13 +6,6 @@
  */
 export default class InputCard {
     constructor() {
-        this.initializeCardElements();
-    }
-
-    /**
-     * HTML 요소 초기화
-     */
-    initializeCardElements() {
         this.drawButton = document.getElementById('btn-draw');
         this.choiceButtonA = document.getElementById('btn-choice-a');
         this.choiceButtonB = document.getElementById('btn-choice-b');

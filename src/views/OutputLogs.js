@@ -6,12 +6,7 @@
 export default class OutputLogs {
     constructor() {
         this.initializeCardElements();
-    }
 
-    /**
-     * HTML 요소 초기화
-     */
-    initializeCardElements() {
         this.log = document.getElementById('log');
     }
 
