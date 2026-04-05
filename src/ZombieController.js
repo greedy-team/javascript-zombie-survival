@@ -38,11 +38,12 @@ export default class ZombieController {
     initGame() {
         // 스탯 초기화
         this.Status.initStat();
-        this.renderStatus();
+
+        this.OutputStat.showStatus(this.Status);
         
         // 카드 갯수 초기화
         this.Cards.initCard();
-        this.renderCardLeft();
+        this.OutputCard.showCardLeft(this.Cards.remainCard);
 
         // 버튼에 이벤트 핸들러 바인딩
         this.inputCard.bindDrawCard(this.drawCard.bind(this));
@@ -50,20 +51,6 @@ export default class ZombieController {
         this.inputCard.bindGiveUp(this.giveUp.bind(this));
         this.inputCard.bindDrawChoiceA(this.chooseChoice.bind(this, 'A'));
         this.inputCard.bindDrawChoiceB(this.chooseChoice.bind(this, 'B'));
-    }
-
-    /**
-     * Status의 정보를 OutputStat에 전달하여 화면에 표시
-     */
-    renderStatus() {
-        this.OutputStat.showStatus(this.Status);
-    }
-
-    /**
-     * Cards의 스택 정보를 OutputCard에 전달하여 화면에 표시
-     */
-    renderCardLeft() {
-        this.OutputCard.showCardLeft(this.Cards.remainCard);
     }
 
     /**
