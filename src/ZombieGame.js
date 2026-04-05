@@ -53,7 +53,7 @@ export default class ZombieGame {
                 this.benefitA = "식량 -1, 감염도 -20";
                 this.choiceB = "몸싸움 끝에 식량만 챙기고 떠난다";
                 this.benefitB = "체력 -10, 식량 +2";
-                this.statA = [0, -1, -20, 0, 0];
+                this.statA = [0, -1, -20, 1, 0];
                 this.statB = [-10, 2, 0, 0, 0];
                 break;
 
