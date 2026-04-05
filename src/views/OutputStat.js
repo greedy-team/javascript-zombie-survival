@@ -6,8 +6,6 @@
  */
 export default class OutputStat {
     constructor() {
-        this.initializeStatElements();
-
         this.statDay = document.getElementById('day');
         this.statHp = document.getElementById('hp');
         this.statFood = document.getElementById('food');

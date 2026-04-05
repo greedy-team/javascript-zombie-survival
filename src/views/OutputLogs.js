@@ -5,8 +5,6 @@
  */
 export default class OutputLogs {
     constructor() {
-        this.initializeCardElements();
-
         this.log = document.getElementById('log');
     }
 

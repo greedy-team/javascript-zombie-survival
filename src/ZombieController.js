@@ -29,13 +29,13 @@ export default class ZombieController {
 
         this.OutputLogs = new OutputLogs();
 
-        this.init();
+        this.initGame();
     }
     
     /**
      * 게임 초기화
      */
-    init() {
+    initGame() {
         // 스탯 초기화
         this.Status.initStat();
         this.renderStat();
@@ -185,7 +185,7 @@ export default class ZombieController {
         this.renderCardLeft();
 
         this.OutputLogs.clearLogs();
-        this.OutputCard.init();
+        this.OutputCard.initChoiceButtons();
         this.OutputCard.resultScreen.classList.add('hidden');
     }
 

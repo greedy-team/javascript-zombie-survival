@@ -34,7 +34,7 @@ export default class OutputCard {
     /**
      * 요소 초기화
      */
-    init() {
+    initChoiceButtons() {
         this.drawArea.classList.remove('hidden');
         this.cardArea.classList.add('hidden');
 
