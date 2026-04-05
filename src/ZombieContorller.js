@@ -97,8 +97,8 @@ export default class ZombieController {
         this.Cards.remainCard -= 1;
         this.renderCardLeft();
 
-        if(this.Cards.remainCard <= 1) {
-            this.Cards.remainCard += 20;
+        if(this.Cards.remainCard === 0) {
+            this.Cards.remainCard = 20;
         }
     }
 
