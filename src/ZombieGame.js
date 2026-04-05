@@ -1,4 +1,3 @@
-import RandomNumber from './utils/RandomNumber.js';
 import Card from './ZombieGame/Cards.js';
 
 /**
@@ -25,9 +24,7 @@ export default class ZombieGame {
      * 
      * 배열 인덱스: [체력, 식량, 감염도, 치료, 구조 포인트]
      */
-    drawCard() {
-        const cardNumber = RandomNumber();
-
+    drawCard(cardNumber) {
         switch (cardNumber) {
             // 1~4가 나왔을 경우
             case 1:

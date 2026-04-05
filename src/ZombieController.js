@@ -46,7 +46,7 @@ export default class ZombieController {
         this.OutputCard.showCardLeft(this.Cards.remainCard);
 
         // 버튼에 이벤트 핸들러 바인딩
-        this.inputCard.bindDrawCard(this.drawCard.bind(this));
+        this.inputCard.bindDrawCard(this.getCard.bind(this));
         this.inputCard.bindRestart(this.restart.bind(this));
         this.inputCard.bindGiveUp(this.giveUp.bind(this));
         this.inputCard.bindDrawChoiceA(this.chooseChoice.bind(this, 'A'));
@@ -56,13 +56,13 @@ export default class ZombieController {
     /**
      * 카드 드로우
      */
-    drawCard() {
+    getCard() {
         try {
-            // 카드 드로우 시 Cards의 남은 카드 수 감소
-            this.countCards();
-
             // 카드 정보 업데이트
-            this.ZombieGame.drawCard();   
+            const cardNumber = this.Cards.drawNewCard();  
+            this.OutputCard.showCardLeft(this.Cards.remainCard); 
+
+            this.ZombieGame.drawCard(cardNumber);
             
             // 카드 정보 출력
             this.OutputCard.showChoice(
