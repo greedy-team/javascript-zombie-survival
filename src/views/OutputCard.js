@@ -7,7 +7,7 @@ import CheckGameOver from "../utils/CheckGameOver";
  * 각 요소에 대한 상태 업데이트를 담당
  */
 export default class OutputCard {
-    constructor() {
+    constructor(outputLogs = null) {
         const checkGameOver = new CheckGameOver();
         checkGameOver.setGameOverStatus(false);
 
@@ -23,9 +23,9 @@ export default class OutputCard {
         this.glowAreaA = document.querySelector('#btn-choice-a .choice-desc');
         this.glowAreaB = document.querySelector('#btn-choice-b .choice-desc');
 
-        // 로그 및 포기 버튼 요소
+        // 로그 출력 객체 및 포기 버튼 요소
+        this.outputLogs = outputLogs;
         this.giveUpBtn = document.getElementById('btn-giveup');
-        this.logWrapper = document.getElementsByClassName('log-wrapper')[0];
     }
 
     /**
@@ -36,7 +36,7 @@ export default class OutputCard {
         this.cardArea.classList.add('hidden');
 
         this.giveUpBtn.classList.remove('hidden');
-        this.logWrapper.classList.remove('hidden'); 
+        this.outputLogs?.showWrapper();
     }
 
     /**
@@ -77,7 +77,7 @@ export default class OutputCard {
     displayCardArea() {
         this.drawArea.classList.add('hidden');
         this.giveUpBtn.classList.add('hidden');
-        this.logWrapper.classList.add('hidden');
+        this.outputLogs?.hideWrapper();
 
         this.cardArea.classList.remove('hidden');
     }
@@ -104,7 +104,7 @@ export default class OutputCard {
 
             this.drawArea.classList.remove('hidden');
             this.giveUpBtn.classList.remove('hidden');
-            this.logWrapper.classList.remove('hidden'); 
+            this.outputLogs?.showWrapper();
         }, 2000);
     }
 }

@@ -25,10 +25,9 @@ export default class ZombieController {
         this.Status = new Status();
 
         this.inputCard = new InputCard();
-        this.OutputCard = new OutputCard();
-        this.Cards = new Cards();
-
         this.OutputLogs = new OutputLogs();
+        this.OutputCard = new OutputCard(this.OutputLogs);
+        this.Cards = new Cards();
         this.OutputResult = new OutputResult();
 
         this.initGame();

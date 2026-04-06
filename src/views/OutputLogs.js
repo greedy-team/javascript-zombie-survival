@@ -6,6 +6,7 @@
 export default class OutputLogs {
     constructor() {
         this.log = document.getElementById('log');
+        this.logWrapper = document.getElementsByClassName('log-wrapper')[0];
     }
 
     /**
@@ -24,5 +25,19 @@ export default class OutputLogs {
         const p = document.createElement('p');
         p.textContent = message;
         this.log.appendChild(p);
+    }
+
+    /**
+     * 로그 영역 표시
+     */
+    showWrapper() {
+        this.logWrapper?.classList.remove('hidden');
+    }
+
+    /**
+     * 로그 영역 숨김
+     */
+    hideWrapper() {
+        this.logWrapper?.classList.add('hidden');
     }
 }
