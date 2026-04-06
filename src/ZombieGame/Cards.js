@@ -1,3 +1,5 @@
+import { MIN_CARD_NUMBER, TOTAL_DECK_SIZE } from '../utils/GameConstants.js';
+
 /**
  * @breif 카드 클래스
  * 
@@ -14,7 +16,7 @@ export default class Cards {
      * 카드 초기화
      */
     initCard() {
-        this.deck = Array.from({ length: 20 }, (_, i) => i + 1);
+        this.deck = Array.from({ length: TOTAL_DECK_SIZE }, (_, i) => i + MIN_CARD_NUMBER);
         this.remainCard = this.deck.length;
     }
 

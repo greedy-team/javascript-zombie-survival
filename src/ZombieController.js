@@ -9,6 +9,7 @@ import OutputCard from './views/OutputCard.js';
 import OutputResult from './views/OutputResult.js';
 
 import OutputLogs from './views/OutputLogs.js';
+import { TOTAL_DECK_SIZE } from './utils/GameConstants.js';
 
 /**
  * @breif 게임 컨트롤러 클래스
@@ -91,7 +92,7 @@ export default class ZombieController {
 
         // 카드가 모두 소진되면 초기화
         if(this.Cards.remainCard === 0) {
-            this.Cards.remainCard = 20;
+            this.Cards.remainCard = TOTAL_DECK_SIZE;
         }
     }
 

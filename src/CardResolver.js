@@ -1,4 +1,5 @@
 import Cards from './ZombieGame/Cards.js';
+import { MAX_CARD_NUMBER } from './utils/GameConstants.js';
 
 /**
  * @breif 게임 클래스
@@ -76,7 +77,7 @@ export default class ZombieGame {
             // 18~20이 나왔을 경우
             case 18:
             case 19:
-            case 20:
+            case MAX_CARD_NUMBER:
                 applyChoice(5);
                 break;
 
