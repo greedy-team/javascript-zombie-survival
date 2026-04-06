@@ -5,6 +5,7 @@ import Status from './ZombieGame/Status.js';
 
 import InputCard from './views/InputCard.js';
 import OutputCard from './views/OutputCard.js';
+import OutputResult from './views/OutputResult.js';
 import Cards from './ZombieGame/Cards.js';
 
 import OutputLogs from './views/OutputLogs.js';
@@ -28,6 +29,7 @@ export default class ZombieController {
         this.Cards = new Cards();
 
         this.OutputLogs = new OutputLogs();
+        this.OutputResult = new OutputResult();
 
         this.initGame();
     }
@@ -194,7 +196,7 @@ export default class ZombieController {
      * @param {*} result 종료 결과
      */
     endGame(result) {
-        this.OutputCard.endGame(result, this.Status);
+        this.OutputResult.endGame(result, this.Status);
     }
 
     /**
@@ -215,6 +217,6 @@ export default class ZombieController {
      * 게임 포기
      */
     giveUp() {
-        this.OutputCard.endGame("포기", this.Status);
+        this.OutputResult.endGame("포기", this.Status);
     }
 }
