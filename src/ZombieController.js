@@ -1,15 +1,12 @@
 import ZombieGame from './CardResolver.js';
 
 import OutputStat from './views/OutputStat.js';
-import Status from './ZombieGame/Status.js';
-import Cards from './ZombieGame/Cards.js';
 
 import InputCard from './views/InputCard.js';
 import OutputCard from './views/OutputCard.js';
 import OutputResult from './views/OutputResult.js';
 
 import OutputLogs from './views/OutputLogs.js';
-import { TOTAL_DECK_SIZE } from './utils/GameConstants.js';
 
 /**
  * @breif 게임 컨트롤러 클래스
@@ -20,17 +17,14 @@ import { TOTAL_DECK_SIZE } from './utils/GameConstants.js';
  */
 export default class ZombieController {
     constructor() {
-        this.ZombieGame = new ZombieGame();
-
+        this.game = new ZombieGame();
         this.OutputStat = new OutputStat();
-        this.Status = new Status();
-        this.Cards = new Cards();
-
         this.InputCard = new InputCard();
         this.OutputLogs = new OutputLogs();
         this.OutputCard = new OutputCard(this.OutputLogs);
         this.OutputResult = new OutputResult();
 
+        this.bindEvents();
         this.initGame();
     }
     
@@ -38,16 +32,22 @@ export default class ZombieController {
      * 게임 초기화
      */
     initGame() {
-        // 스탯 초기화
-        this.Status.initStat();
+        this.game.reset();
+        this.renderStatus();
+        this.renderCardLeft();
 
-        this.OutputStat.showStatus(this.Status);
-        
-        // 카드 갯수 초기화
-        this.Cards.initCard();
-        this.OutputCard.showCardLeft(this.Cards.remainCard);
+        this.OutputCard.setGameOverState(false);
+        this.OutputCard.initChoiceButtons();
+        this.OutputResult.showGameScreen();
 
-        // 버튼에 이벤트 핸들러 바인딩
+        this.OutputLogs.clearLogs();
+        this.OutputLogs.addLog('Day 1: 감염자의 생존이 시작되었습니다.');
+    }
+
+    /**
+     * 입력 이벤트 바인딩
+     */
+    bindEvents() {
         this.InputCard.bindDrawCard(this.getCard.bind(this));
         this.InputCard.bindRestart(this.restart.bind(this));
         this.InputCard.bindGiveUp(this.giveUp.bind(this));
@@ -60,23 +60,18 @@ export default class ZombieController {
      */
     getCard() {
         try {
-            // 카드 정보 업데이트
-            const cardNumber = this.Cards.drawNewCard();  
-            this.OutputCard.showCardLeft(this.Cards.remainCard); 
+            const cardInfo = this.game.drawCard();
+            this.renderCardLeft();
 
-            this.ZombieGame.drawCard(cardNumber);
-            
-            // 카드 정보 출력
             this.OutputCard.showChoice(
-                this.ZombieGame.selectedCard,
-                this.ZombieGame.choiceA,
-                this.ZombieGame.choiceB,
-                this.ZombieGame.benefitA,
-                this.ZombieGame.benefitB
+                cardInfo.selectedCard,
+                cardInfo.choiceA,
+                cardInfo.choiceB,
+                cardInfo.benefitA,
+                cardInfo.benefitB,
             );
 
-            // 로그 출력
-            const logMessage = `Day ${this.Status.getDay()}: ${this.ZombieGame.selectedCard} 카드를 뽑았습니다.`;
+            const logMessage = `Day ${this.game.getStatus().getDay()}: ${cardInfo.selectedCard} 카드를 뽑았습니다.`;
             this.OutputLogs.addLog(logMessage);
         } catch (error) {
             console.error(error);
@@ -86,14 +81,8 @@ export default class ZombieController {
     /**
      * 카드 드로우 시 Cards의 남은 카드 수 감소
      */
-    countCards() {
-        this.Cards.remainCard -= 1;
-        this.renderCardLeft();
-
-        // 카드가 모두 소진되면 초기화
-        if(this.Cards.remainCard === 0) {
-            this.Cards.remainCard = TOTAL_DECK_SIZE;
-        }
+    renderCardLeft() {
+        this.OutputCard.showCardLeft(this.game.getRemainingCards());
     }
 
     /**
@@ -102,92 +91,32 @@ export default class ZombieController {
      * @param {*} choice 사용자의 선택 (A 또는 B)
      */
     chooseChoice(choice) {
-        const stat = choice === 'A' ? this.ZombieGame.statA : this.ZombieGame.statB;
+        try {
+            const turnResult = this.game.choose(choice);
 
-        this.Status.setHp(this.Status.getHp() + stat[0]);
-        this.Status.setFood(this.Status.getFood() + stat[1]);
-        this.Status.setInfection(this.Status.getInfection() + stat[2]);
-        this.Status.setHeal(this.Status.getHeal() + stat[3]);
-        this.Status.setRescue(this.Status.getRescue() + stat[4]);
+            this.OutputLogs.addLog(`선택 ${choice}: 행동을 수행했습니다.`);
+            if (turnResult.starvationApplied) {
+                this.OutputLogs.addLog('식량이 없어 체력이 감소합니다.');
+            }
 
-        this.checkStat();
-        this.OutputCard.invalidButton();
+            this.OutputCard.invalidButton(turnResult.isGameOver);
 
-        // 선택 결과 출력
-        setTimeout(() => {
-            this.renderStatus();
-        }, 2000);
-    }
-
-    /**
-     * 게임 상태 업데이트 및 게임 종료 조건 체크
-     */
-    checkStat() {
-        this.applyDailyChanges();
-        this.applyStarvationPenalty();
-        this.checkGameOverConditions();
-        this.normalizeStatus();
-    }
-
-    /**
-     * 하루가 지날 때마다 체력, 식량, 감염도에 적용되는 변화 처리
-     */
-    applyDailyChanges() {
-        this.Status.setDay(this.Status.getDay() + 1);
-        this.Status.setFood(this.Status.getFood() - 1);
-        this.Status.setInfection(this.Status.getInfection() + 3);
-    }
-
-    /**
-     * 식량이 0이 되었을 때 체력에 적용되는 기아 패널티 처리
-     */
-    applyStarvationPenalty() {
-        if (this.Status.getFood() == 0) {
-            this.Status.setHp(this.Status.getHp() - 10);
+            setTimeout(() => {
+                this.renderStatus();
+                if (turnResult.isGameOver) {
+                    this.endGame(turnResult.ending);
+                }
+            }, 2000);
+        } catch (error) {
+            console.error(error);
         }
     }
 
     /**
-     * 게임 종료 조건 체크
+     * 상태 렌더링
      */
-    checkGameOverConditions() {
-        if (this.Status.getHp() <= 0) {
-            this.Status.setHp(0);
-            this.endGame("사망");
-            return;
-        }
-
-        if (this.Status.getInfection() >= 100) {
-            this.endGame("좀비화");
-            return;
-        }
-
-        if (this.Status.getHealSelected() >= 5) {
-            this.endGame("치료 성공");
-            return;
-        }
-
-        if (this.Status.getRescue() >= 3 && this.Status.getDay() >= 10) {
-            this.endGame("구조 성공");
-            return;
-        }
-
-        if (this.Status.getDay() >= 15) {
-            this.endGame("구조대 도착");
-        }
-    }
-
-    /**
-     * Status의 체력, 식량, 감염도 값이 음수로 내려가지 않도록 보정
-     */
-    normalizeStatus() {
-        if (this.Status.getFood() < 0) {
-            this.Status.setFood(0);
-        }
-
-        if (this.Status.getInfection() < 0) {
-            this.Status.setInfection(0);
-        }
+    renderStatus() {
+        this.OutputStat.showStatus(this.game.getStatus());
     }
 
     /**
@@ -196,27 +125,22 @@ export default class ZombieController {
      * @param {*} result 종료 결과
      */
     endGame(result) {
-        this.OutputResult.endGame(result, this.Status);
+        this.OutputCard.setGameOverState(true);
+        this.OutputResult.endGame(result, this.game.getStatus());
     }
 
     /**
      * 게임 재시작
      */
     restart() {
-        this.Status.initStat();
-        this.Cards.initCard();
-        this.renderStatus();
-        this.renderCardLeft();
-
-        this.OutputLogs.clearLogs();
-        this.OutputCard.initChoiceButtons();
-        this.OutputCard.resultScreen.classList.add('hidden');
+        this.initGame();
     }
 
     /**
      * 게임 포기
      */
     giveUp() {
-        this.OutputResult.endGame("포기", this.Status);
+        const result = this.game.giveUp();
+        this.endGame(result.ending);
     }
 }

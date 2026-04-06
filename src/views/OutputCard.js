@@ -1,5 +1,3 @@
-import CheckGameOver from "../utils/CheckGameOver";
-
 /**
  * @breif 카드에 관한 사용자 출력과 관련된 HTML 요소를 관리하는 클래스
  * 
@@ -8,14 +6,15 @@ import CheckGameOver from "../utils/CheckGameOver";
  */
 export default class OutputCard {
     constructor(outputLogs = null) {
-        const checkGameOver = new CheckGameOver();
-        checkGameOver.setGameOverStatus(false);
+        this.isGameOver = false;
 
         // 카드 영역 요소 
         this.cardContainer = document.getElementById('deck-remaining');
         this.drawArea = document.getElementById('draw-area');
         this.cardArea = document.getElementById('card-area');
         this.cardName = document.getElementById('card-name');
+        this.cardDescription = document.getElementById('card-description');
+        this.loading = document.getElementById('loading');
 
         // 선택지 버튼 요소
         this.choiceKeyA = document.querySelector('#btn-choice-a .choice-label');
@@ -26,6 +25,15 @@ export default class OutputCard {
         // 로그 출력 객체 및 포기 버튼 요소
         this.outputLogs = outputLogs;
         this.giveUpBtn = document.getElementById('btn-giveup');
+    }
+
+    /**
+     * 게임 종료 상태 설정
+     *
+     * @param {boolean} isGameOver 게임 종료 여부
+     */
+    setGameOverState(isGameOver) {
+        this.isGameOver = isGameOver;
     }
 
     /**
@@ -58,11 +66,12 @@ export default class OutputCard {
      * @param {*} benefitB 선택지 B의 효과 텍스트
      */
     showChoice(selectedCard, choiceA, choiceB, benefitA, benefitB) {
-        this.CheckGameOver.setGameOverStatus(false);
+        this.isGameOver = false;
         this.displayCardArea();
         
         // 카드 이름 업데이트
         this.cardName.textContent = selectedCard;
+        this.cardDescription.textContent = `${benefitA} / ${benefitB}`;
 
         // 선택지 버튼 텍스트 업데이트
         this.choiceKeyA.textContent = choiceA;
@@ -85,26 +94,28 @@ export default class OutputCard {
     /**
      * 선택지 버튼 비활성화 및 카드 영역 초기화
      */
-    invalidButton() {
+    invalidButton(isGameOver = false) {
         // 게임이 종료된 경우 버튼 비활성화 및 카드 영역 초기화 방지
-        if (this.isGameOver) {
-            return;
-        }
+        this.isGameOver = isGameOver;
 
         // 선택지 버튼 비활성화
         this.choiceKeyA.parentElement.disabled = true;
         this.choiceKeyB.parentElement.disabled = true;
+        this.loading.classList.remove('hidden');
         
         setTimeout(() => {
             // 선택지 버튼 활성화
             this.choiceKeyA.parentElement.disabled = false;
             this.choiceKeyB.parentElement.disabled = false;
+            this.loading.classList.add('hidden');
 
             this.cardArea.classList.add('hidden');
 
-            this.drawArea.classList.remove('hidden');
-            this.giveUpBtn.classList.remove('hidden');
-            this.outputLogs?.showWrapper();
+            if (!this.isGameOver) {
+                this.drawArea.classList.remove('hidden');
+                this.giveUpBtn.classList.remove('hidden');
+                this.outputLogs?.showWrapper();
+            }
         }, 2000);
     }
 }
