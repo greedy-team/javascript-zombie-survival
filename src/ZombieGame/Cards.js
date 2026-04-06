@@ -1,3 +1,10 @@
+/**
+ * @breif 카드 클래스
+ * 
+ * 카드 드로우와 카드에 따른 선택지 및 효과를 관리하는 클래스
+ * 카드 번호에 따라 선택지 텍스트와 효과 텍스트, 그리고 스탯 변화를 반환하는 역할을 수행
+ * ZombieController에서 사용되며, 게임의 핵심 로직 중 하나인 카드 시스템을 담당
+ */
 export default class Cards {
     constructor() {
         this.deck = [];

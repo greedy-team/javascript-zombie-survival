@@ -1,12 +1,12 @@
-import ZombieGame from './ZombieGame.js';
+import ZombieGame from './CardResolver.js';
 
 import OutputStat from './views/OutputStat.js';
 import Status from './ZombieGame/Status.js';
+import Cards from './ZombieGame/Cards.js';
 
 import InputCard from './views/InputCard.js';
 import OutputCard from './views/OutputCard.js';
 import OutputResult from './views/OutputResult.js';
-import Cards from './ZombieGame/Cards.js';
 
 import OutputLogs from './views/OutputLogs.js';
 
@@ -23,11 +23,11 @@ export default class ZombieController {
 
         this.OutputStat = new OutputStat();
         this.Status = new Status();
+        this.Cards = new Cards();
 
-        this.inputCard = new InputCard();
+        this.InputCard = new InputCard();
         this.OutputLogs = new OutputLogs();
         this.OutputCard = new OutputCard(this.OutputLogs);
-        this.Cards = new Cards();
         this.OutputResult = new OutputResult();
 
         this.initGame();
@@ -47,11 +47,11 @@ export default class ZombieController {
         this.OutputCard.showCardLeft(this.Cards.remainCard);
 
         // 버튼에 이벤트 핸들러 바인딩
-        this.inputCard.bindDrawCard(this.getCard.bind(this));
-        this.inputCard.bindRestart(this.restart.bind(this));
-        this.inputCard.bindGiveUp(this.giveUp.bind(this));
-        this.inputCard.bindDrawChoiceA(this.chooseChoice.bind(this, 'A'));
-        this.inputCard.bindDrawChoiceB(this.chooseChoice.bind(this, 'B'));
+        this.InputCard.bindDrawCard(this.getCard.bind(this));
+        this.InputCard.bindRestart(this.restart.bind(this));
+        this.InputCard.bindGiveUp(this.giveUp.bind(this));
+        this.InputCard.bindDrawChoiceA(this.chooseChoice.bind(this, 'A'));
+        this.InputCard.bindDrawChoiceB(this.chooseChoice.bind(this, 'B'));
     }
 
     /**

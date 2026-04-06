@@ -10,8 +10,13 @@ import Cards from './ZombieGame/Cards.js';
 export default class ZombieGame {
     constructor() {
         this.resetCardState();
+
+        this.Cards = new Cards();
     }
 
+    /**
+     * 카드 상태 초기화
+     */
     resetCardState() {
         this.selectedCard = null;
         this.choiceA = null;
