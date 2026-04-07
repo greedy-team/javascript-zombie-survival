@@ -8,10 +8,11 @@ export const viewModel = {
     onGameOver: null,
 
     init() {
-        const currentState=model.getState();
-        if (this.onLogAdd) this.onLogAdd(currentState.day, "좀비 사태 발생! 생존하십시오.");
         model.createDeck();
         model.shuffleDeck();
+        const currentState=model.getState();
+        if (this.onLogAdd) this.onLogAdd(null, "좀비 사태 발생! 생존하십시오.");
+        
         if (this.onStatsChange) this.onStatsChange(currentState);
         if (this.onScreenChange) this.onScreenChange('draw');
     }, 
@@ -31,8 +32,6 @@ export const viewModel = {
         this.startTurn();
 
         setTimeout(()=>{
-            const state=model.getState();
-            if(state.isGameOver)return;
 
             const updateState = this.processTurnResult(type);
             this.finalizeTurn(updateState);
@@ -48,8 +47,9 @@ export const viewModel = {
         const results = model.calculateStats(type);
         const state = model.getState();
 
-        if (results.hungryLog && this.onLogAdd) this.onLogAdd(state.day - 1, results.hungryLog);
-        if (this.onLogAdd) this.onLogAdd(state.day - 1, results.choiceText);
+        if (this.onLogAdd) this.onLogAdd(state.day-1, results.choiceText);
+        if (results.hungryLog && this.onLogAdd) this.onLogAdd(state.day-1, results.hungryLog);
+        
         if (this.onStatsChange) this.onStatsChange(state);
 
         return state;
@@ -69,7 +69,7 @@ export const viewModel = {
     surrender() {
         model.setGameOver(true);
         const currentState=model.getState();
-        if (this.onGameOver) this.onGameOver(currentState, "중도 포기하셨습니다.");
+        if (this.onGameOver) this.onGameOver(currentState, "포기");
     },
 
     restartGame(){

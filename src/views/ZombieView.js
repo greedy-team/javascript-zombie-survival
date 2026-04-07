@@ -52,17 +52,27 @@ const updateStats = (state) => {
 
 export const addLog=(day, text)=>{
     const p = document.createElement('p'); 
-    p.textContent=`Day${day}: ${text}`;
-
+    p.textContent = day ? `Day ${day}: ${text}` : text;
     el.$displays.log.appendChild(p);
 }
 
 export const changeScreen=(type, card=null)=>{
+
     const { gameScreen, drawArea, cardArea, resultScreen, loading } = el.$screens;
+
 
     if (type === 'result') {
         gameScreen.classList.add('hidden');
         resultScreen.classList.remove('hidden');
+        return;
+    }
+
+    if (type === 'loading') {
+        
+        el.$buttons.btnChoiceA.disabled = true;
+        el.$buttons.btnChoiceB.disabled = true;
+        el.$buttons.btnDraw.disabled = true;
+        el.$buttons.btnGiveup.disabled = true;
         return;
     }
 
@@ -72,10 +82,13 @@ export const changeScreen=(type, card=null)=>{
     cardArea.classList.add('hidden');
     loading.classList.add('hidden');
 
+    el.$buttons.btnChoiceA.disabled = false;
+    el.$buttons.btnChoiceB.disabled = false;
+    el.$buttons.btnDraw.disabled = false;
+    el.$buttons.btnGiveup.disabled = false;
+
     if (type === 'draw') {
         drawArea.classList.remove('hidden');
-    } else if (type === 'loading') {
-        loading.classList.remove('hidden');
     } else if (type === 'card') {
         if (card) {
             el.$displays.cardName.textContent = card.name;
@@ -89,7 +102,8 @@ export const changeScreen=(type, card=null)=>{
 
 export const renderEnding=(state,text)=> {
     el.$displays.resultEnding.textContent=text;
-    el.$displays.resultDays.textContent = state.day;
+
+    el.$displays.resultDays.textContent = state.day-1;
     el.$displays.resultHp.textContent = state.hp;
     el.$displays.resultFood.textContent = state.food;
     el.$displays.resultInfection.textContent = state.infection;
