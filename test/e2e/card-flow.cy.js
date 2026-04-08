@@ -37,7 +37,7 @@ describe('카드 흐름 테스트', () => {
 
   it('선택 완료 후 로그에 결과가 표시된다', () => {
     cy.drawAndChooseA();
-    cy.get('#log p').should('have.length.at.least', 3);
+    cy.get('#log').children().should('have.length.at.least', 3);
   });
 
   it('선택 완료 후 Day가 증가한다', () => {

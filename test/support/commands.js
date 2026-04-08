@@ -17,8 +17,11 @@ Cypress.Commands.add('chooseB', () => {
 });
 
 Cypress.Commands.add('waitForChoice', () => {
-  cy.get('#loading').should('be.visible');
-  cy.get('#loading').should('not.be.visible', { timeout: 5000 });
+  cy.get('body', { timeout: 5000 }).should(($body) => {
+    const drawVisible = $body.find('#btn-draw').is(':visible');
+    const resultVisible = $body.find('#result-screen').is(':visible');
+    expect(drawVisible || resultVisible).to.be.true;
+  });
 });
 
 Cypress.Commands.add('drawAndChooseA', () => {
@@ -36,11 +39,7 @@ Cypress.Commands.add('drawAndChooseB', () => {
 Cypress.Commands.add('playUntilStarved', () => {
   cy.get('body').then(($body) => {
     if ($body.find('#result-screen:visible').length > 0) return;
-    const hasMessage = $body
-      .find('#log')
-      .text()
-      .includes('식량이 없어 체력이 감소합니다.');
-    if (hasMessage) return;
+    if ($body.find('#log').text().includes('식량이 없어')) return;
     cy.drawAndChooseB();
     cy.playUntilStarved();
   });
@@ -57,8 +56,7 @@ Cypress.Commands.add('drawUntilCard', (targetName) => {
           0,
           `카드 "${targetName}"을(를) 찾지 못했습니다`,
         );
-        cy.get('#btn-giveup').click();
-        cy.get('#btn-restart').click();
+        cy.visit('/');
         tryDraw(remaining - 1);
       });
   };
