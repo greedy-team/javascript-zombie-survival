@@ -22,12 +22,6 @@ module.exports = defineConfig({
     screenshotOnRunFailure: true,
     screenshotsFolder: 'test/screenshots',
 
-    // 재시도 설정
-    retries: {
-      runMode: 3, // cypress run 시 재시도 횟수
-      openMode: 0, // cypress open 시 재시도 횟수
-    },
-
     // 타임아웃 설정
     defaultCommandTimeout: 10000,
     pageLoadTimeout: 30000,

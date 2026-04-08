@@ -31,12 +31,12 @@ describe('유효성 검사 테스트', () => {
 
   it('식량이 충분할 때 기아 데미지 메시지가 표시되지 않는다', () => {
     cy.drawAndChooseA();
-    cy.get('#log').should('not.contain', '식량이 없어 체력이 감소합니다.');
+    cy.get('#log').should('not.contain', '식량이 없어');
   });
 
   it('식량이 소진된 후 기아 데미지 메시지가 표시된다', () => {
     cy.playUntilStarved();
-    cy.get('#log').should('contain', '식량이 없어 체력이 감소합니다.');
+    cy.get('#log').should('contain', '식량이 없어');
   });
 
   it('기아 상태에서도 식량이 0 미만으로 내려가지 않는다', () => {

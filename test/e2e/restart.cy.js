@@ -33,10 +33,10 @@ describe('재시작 테스트', () => {
 
   it('다시 시작 후 로그가 초기화된다', () => {
     cy.drawAndChooseA();
-    cy.get('#log p').should('have.length.at.least', 3);
+    cy.get('#log').children().should('have.length.at.least', 3);
     cy.get('#btn-giveup').click();
     cy.get('#btn-restart').click();
-    cy.get('#log p').should('have.length', 1);
+    cy.get('#log').children().should('have.length', 1);
   });
 
   it('선택 후 재시작하면 선택지 버튼이 활성화된다', () => {
